@@ -8,5 +8,5 @@ test('should return a number of user in my db (1)',() => {
       expect(res.rowCount).toEqual(1);
       connector.close();
     }
-  );
+  ).catch(error => console.log(error, "Test servant de POC et de formation"));
 });
