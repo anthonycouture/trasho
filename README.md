@@ -35,3 +35,7 @@ const pool = new Pool({
 * Dans le dossier front :
   * Installer les dépendances : `npm install`
   * Démarrer le front : `npm start`
+
+# Script pour la base de données
+Dans le dossier **BDD** se trouve un script pour la création de l'environnement de développement.  
+Le fichier **script_creation.sql** permet la création de l'ensemble des tables avec leurs contraintes
