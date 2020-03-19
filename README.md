@@ -18,7 +18,7 @@ insert into test values ('Hello');
 ```
 Dans le dossier back :
 * Installer les dépendances : `npm install`
-* Modifier le fichier home.js et modifier le morceaux de code ci-dessous par vos information de connection
+* Dans le fichier home.js modifier le morceaux de code ci-dessous par vos information de connection
 ```
 const pool = new Pool({
   user: 'root',
