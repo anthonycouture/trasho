@@ -11,6 +11,7 @@ import {
   StyleSheet,
   View,
   Dimensions,
+  Image,
 } from 'react-native';
 
 
@@ -24,15 +25,44 @@ class App extends React.Component {
     MapboxGL.setTelemetryEnabled(false);
   }
   render() {
+    const features = {
+      type: 'Feature',
+      geometry: {
+        type: 'Point',
+        coordinates: [3.06959, 50.636763],
+      }
+    }
     return (
       <View style={styles.page}>
         <View style={styles.container}>
-          <MapboxGL.MapView style={styles.map} />
+          <MapboxGL.MapView
+            style={styles.map}
+            centerCoordinate={[
+              3.06959, 50.636763
+            ]}
+          >
+            <MapboxGL.PointAnnotation
+              id={"flandre"}
+              coordinate={[
+                3.06959, 50.636763
+              ]}
+              title="Gare Lille Flandre">
+              <View style={styles.annotationContainer}>
+                <Image
+                  source={require('./assets/marker.png') }
+                  style={{ width: ANNOTATION_SIZE, height: ANNOTATION_SIZE }}
+                />
+              </View>
+              <MapboxGL.Callout title="Gare Lille Flandre" />
+            </MapboxGL.PointAnnotation>
+          </MapboxGL.MapView>
         </View>
       </View>
     );
   }
 };
+
+const ANNOTATION_SIZE = 30;
 
 const styles = StyleSheet.create({
   page: {
@@ -48,7 +78,11 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
-  }
+  },
+  annotationContainer: {
+    width: ANNOTATION_SIZE,
+    height: ANNOTATION_SIZE
+  },
 });
 
 export default App;
