@@ -62,15 +62,31 @@ export default function App() {
                attribution:
                  '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                baseLayerIsChecked: true,
+               baseLayerName: "Fr OSM",
+               url: "http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+             },
+
+		{
+               attribution:
+                 '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
                baseLayerName: "OpenStreetMap.Mapnik",
                url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-             }]}
+
+             }
+
+		]}
            mapMarkers={[
 		{
 			id:'2',
 		       position: {lat:  50.9436348,lng: 3.0900153 },
 	               icon: "https://i.ya-webdesign.com/images/google-maps-pin-png-4.png",
-	               size: [24, 32],		
+	               size: [24, 32],	
+			/*animation: {
+		         duration: "0.5",
+		         delay: 0,
+		         iterationCount: INFINITE_ANIMATION_ITERATIONS,
+		         type: AnimationType.JUMP
+		       }	*/
 		}
 	   ]}
            mapCenterPosition={mapCenterPosition}
@@ -79,12 +95,26 @@ export default function App() {
                position: ownPosition,
                icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
                size: [24, 32],
-               /*animation: {
+               animation: {
                  duration: "0.5",
                  delay: 0,
                  iterationCount: INFINITE_ANIMATION_ITERATIONS,
-                 type: AnimationType.BOUNCE
-               } //si tu veux le voir bondir */
+                 type: AnimationType.PULSE
+               } //si tu veux le voir bondir 
+
+/*
+
+AnimationType possible : 
+  "BOUNCE",
+  "FADE",
+  "JUMP",
+  "PULSE",
+  "SPIN", 
+  "WAGGLE",
+
+*/
+
+
              }
            }
            mapShapes={[
@@ -108,6 +138,7 @@ export default function App() {
            if (webViewLeaflet)
                 webViewLeaflet.setMapCenterPosition();
             console.log(ownPosition);
+		console.log(AnimationType);
          }}
          style={styles.mapButton}
          success
