@@ -39,3 +39,12 @@ const pool = new Pool({
 # Script pour la base de données
 Dans le dossier **BDD** se trouve un script pour la création de l'environnement de développement.  
 Le fichier **script_creation.sql** permet la création de l'ensemble des tables avec leurs contraintes
+
+#Anomalies
+
+En cas de difficultés pour faire fonctionner expo avec le projet, suivre les étapes suivantes :
+
+1) npm install dans le dossier expoMap
+2) Si ça ne marche pas et qu'il y a une erreur avec expo -> npm install -g expo-cli
+3) Changer le fichier ExpoMap -> node-modules -> metro-config -> src -> defaults -> blacklist.js par celui qui corrige le problème de syntaxe
+4) Dans expoMap taper la commande (si erreur sur les versions de map) : expo install react-native-maps@0.24.0 (vérifier la version demandée)
