@@ -1,8 +1,9 @@
 import React from 'react';
-import Map from './Components/Map'
+import NavigationDrawerStructure from "./Components/NavigationDrawerStructure";
 
 export default function App() {
-    return (
-      <Map/>
-    )    
+
+  return (
+    <NavigationDrawerStructure />
+  );
 }

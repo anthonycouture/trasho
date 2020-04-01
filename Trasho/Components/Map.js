@@ -71,9 +71,6 @@ export default function Map() {
 
     return (
         <View style={styles.container} >
-            <View style={styles.header} >
-                <Text style={styles.headerText}>React Native Webview Leaflet Demo</Text>
-            </View>
             <View style={{ flex: 1 }}>
                 {
                     <WebViewLeaflet
@@ -164,13 +161,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff"
-    },
-    header: {
-        height: 60,
-        backgroundColor: "dodgerblue",
-        paddingHorizontal: 10,
-        paddingTop: 30,
-        width: "100%"
     },
     headerText: {
         color: "white",
