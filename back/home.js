@@ -33,6 +33,16 @@ app.get('/', function (req, res) {
       })
 });
 
+app.get('/poubelles', function (req, res) {
+  pool.query('SELECT * FROM poubelle', (error, results) => {
+      if (error) {
+        throw error
+      }
+      res.status(200).send(results.rows)
+    })
+});
+
+
 // Démarrer le serveur 
 app.listen(port, hostname, function(){
 	console.log("Mon serveur fonctionne sur http://"+ hostname +":"+port+"\n"); 
