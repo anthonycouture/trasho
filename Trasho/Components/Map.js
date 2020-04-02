@@ -4,7 +4,8 @@ import {
     INFINITE_ANIMATION_ITERATIONS,
     WebViewLeaflet,
     AnimationType,
-    MapShapeType
+    MapShapeType,
+    WebViewLeafletEvents
 
 } from "react-native-webview-leaflet";
 import { Button } from "native-base";
@@ -23,7 +24,21 @@ export default function Map() {
 
     const [markerPoubelle, setMarkerPoubelle] = useState(null);
 
-    const onMessageReceived = (message) => { switch (message.event) { default: ; } }
+    const onMessageReceived = (message) => {
+        switch (message.event) {
+            case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
+                Alert.alert(
+                    `Poubelle ID: ${message.payload.mapMarkerID || "unknown"}`,
+                    Message,
+                    [
+                        { text: 'GO !', onPress: () => console.log('Appuie sur GO') }
+                    ]
+                );
+                break;
+            default:
+                console.log("App received", message);
+        }
+    }
 
     useEffect(() => {
         getLocationAsync();
@@ -47,7 +62,7 @@ export default function Map() {
                          delay: 0,
                          iterationCount: INFINITE_ANIMATION_ITERATIONS,
                          type: AnimationType.JUMP
-                       }	*/
+                       }*/
                 }
             )
         ))
