@@ -1,7 +1,7 @@
 //This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
 //import react in our code.
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button } from 'react-native';
 // import all basic components
 
 class Connexion extends Component {
@@ -52,6 +52,8 @@ class Connexion extends Component {
               }>
               <Text style = {styles.submitButtonText}> Connexion </Text>
             </TouchableOpacity>
+
+            <Button title="Inscription" onPress={() => Alert.alert('Inscription')}/>
             
         </View>
       )
