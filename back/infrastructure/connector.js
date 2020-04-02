@@ -10,6 +10,7 @@ trash_finder
 
 const { Pool, Client } = require('pg');
 const GET_USERS = 'SELECT * FROM USERS';
+const GET_TEST = 'SELECT * FROM test';
 /*prepared stmt*/
 const GET_USERS_ID = {
   // give the query a unique name
@@ -41,4 +42,22 @@ module.exports.getUsers = () =>  {
 
 module.exports.close = () => {
   client.end();
+}
+
+
+
+/*Anthony port*/
+
+
+
+module.exports.getTest = () => {
+  const pool = new Pool({
+    user: 'root',
+    host: 'localhost',
+    database: 'trasho',
+    password: 'anthony',
+    port: 5432,
+  });
+
+  return pool.query(GET_TEST);
 }
