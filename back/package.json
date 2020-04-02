@@ -1,18 +1,32 @@
 {
-  "name": "back",
+  "name": "pai_trash_finder",
   "version": "1.0.0",
-  "description": "",
+  "description": "Toujours une poubelle proche de vous !",
   "main": "home.js",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "pg": "^7.18.2"
-  },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start":"node home.js",
+    "test": "jest"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab-etu.fil.univ-lille1.fr/couture/pai_trash_finder.git"
+  },
+  "keywords": [
+    "trash",
+    "finder"
+  ],
+  "author": "MOULOUKIN Raphael, LALOUX Lucas, COUTURIER Anthony, BARBET Florian",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "nodemailer": "^6.4.4",
+    "pg": "^7.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2"
+  }
 }
