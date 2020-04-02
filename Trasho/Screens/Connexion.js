@@ -5,6 +5,7 @@ import {
 } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
+import Toast from 'react-native-simple-toast';
 
 class Connexion extends Component {
 
@@ -12,18 +13,37 @@ class Connexion extends Component {
       email: '',
       password: ''
   }
+  
   handleEmail = (text) => {
       this.setState({ email: text })
   }
+
   handlePassword = (text) => {
       this.setState({ password: text })
   }
+
   login = (email, pass) => {
-      alert('email: ' + email + ' password: ' + pass)
+      //alert('email: ' + email + ' password: ' + pass)
+      this.checkEmail();
+      this.checkPassword();
   }
 
   navigatePageInscription() {
     this.props.navigation.navigate('Screen3');
+    
+  }
+
+  checkEmail() {
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!regex.test(this.state.email)) {
+      Toast.show('Email invalide', Toast.LONG);
+    }
+  }
+
+  checkPassword() {
+    if(this.state.password.length < 1) {
+      Toast.show('Mot de passe indéfini', Toast.LONG);
+    }
   }
 
   render() {
