@@ -16,22 +16,12 @@ app.use(cors())
 //Connexion à la base de données
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'root',
+  user: 'postgres',
   host: 'localhost',
   database: 'trasho',
-  password: 'anthony',
+  password: 'admin',
   port: 5432,
 })
-
-// Je vous rappelle notre route (/).  
-app.get('/', function (req, res) {
-    pool.query('SELECT * FROM test', (error, results) => {
-        if (error) {
-          throw error
-        }
-        res.status(200).send(results.rows)
-      })
-});
 
 app.get('/poubelles', function (req, res) {
   pool.query('SELECT * FROM poubelle', (error, results) => {
@@ -41,7 +31,6 @@ app.get('/poubelles', function (req, res) {
       res.status(200).send(results.rows)
     })
 });
-
 
 // Démarrer le serveur 
 app.listen(port, hostname, function(){

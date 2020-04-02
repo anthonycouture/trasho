@@ -4,8 +4,8 @@
     import {createDrawerNavigator} from 'react-navigation-drawer';
     import {createStackNavigator} from 'react-navigation-stack';
     import Screen2 from '../Screens/Screen2';
-    import Screen3 from '../Screens/Screen3';
     import Map from './Map';
+    import Inscription from '../Screens/Inscription'
 
 
     class NavigationDrawerStructure extends Component {
@@ -57,9 +57,9 @@
 
     const Screen3_StackNavigator = createStackNavigator({
         Third: {
-            screen: Screen3,
+            screen: Inscription,
             navigationOptions: ({ navigation }) => ({
-                title: 'Screen 3',
+                title: 'Inscription',
                 headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
                 headerStyle: {
                     backgroundColor: '#74992e',
@@ -85,7 +85,7 @@
         Screen3: {
             screen: Screen3_StackNavigator,
             navigationOptions: {
-                drawerLabel: 'Screen 3',
+                drawerLabel: 'Inscription',
             },
         },
     });
