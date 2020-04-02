@@ -7,6 +7,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 
 class Connexion extends Component {
+
   state = {
       email: '',
       password: ''
@@ -28,49 +29,51 @@ class Connexion extends Component {
   render() {
       return (
         <View style = {styles.container}>
-        <Image
-                source={require('../Images/logo.png')}
-                style={ styles.logo }
-            />
+          <Image
+            source={require('../Images/logo.png')}
+            style={ styles.logo }
+          />
 
-        <Text style={ styles.text }> Adresse email : </Text>
+          <Text style={ styles.text }> Adresse email : </Text>
 
-            <TextInput style = {styles.input}
-              underlineColorAndroid = "transparent"
-              placeholder = "Email"
-              placeholderTextColor = "#000000"
-              autoCapitalize = "none"
-              onChangeText = {this.handleEmail}/>
+          <TextInput style = {styles.input}
+            underlineColorAndroid = "transparent"
+            placeholder = "Email"
+            placeholderTextColor = "#000000"
+            autoCapitalize = "none"
+            onChangeText = {this.handleEmail}
+          />
 
-            <Text style={ styles.text }> Mot de passe : </Text>
+          <Text style={ styles.text }> Mot de passe : </Text>
 
-            <TextInput style = {styles.input}
-              underlineColorAndroid = "transparent"
-              placeholder = "Password"
-              placeholderTextColor = "#000000"
-              autoCapitalize = "none"
-              onChangeText = {this.handlePassword}/>
-            
-            <TouchableOpacity
-              style = { styles.submitButton }
-              onPress = {
-                  () => this.login(this.state.email, this.state.password)
-              }>
-              <Text style = { styles.submitButtonText }> Connexion </Text>
-            </TouchableOpacity>
+          <TextInput style = {styles.input}
+            underlineColorAndroid = "transparent"
+            placeholder = "Password"
+            placeholderTextColor = "#000000"
+            autoCapitalize = "none"
+            onChangeText = {this.handlePassword}
+          />
               
+          <TouchableOpacity
+            style = { styles.submitButton }
+            onPress = {
+                () => this.login(this.state.email, this.state.password)
+          }>
+            <Text style = { styles.submitButtonText }> Connexion </Text>
+          </TouchableOpacity>
+                
             <View style = { styles.inscription } >
               <Button color="#74992e" title="Inscription" onPress={() => this.navigatePageInscription() }/>
             </View>
         </View>
       )
   }
-  }
-  export default Connexion
+}
+export default Connexion
   
 
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
       paddingTop: 23
   },
