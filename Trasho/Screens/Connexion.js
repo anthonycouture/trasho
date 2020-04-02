@@ -1,8 +1,10 @@
-//This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
-//import react in our code.
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, Alert } from 'react-native';
-// import all basic components
+import {
+  StackNavigator,
+} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 
 class Connexion extends Component {
     state = {
@@ -18,6 +20,11 @@ class Connexion extends Component {
   login = (email, pass) => {
       alert('email: ' + email + ' password: ' + pass)
   }
+
+  navigatePageInscription() {
+    this.props.navigation.navigate('Screen3');
+  }
+
   render() {
       return (
         <View style = {styles.container}>
@@ -41,7 +48,6 @@ class Connexion extends Component {
               underlineColorAndroid = "transparent"
               placeholder = "Password"
               placeholderTextColor = "#000000"
-              placeholderStyle={{ color: 'red' }}
               autoCapitalize = "none"
               onChangeText = {this.handlePassword}/>
             
@@ -54,13 +60,15 @@ class Connexion extends Component {
             </TouchableOpacity>
               
             <View style = { styles.inscription } >
-              <Button color="#74992e" title="Inscription" onPress={() => Alert.alert('Inscription')}/>
+              <Button color="#74992e" title="Inscription" onPress={() => this.navigatePageInscription() }/>
             </View>
         </View>
       )
   }
   }
   export default Connexion
+  
+
 
   const styles = StyleSheet.create({
   container: {
