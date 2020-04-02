@@ -4,12 +4,12 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 // import all basic components
 
-export default class Screen2 extends Component {
+export default class Connexion extends Component {
   //Screen2 Component
   render() {
     return (
       <View style={styles.MainContainer}>
-        <Text style={{ fontSize: 23 }}> Screen 2 </Text>
+        <Text style={{ fontSize: 23 }}> Connexion </Text>
       </View>
     );
   }

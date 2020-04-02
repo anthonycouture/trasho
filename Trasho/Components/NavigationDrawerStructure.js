@@ -3,7 +3,7 @@
     import {createAppContainer} from 'react-navigation';
     import {createDrawerNavigator} from 'react-navigation-drawer';
     import {createStackNavigator} from 'react-navigation-stack';
-    import Screen2 from '../Screens/Screen2';
+    import Connexion from '../Screens/Connexion';
     import Screen3 from '../Screens/Screen3';
     import Map from './Map';
 
@@ -43,9 +43,9 @@
 
     const Screen2_StackNavigator = createStackNavigator({
         Second: {
-            screen: Screen2,
+            screen: Connexion,
             navigationOptions: ({ navigation }) => ({
-                title: 'Screen 2',
+                title: 'Connexion',
                 headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
                 headerStyle: {
                     backgroundColor: '#74992e',
@@ -79,7 +79,7 @@
         Screen2: {
             screen: Screen2_StackNavigator,
             navigationOptions: {
-                drawerLabel: 'Screen 2',
+                drawerLabel: 'Connexion',
             },
         },
         Screen3: {
