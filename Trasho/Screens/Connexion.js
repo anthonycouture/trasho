@@ -7,7 +7,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 
 class Connexion extends Component {
-    state = {
+  state = {
       email: '',
       password: ''
   }
@@ -33,7 +33,7 @@ class Connexion extends Component {
                 style={ styles.logo }
             />
 
-        <Text style={ styles.text }> Adresse email </Text>
+        <Text style={ styles.text }> Adresse email : </Text>
 
             <TextInput style = {styles.input}
               underlineColorAndroid = "transparent"
@@ -42,7 +42,7 @@ class Connexion extends Component {
               autoCapitalize = "none"
               onChangeText = {this.handleEmail}/>
 
-            <Text style={ styles.text }> Mot de passe </Text>
+            <Text style={ styles.text }> Mot de passe : </Text>
 
             <TextInput style = {styles.input}
               underlineColorAndroid = "transparent"
