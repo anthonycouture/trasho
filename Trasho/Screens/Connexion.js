@@ -1,7 +1,7 @@
 //This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
 //import react in our code.
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, Alert } from 'react-native';
 // import all basic components
 
 class Connexion extends Component {
@@ -46,15 +46,16 @@ class Connexion extends Component {
               onChangeText = {this.handlePassword}/>
             
             <TouchableOpacity
-              style = {styles.submitButton}
+              style = { styles.submitButton }
               onPress = {
                   () => this.login(this.state.email, this.state.password)
               }>
-              <Text style = {styles.submitButtonText}> Connexion </Text>
+              <Text style = { styles.submitButtonText }> Connexion </Text>
             </TouchableOpacity>
-
-            <Button title="Inscription" onPress={() => Alert.alert('Inscription')}/>
-            
+              
+            <View style = { styles.inscription } >
+              <Button color="#74992e" title="Inscription" onPress={() => Alert.alert('Inscription')}/>
+            </View>
         </View>
       )
   }
@@ -81,10 +82,11 @@ class Connexion extends Component {
       marginLeft: 15,
       marginRight: 15,
       height: 40,
+      marginBottom: 30
   },
   submitButtonText:{
       color: 'white',
-      textAlign: 'center',
+      textAlign: 'center'
   },
   text: {
     fontSize: 23,
@@ -99,5 +101,9 @@ class Connexion extends Component {
     marginTop: 3,
     marginLeft: 'auto',
     marginRight: 'auto'
+  },
+  inscription: {
+    marginRight: 15,
+    marginLeft: 15
   }
 })
