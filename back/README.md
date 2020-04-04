@@ -12,7 +12,7 @@
 # Nouveautés 4 Avril  2020
 
 - Infrastructure :
-	Refonte totale du système de communication avec la DB
+	+ Refonte totale du système de communication avec la DB
 		+ Mise en place d'un "cache" pour garder les données en mémoire
 		+ Asynchronisation des requetes
 		+ "Interfaçage" pour simplifier l'utilisation
@@ -20,9 +20,9 @@
 	Si problème me contacter c'est assez compliqué même si ça parait simple
 
 - Domain :
-	+Mise en place d'une Interface pour simplifier la manipulation sur l'infrastructure
-	+( Un peu en mode hibernate )
-	+Je vous recommande d'allez voir les classes pour comprendre
+	+ Mise en place d'une Interface pour simplifier la manipulation sur l'infrastructure
+	+ ( Un peu en mode hibernate )
+	+ Je vous recommande d'allez voir les classes pour comprendre
 		+ Si problème sur l'interface me contacter JSONable.js
 - Presentation :
 	+ Mise en place de vrais systeme de route avec decoupe des routes dans des fichiers JS
