@@ -1,15 +1,16 @@
 'use strict';
 /* Import from module */
-const express = require("express");
-const bodyParser = require("body-parser");
+const imp = require('./import.js');
 
-/* Custom import */
-const route = require("./presentation/route.js");
-const cors = require('cors');
+const express = imp.express();
+const bodyParser = imp.bodyParser();
+const cors = imp.cors();
+const property = imp.prop();
+const mountRoutes = imp.route();
 
 /* Constante server */
-const PORT = 4550;
-const BASE_URL = "/";
+const PORT = property.server_port;
+const BASE_URL = property.url_base;
 /* Launch the engine*/
 var app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,9 +19,7 @@ app.use(cors())
 
 
 app.listen(PORT, () => {
- route.init(PORT);
+ mountRoutes.init(PORT);
 });
 
-app.get(BASE_URL, (req,res,next) => {
-  res.json(200).send(route.tests());
-});
+mountRoutes(app,BASE_URL);

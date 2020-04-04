@@ -1,0 +1,10 @@
+{
+  "database_user": "system_trasho",
+  "database_host": "localhost",
+  "database_db": "trasho",
+  "database_password": "TECH",
+  "database_port": 5432,
+
+  "server_port": 4550,
+  "url_base" : "/api/"
+}
