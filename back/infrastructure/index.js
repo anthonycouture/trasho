@@ -56,18 +56,16 @@ module.exports.select = async (queryCall, loaderMethod,data=null) =>  {
   return JSON.parse(fs.readFileSync(cst.PATH_CACHE));
 };
 
-module.exports.transaction = (queryCall, data) => {
-  pool.connect().then(client => {
+module.exports.transaction = async (queryCall, data) => {
+     const client = await pool.connect();
       try{
-        client.query('BEGIN');
-        client.query(queryCall, data);
-        client.query('COMMIT');
-      } catch (e) {
-        client.query('ROLLBACK');
-        console.log(err)
+        await client.query('BEGIN');
+        await client.query(queryCall, data);
+        await client.query('COMMIT');
+      } catch (err) {
+        await client.query('ROLLBACK');
+        console.error(err);
       }finally{
         client.release();
       }
-  })
-
 }

@@ -19,7 +19,7 @@ app.use(cors())
 
 
 app.listen(PORT, () => {
- mountRoutes.init(PORT);
+ mountRoutes.init();
 });
 
-mountRoutes(app,BASE_URL);
+mountRoutes(app);

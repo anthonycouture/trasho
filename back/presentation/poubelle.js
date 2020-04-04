@@ -24,12 +24,19 @@ router.get('/:id',async (req,res) => {
     .json(rows);
 });
 
-router.post('/add',(req,res)=>{
+router.post('/create',async (req,res)=>{
+  /*
+  body = {longitude:XX,
+  latitude:XX,
+  url_photo:XX,
+  type:XX}
+  */
   const {longitude, latitude,url_photo,type} = req.body;
+  let rows = domain.insererPoubelle(
+    [longitude,latitude, url_photo],
+    [latitude,longitude,type]
+  );
   res
     .status(201)
-    .json(domaine.insererPoubelle(
-      [longitude,latitude, url_photo],
-      [latitude,longitude,type]
-    ));
+    .json(rows);
 });

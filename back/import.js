@@ -14,6 +14,8 @@ module.exports = {
 
   route : () => require('./presentation'),
   routePoubelle : () => require('./presentation/poubelle'),
+  routeSignalement : () => require('./presentation/signalement'),
+  routeUtilisateur : () => require('./presentation/utilisateur'),
 
   db  : () => require('./infrastructure'),
   qry : () => require('./infrastructure/constantRequest'),
