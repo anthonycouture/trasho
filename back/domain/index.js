@@ -7,7 +7,7 @@ const Poubelle = imp.poubelle();
 DOMAIN :  terme metiers : comprehensible
 
 */
-module.exports.sendAllPoubelles = async () => {
+module.exports.sendAllPoubellesInfo = async () => {
   let res =await  con.select(
       qry.GET_ALL_POUBELLES_INFO,
       (rows)=>(Poubelle.loadList(rows))
@@ -15,7 +15,15 @@ module.exports.sendAllPoubelles = async () => {
     return res;
 }
 
-module.exports.sendPoubellesById = async (id_poubelle) => {
+module.exports.sendAllPoubelles = async () => {
+  let res =await  con.select(
+      qry.GET_ALL_POUBELLES,
+      (rows)=>(Poubelle.loadList(rows))
+    );
+    return res;
+}
+
+module.exports.sendPoubellesInfoById = async (id_poubelle) => {
   let res =await  con.select(
       qry.GET_ALL_POUBELLES_INFO_BY_ID,
       (rows)=>(Poubelle.loadList(rows)),
@@ -23,6 +31,17 @@ module.exports.sendPoubellesById = async (id_poubelle) => {
     );
     return res;
 }
+
+module.exports.sendPoubellesById = async (id_poubelle) => {
+  let res =await  con.select(
+      qry.GET_ALL_POUBELLES_BY_ID,
+      (rows)=>(Poubelle.loadList(rows)),
+      [id_poubelle]
+    );
+    return res;
+}
+
+GET_ALL_POUBELLES_BY_ID
 
 module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
   return {etat:

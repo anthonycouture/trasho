@@ -6,9 +6,11 @@ const GET_ALL_POUBELLES_INFO = ' SELECT * FROM poubelle  '+
 
 const GET_ALL_POUBELLES_INFO_BY_ID = GET_ALL_POUBELLES_INFO+' WHERE poubelle.id_poubelle = $1';
 
-
+const GET_ALL_POUBELLES = ' SELECT * FROM poubelle  ';
+const GET_ALL_POUBELLES_BY_ID = GET_ALL_POUBELLES+' WHERE id_poubelle = $1';
 
 module.exports = {
+  GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_INFO,
   GET_ALL_POUBELLES_INFO_BY_ID,
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3)',

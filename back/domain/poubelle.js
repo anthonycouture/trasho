@@ -38,7 +38,7 @@ class Poubelle extends JSONable{
   }
 
   static tablename(){ return 'poubelle';}
-  identifiant() { return Poubelle.tablename()+'_'+this.#id_poubelle; }
+  identifiant() { return Poubelle.tablename()+'_'+this.type+'_'+this.#id_poubelle; }
   content() {
     return {
       longitude : this.longitude,
