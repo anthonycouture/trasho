@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Text, Button } from 'native-base';
+import { StyleSheet, View, Image, Alert } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import {
   StackNavigator,
 } from 'react-navigation';
@@ -14,8 +14,12 @@ class Connexion extends Component {
   state = {
       email: '',
       password: '',
-      fontLoaded: false
+      fontLoaded: false,
+      isEmail: false
   }
+
+  regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   
   async componentDidMount() {
     await Expo.Font.loadAsync({
@@ -26,6 +30,7 @@ class Connexion extends Component {
 
   handleEmail = (text) => {
       this.setState({ email: text })
+      this.checkEmail();
   }
 
   handlePassword = (text) => {
@@ -33,9 +38,9 @@ class Connexion extends Component {
   }
 
   login = (email, pass) => {
-      //alert('email: ' + email + ' password: ' + pass)
-      this.checkEmail();
-      this.checkPassword();
+      alert('email: ' + email + ' password: ' + pass)
+      this.checkEmailButtonTyped();
+      this.checkPasswordButtonTyped();
   }
 
   navigatePageInscription() {
@@ -43,14 +48,17 @@ class Connexion extends Component {
     
   }
 
-  checkEmail() {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!regex.test(this.state.email)) {
+  checkEmailButtonTyped() {
+    if(!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
     }
   }
 
-  checkPassword() {
+  checkEmail() {
+    this.state.isEmail = this.regex.test(this.state.email);
+  }
+
+  checkPasswordButtonTyped() {
     if(this.state.password.length < 1) {
       Toast.show('Mot de passe indéfini', Toast.LONG);
     }
@@ -68,12 +76,13 @@ class Connexion extends Component {
         <Content>
           <Form>
           <Text style={ styles.text }> Adresse email : </Text>
-            <Item>
-              <Input placeholder="Email" />
+            <Item error={!this.state.isEmail} success={this.state.isEmail}>
+              <Input placeholder="Email" onChangeText={this.handleEmail}/>
+              <Icon name='checkmark-circle' />
             </Item>
             <Text style={ styles.text }> Mot de passe : </Text>
             <Item>
-              <Input placeholder="Mot de passe" />
+              <Input placeholder="Mot de passe" onChangeText={this.handlePassword}/>
             </Item>
 
         <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
