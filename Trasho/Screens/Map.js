@@ -87,15 +87,20 @@ export default class Map extends React.Component {
     }
 
     async getPoubelleAsync() {
-        const url = 'http://10.0.2.2:3000/poubelles'
+        console.log('async');
+        const url = 'http://localhost:4550/api/trash'
         const response = await fetch(url)
         const json = await response.json()
         const poubelles = []
-        json.map(item => (
+        console.log(json.poubelle.poubelle_1)
+        let poubelle = json.poubelle;
+        for (let key in poubelle) {
+            console.log(key);
+            console.log(poubelle[key].latitude);
             poubelles.push(
                 {
-                    id: item.id_poubelle,
-                    position: { lat: item.latitude, lng: item.longitude },
+                    id: key.substring(1),
+                    position: { lat: poubelle[key].latitude, lng: poubelle[key].longitude },
                     icon: "https://i.ya-webdesign.com/images/google-maps-pin-png-4.png",
                     size: [24, 32],
                     /*animation: {
@@ -106,7 +111,7 @@ export default class Map extends React.Component {
                        }*/
                 }
             )
-        ))
+        }
         this.setMarkerPoubelle(poubelles)
     }
 
@@ -124,6 +129,7 @@ export default class Map extends React.Component {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
+                        <Text>Id Poubelle : {this.idPoubelle}</Text>
                         <ModalInfoPoubelle idPoubelle={this.idPoubelle} />
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
