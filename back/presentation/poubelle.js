@@ -16,9 +16,25 @@ router.get('/',async (req,res) => {
     .json(rows);
 });
 
+router.get('/infos',async (req,res) => {
+  let rows = await domain.sendAllPoubellesInfo();
+  res
+    .status(200)
+    .json(rows);
+});
+
+
 router.get('/:id',async (req,res) => {
   const { id } = req.params;
   let rows = await domain.sendPoubellesById(id);
+  res
+    .status(200)
+    .json(rows);
+});
+
+router.get('/infos/:id',async (req,res) => {
+  const { id } = req.params;
+  let rows = await domain.sendPoubellesInfoById(id);
   res
     .status(200)
     .json(rows);
