@@ -15,7 +15,7 @@ class Poubelle extends JSONable{
     longitude   = 'undefined',
     latitude    = 'undefined',
     url_photo   = 'undefined',
-    type        = 'undefined'
+    type        = ''
   ){
     super();
     this.#id_poubelle = id_poubelle;
@@ -38,7 +38,9 @@ class Poubelle extends JSONable{
   }
 
   static tablename(){ return 'poubelle';}
-  identifiant() { return Poubelle.tablename()+'_'+this.type+'_'+this.#id_poubelle; }
+  identifiant() { 
+    return this.type+'_'+this.#id_poubelle;
+  }
   content() {
     return {
       longitude : this.longitude,
