@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Button, Alert } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Image, Alert } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Text, Button } from 'native-base';
 import {
   StackNavigator,
 } from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer';
 import Toast from 'react-native-simple-toast';
+import { Font , AppLoading} from 'expo';
 
 class Connexion extends Component {
 
   state = {
       email: '',
-      password: ''
+      password: '',
+      fontLoaded: false
   }
   
+  async componentDidMount() {
+    await Expo.Font.loadAsync({
+      'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
+    });
+    this.setState({ fontLoaded: true });
+  }
+
   handleEmail = (text) => {
       this.setState({ email: text })
   }
@@ -48,44 +58,45 @@ class Connexion extends Component {
 
   render() {
       return (
-        <View style = {styles.container}>
-          <Image
+
+          <Container>
+            <Image
             source={require('../Images/logo.png')}
             style={ styles.logo }
           />
 
+        <Content>
+          <Form>
           <Text style={ styles.text }> Adresse email : </Text>
+            <Item>
+              <Input placeholder="Email" />
+            </Item>
+            <Text style={ styles.text }> Mot de passe : </Text>
+            <Item>
+              <Input placeholder="Mot de passe" />
+            </Item>
 
-          <TextInput style = {styles.input}
-            underlineColorAndroid = "transparent"
-            placeholder = "Email"
-            placeholderTextColor = "#000000"
-            autoCapitalize = "none"
-            onChangeText = {this.handleEmail}
-          />
-
-          <Text style={ styles.text }> Mot de passe : </Text>
-
-          <TextInput style = {styles.input}
-            underlineColorAndroid = "transparent"
-            placeholder = "Password"
-            placeholderTextColor = "#000000"
-            autoCapitalize = "none"
-            onChangeText = {this.handlePassword}
-          />
-              
-          <TouchableOpacity
-            style = { styles.submitButton }
+        <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
             onPress = {
                 () => this.login(this.state.email, this.state.password)
           }>
             <Text style = { styles.submitButtonText }> Connexion </Text>
-          </TouchableOpacity>
+          </Button>
+
+
+            <Button dark rounded block style={[styles.buttonWidth]}
+              onPress={
+                () => this.navigatePageInscription()
+          }>
+              <Text>Inscription</Text>
+            </Button>
+          </Form>
+        </Content>
+
+      </Container>
                 
-            <View style = { styles.inscription } >
-              <Button color="#74992e" title="Inscription" onPress={() => this.navigatePageInscription() }/>
-            </View>
-        </View>
+            
+
       )
   }
 }
@@ -101,19 +112,20 @@ const styles = StyleSheet.create({
       marginRight: 15,
       marginLeft: 15,
       height: 40,
-      borderColor: '#000000',
       borderWidth: 1,
       paddingLeft: 10,
       marginTop: 20
   },
   submitButton: {
-      backgroundColor: '#000000',
+      backgroundColor: '#74992e',
       padding: 10,
       marginTop: 40,
-      marginLeft: 15,
-      marginRight: 15,
       height: 40,
       marginBottom: 30
+  },
+  buttonWidth:{
+    marginLeft: 15,
+    marginRight: 15
   },
   submitButtonText:{
       color: 'white',
@@ -132,9 +144,5 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginLeft: 'auto',
     marginRight: 'auto'
-  },
-  inscription: {
-    marginRight: 15,
-    marginLeft: 15
   }
 })
