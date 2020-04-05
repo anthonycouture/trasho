@@ -48,10 +48,11 @@ router.post('/create',async (req,res)=>{
   type:XX}
   */
   const {longitude, latitude,url_photo,type} = req.body;
-  let rows = domain.insererPoubelle(
+  let rows = await domain.insererPoubelle(
     [longitude,latitude, url_photo],
-    [latitude,longitude,type]
+    [type]
   );
+  
   res
     .status(201)
     .json(rows);

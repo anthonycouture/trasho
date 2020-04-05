@@ -42,20 +42,21 @@ module.exports.sendPoubellesById = async (id_poubelle) => {
 }
 
 module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
-  return {etat:
-            (
-              await transaction(qry.INSERT_POUBELLE,dataPoubelle)
-              &&
-              await transaction(qry.INSERT_TYPE_POUBELLE,dataTypePoubelle)
-            )
-          } ;
+  let res = await transaction(qry.INSERT_POUBELLE,dataPoubelle)
+            .then((resp) => {
+              let ret = resp.rows[0].id_poubelle;
+              dataTypePoubelle = [ret].concat(dataTypePoubelle);
+              transaction(qry.INSERT_TYPE_POUBELLE,dataTypePoubelle);
+              return ret;
+            }).catch((err) => {console.error(err); res = "failled"})
+  return {id_poubelle : res };
 }
 
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;
   try {
-    con.transaction(
+    retour = con.transaction(
       requete,
       donnees_colonnes
     );

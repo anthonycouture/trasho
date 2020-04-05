@@ -58,9 +58,10 @@ module.exports.select = async (queryCall, loaderMethod,data=null) =>  {
 
 module.exports.transaction = async (queryCall, data) => {
      const client = await pool.connect();
+     let res;
       try{
         await client.query('BEGIN');
-        await client.query(queryCall, data);
+        res = await client.query(queryCall, data);
         await client.query('COMMIT');
       } catch (err) {
         await client.query('ROLLBACK');
@@ -68,4 +69,5 @@ module.exports.transaction = async (queryCall, data) => {
       }finally{
         client.release();
       }
+      return res;
 }
