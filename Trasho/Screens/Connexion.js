@@ -14,19 +14,10 @@ class Connexion extends Component {
   state = {
       email: '',
       password: '',
-      fontLoaded: false,
       isEmail: false
   }
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  
-  async componentDidMount() {
-    await Expo.Font.loadAsync({
-      'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
-    });
-    this.setState({ fontLoaded: true });
-  }
 
   handleEmail = (text) => {
       this.setState({ email: text })

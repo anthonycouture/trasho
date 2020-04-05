@@ -6,9 +6,16 @@
     import Connexion from '../Screens/Connexion';
     import Screen3 from '../Screens/Screen3';
     import Map from '../Screens/Map';
+    import { Font , AppLoading} from 'expo';
 
 
     class NavigationDrawerStructure extends Component {
+
+        async componentDidMount() {
+            await Expo.Font.loadAsync({
+                'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
+            });
+        }
 
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
