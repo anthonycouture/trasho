@@ -82,7 +82,7 @@ class Connexion extends Component {
             </Item>
             <Text style={ styles.text }> Mot de passe : </Text>
             <Item>
-              <Input placeholder="Mot de passe" onChangeText={this.handlePassword}/>
+              <Input placeholder="Mot de passe" secureTextEntry={true} onChangeText={this.handlePassword}/>
             </Item>
 
         <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
