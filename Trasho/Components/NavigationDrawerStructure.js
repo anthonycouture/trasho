@@ -5,7 +5,7 @@
     import {createStackNavigator} from 'react-navigation-stack';
     import Connexion from '../Screens/Connexion';
     import Screen3 from '../Screens/Screen3';
-    import Map from './Map';
+    import Map from '../Screens/Map';
 
 
     class NavigationDrawerStructure extends Component {
