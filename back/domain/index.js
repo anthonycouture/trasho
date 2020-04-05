@@ -41,8 +41,6 @@ module.exports.sendPoubellesById = async (id_poubelle) => {
     return res;
 }
 
-GET_ALL_POUBELLES_BY_ID
-
 module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
   return {etat:
             (
