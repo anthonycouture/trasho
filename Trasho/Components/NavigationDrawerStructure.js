@@ -5,6 +5,7 @@
     import {createStackNavigator} from 'react-navigation-stack';
     import Connexion from '../Screens/Connexion';
     import Screen3 from '../Screens/Screen3';
+    import Itineraire from '../Screens/Itineraire';
     import Map from '../Screens/Map';
     import { Font , AppLoading} from 'expo';
 
@@ -76,6 +77,20 @@
         },
     });
 
+    const itineraire_StackNavigator = createStackNavigator({
+        Third: {
+            screen: Itineraire,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Screen 3',
+                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+                headerStyle: {
+                    backgroundColor: '#74992e',
+                },
+                headerTintColor: '#fff',
+            }),
+        },
+    });
+
     const DrawerNavigator = createDrawerNavigator({
         Screen1: {
             screen: map_StackNavigator,
@@ -95,6 +110,12 @@
                 drawerLabel: 'Screen 3',
             },
         },
+        Screen4: {
+            screen: itineraire_StackNavigator,
+            navigationOptions: {
+                drawerLabel: 'Itineraire'
+            }
+        }
     });
 
     export default createAppContainer(DrawerNavigator);
