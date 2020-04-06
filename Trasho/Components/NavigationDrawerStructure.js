@@ -137,13 +137,13 @@
     });
 
     const DrawerNavigator = createDrawerNavigator({
-        Screen1: {
+        Map: {
             screen: map_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Map',
             },
         },
-        Screen2: {
+        Connexion: {
             screen: Screen2_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Connexion',
@@ -155,25 +155,25 @@
                 drawerLabel: 'Screen 3',
             },
         },
-        Screen4: {
+        Itineraire: {
             screen: itineraire_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Itineraire'
             }
         },
-        Screen5: {
+        MonCompte: {
             screen: monCompte_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Mon compte'
             }
         },
-        Screen6: {
+        AjouterPoubelle: {
             screen: ajouterPoubelle_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Ajouter poubelle'
             }
         },
-        Screen7: {
+        Admin: {
             screen: admin_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Admin'
