@@ -8,6 +8,7 @@
     import Itineraire from '../Screens/Itineraire';
     import MonCompte from '../Screens/MonCompte';
     import AjouterPoubelle from '../Screens/AjouterPoubelle';
+    import Admin from '../Screens/Admin';
     import Map from '../Screens/Map';
     import { Font , AppLoading} from 'expo';
 
@@ -121,6 +122,20 @@
         },
     });
 
+    const admin_StackNavigator = createStackNavigator({
+        Third: {
+            screen: Admin,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Admin',
+                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+                headerStyle: {
+                    backgroundColor: '#74992e',
+                },
+                headerTintColor: '#fff',
+            }),
+        },
+    });
+
     const DrawerNavigator = createDrawerNavigator({
         Screen1: {
             screen: map_StackNavigator,
@@ -152,10 +167,16 @@
                 drawerLabel: 'Mon compte'
             }
         },
-        Screen5: {
+        Screen6: {
             screen: ajouterPoubelle_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Ajouter poubelle'
+            }
+        },
+        Screen7: {
+            screen: admin_StackNavigator,
+            navigationOptions: {
+                drawerLabel: 'Admin'
             }
         }
     });
