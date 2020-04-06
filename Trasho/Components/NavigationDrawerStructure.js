@@ -1,184 +1,199 @@
-    import React, { Component } from 'react';
-    import { View, Image, TouchableOpacity } from 'react-native';
-    import {createAppContainer} from 'react-navigation';
-    import {createDrawerNavigator} from 'react-navigation-drawer';
-    import {createStackNavigator} from 'react-navigation-stack';
-    import Connexion from '../Screens/Connexion';
-    import Screen3 from '../Screens/Screen3';
-    import Itineraire from '../Screens/Itineraire';
-    import MonCompte from '../Screens/MonCompte';
-    import AjouterPoubelle from '../Screens/AjouterPoubelle';
-    import Admin from '../Screens/Admin';
-    import Map from '../Screens/Map';
-    import { Font , AppLoading} from 'expo';
+import React, { Component } from 'react';
+import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+import Connexion from '../Screens/Connexion';
+import Screen3 from '../Screens/Screen3';
+import Itineraire from '../Screens/Itineraire';
+import MonCompte from '../Screens/MonCompte';
+import AjouterPoubelle from '../Screens/AjouterPoubelle';
+import Admin from '../Screens/Admin';
+import Map from '../Screens/Map';
+import { Font, AppLoading } from 'expo';
 
 
-    class NavigationDrawerStructure extends Component {
+class NavigationDrawerStructure extends Component {
 
-        async componentDidMount() {
-            await Expo.Font.loadAsync({
-                'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
-            });
-        }
+    async componentDidMount() {
+        await Expo.Font.loadAsync({
+            'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
+        });
+    }
 
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
     };
     render() {
         return (
-        <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
-            <Image
-                source={require('../Images/drawer.png')}
-                style={{ width: 30, height: 25, marginLeft: 10, marginTop: 3 }}
-            />
-            </TouchableOpacity>
-        </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
+                    <Image
+                        source={require('../Images/drawer.png')}
+                        style={{ width: 30, height: 25, marginLeft: 10, marginTop: 3 }}
+                    />
+                </TouchableOpacity>
+            </View>
         );
     }
-    }
+}
 
-    const map_StackNavigator = createStackNavigator({
-        First: {
-            screen: Map,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Map',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
+const CustomDrawerComponent = (props) => (
+    <SafeAreaView style={{ flex: 1 }}>
+        <View style={{height: 150, backgroundColor: 'white',  alignItems: 'center', justifyContent: 'center'}}>
+            <Image source={require('../Images/logo.png')} style={{height: 120, width: 120, marginTop: 50}}/>
+        </View>
+        <ScrollView>
+            <DrawerItems {...props}/>
+        </ScrollView>
+    </SafeAreaView>
+);
 
-    const Screen2_StackNavigator = createStackNavigator({
-        Second: {
-            screen: Connexion,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Connexion',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const Screen3_StackNavigator = createStackNavigator({
-        Third: {
-            screen: Screen3,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Screen 3',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const itineraire_StackNavigator = createStackNavigator({
-        Third: {
-            screen: Itineraire,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Screen 3',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const monCompte_StackNavigator = createStackNavigator({
-        Third: {
-            screen: MonCompte,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Mon compte',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const ajouterPoubelle_StackNavigator = createStackNavigator({
-        Third: {
-            screen: AjouterPoubelle,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Mon compte',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const admin_StackNavigator = createStackNavigator({
-        Third: {
-            screen: Admin,
-            navigationOptions: ({ navigation }) => ({
-                title: 'Admin',
-                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-                headerStyle: {
-                    backgroundColor: '#74992e',
-                },
-                headerTintColor: '#fff',
-            }),
-        },
-    });
-
-    const DrawerNavigator = createDrawerNavigator({
-        Map: {
-            screen: map_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Map',
+const map_StackNavigator = createStackNavigator({
+    First: {
+        screen: Map,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Map',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
             },
-        },
-        Connexion: {
-            screen: Screen2_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Connexion',
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const Screen2_StackNavigator = createStackNavigator({
+    Second: {
+        screen: Connexion,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Connexion',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
             },
-        },
-        Screen3: {
-            screen: Screen3_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Screen 3',
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const Screen3_StackNavigator = createStackNavigator({
+    Third: {
+        screen: Screen3,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Screen 3',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
             },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const itineraire_StackNavigator = createStackNavigator({
+    Third: {
+        screen: Itineraire,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Screen 3',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const monCompte_StackNavigator = createStackNavigator({
+    Third: {
+        screen: MonCompte,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Mon compte',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const ajouterPoubelle_StackNavigator = createStackNavigator({
+    Third: {
+        screen: AjouterPoubelle,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Mon compte',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const admin_StackNavigator = createStackNavigator({
+    Third: {
+        screen: Admin,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Admin',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
+const DrawerNavigator = createDrawerNavigator({
+    Map: {
+        screen: map_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Map',
         },
-        Itineraire: {
-            screen: itineraire_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Itineraire'
-            }
+    },
+    Connexion: {
+        screen: Screen2_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Connexion',
         },
-        MonCompte: {
-            screen: monCompte_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Mon compte'
-            }
+    },
+    Screen3: {
+        screen: Screen3_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Screen 3'
         },
-        AjouterPoubelle: {
-            screen: ajouterPoubelle_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Ajouter poubelle'
-            }
-        },
-        Admin: {
-            screen: admin_StackNavigator,
-            navigationOptions: {
-                drawerLabel: 'Admin'
-            }
+    },
+    Itineraire: {
+        screen: itineraire_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Itineraire'
         }
-    });
+    },
+    MonCompte: {
+        screen: monCompte_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Mon compte'
+        }
+    },
+    AjouterPoubelle: {
+        screen: ajouterPoubelle_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Ajouter poubelle'
+        }
+    },
+    Admin: {
+        screen: admin_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Admin'
+        }
+    }
+},
+{
+    contentComponent: CustomDrawerComponent
+}
+);
 
-    export default createAppContainer(DrawerNavigator);
+export default createAppContainer(DrawerNavigator);
