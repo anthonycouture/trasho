@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 // import all basic components
 
-export default class Itineraire extends Component {
+export default class MonCompte extends Component {
     render() {
         return (
         <View style={styles.MainContainer}>
-            <Text style={{ fontSize: 23 }}> Itineraire </Text>
+            <Text style={{ fontSize: 23 }}> Mon compte </Text>
         </View>
         );
     }

@@ -6,6 +6,7 @@
     import Connexion from '../Screens/Connexion';
     import Screen3 from '../Screens/Screen3';
     import Itineraire from '../Screens/Itineraire';
+    import MonCompte from '../Screens/MonCompte';
     import Map from '../Screens/Map';
     import { Font , AppLoading} from 'expo';
 
@@ -91,6 +92,20 @@
         },
     });
 
+    const monCompte_StackNavigator = createStackNavigator({
+        Third: {
+            screen: MonCompte,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Mon compte',
+                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+                headerStyle: {
+                    backgroundColor: '#74992e',
+                },
+                headerTintColor: '#fff',
+            }),
+        },
+    });
+
     const DrawerNavigator = createDrawerNavigator({
         Screen1: {
             screen: map_StackNavigator,
@@ -114,6 +129,12 @@
             screen: itineraire_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Itineraire'
+            }
+        },
+        Screen5: {
+            screen: monCompte_StackNavigator,
+            navigationOptions: {
+                drawerLabel: 'Mon compte'
             }
         }
     });
