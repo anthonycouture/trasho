@@ -7,6 +7,7 @@
     import Screen3 from '../Screens/Screen3';
     import Itineraire from '../Screens/Itineraire';
     import MonCompte from '../Screens/MonCompte';
+    import AjouterPoubelle from '../Screens/AjouterPoubelle';
     import Map from '../Screens/Map';
     import { Font , AppLoading} from 'expo';
 
@@ -106,6 +107,20 @@
         },
     });
 
+    const ajouterPoubelle_StackNavigator = createStackNavigator({
+        Third: {
+            screen: AjouterPoubelle,
+            navigationOptions: ({ navigation }) => ({
+                title: 'Mon compte',
+                headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+                headerStyle: {
+                    backgroundColor: '#74992e',
+                },
+                headerTintColor: '#fff',
+            }),
+        },
+    });
+
     const DrawerNavigator = createDrawerNavigator({
         Screen1: {
             screen: map_StackNavigator,
@@ -135,6 +150,12 @@
             screen: monCompte_StackNavigator,
             navigationOptions: {
                 drawerLabel: 'Mon compte'
+            }
+        },
+        Screen5: {
+            screen: ajouterPoubelle_StackNavigator,
+            navigationOptions: {
+                drawerLabel: 'Ajouter poubelle'
             }
         }
     });
