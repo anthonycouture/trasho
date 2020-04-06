@@ -11,6 +11,7 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import { Font, AppLoading } from 'expo';
+import { Icon } from 'native-base';
 
 
 class NavigationDrawerStructure extends Component {
@@ -24,13 +25,14 @@ class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
     };
+    
     render() {
         return (
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <TouchableOpacity onPress={this.toggleDrawer.bind(this)}>
                     <Image
                         source={require('../Images/drawer.png')}
-                        style={{ width: 30, height: 25, marginLeft: 10, marginTop: 3 }}
+                        style={{ width: 30, height: 25, marginLeft: 10, marginTop: 0 }}
                     />
                 </TouchableOpacity>
             </View>
@@ -40,11 +42,11 @@ class NavigationDrawerStructure extends Component {
 
 const CustomDrawerComponent = (props) => (
     <SafeAreaView style={{ flex: 1 }}>
-        <View style={{height: 150, backgroundColor: 'white',  alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={require('../Images/logo.png')} style={{height: 120, width: 120, marginTop: 50}}/>
+        <View style={{ height: 150, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
+            <Image source={require('../Images/logo.png')} style={{ height: 120, width: 120 }} />
         </View>
         <ScrollView>
-            <DrawerItems {...props}/>
+            <DrawerItems {...props} />
         </ScrollView>
     </SafeAreaView>
 );
@@ -95,6 +97,9 @@ const itineraire_StackNavigator = createStackNavigator({
     Third: {
         screen: Itineraire,
         navigationOptions: ({ navigation }) => ({
+            tabBarIcon:
+                <Icon name="ios-bookmarks" size={20}/>
+            ,
             title: 'Screen 3',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
             headerStyle: {
@@ -123,7 +128,7 @@ const ajouterPoubelle_StackNavigator = createStackNavigator({
     Third: {
         screen: AjouterPoubelle,
         navigationOptions: ({ navigation }) => ({
-            title: 'Mon compte',
+            title: 'Ajouter poubelle',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
             headerStyle: {
                 backgroundColor: '#74992e',
@@ -191,9 +196,12 @@ const DrawerNavigator = createDrawerNavigator({
         }
     }
 },
-{
-    contentComponent: CustomDrawerComponent
-}
+    {
+        contentComponent: CustomDrawerComponent,
+        contentOptions: {
+            activeTintColor: 'green'
+        }
+    }
 );
 
 export default createAppContainer(DrawerNavigator);

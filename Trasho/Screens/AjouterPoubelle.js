@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 //import react in our code.
 import { StyleSheet, View, Text } from 'react-native';
+import { Header, Left, Right, Icon } from 'native-base';
 // import all basic components
 
 export default class AjouterPoubelle extends Component {
+
     render() {
         return (
         <View style={styles.MainContainer}>
@@ -12,7 +14,7 @@ export default class AjouterPoubelle extends Component {
         </View>
         );
     }
-    }
+}
 
     const styles = StyleSheet.create({
     MainContainer: {
