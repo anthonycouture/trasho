@@ -14,7 +14,9 @@ class Connexion extends Component {
   state = {
     email: '',
     password: '',
-    isEmail: false
+    isEmail: false,
+    showPassword: false,
+    icon: "eye-off"
   }
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -46,13 +48,23 @@ class Connexion extends Component {
   }
 
   checkEmail() {
-    this.state.isEmail = this.regex.test(this.state.email);
+    this.setState(prevState => ({
+      isEmail: this.regex.test(this.state.email)
+    })
+    );
   }
 
   checkPasswordButtonTyped() {
     if (this.state.password.length < 1) {
       Toast.show('Mot de passe indéfini', Toast.LONG);
     }
+  }
+
+  _changeIcon() {
+    this.setState(prevState => ({
+      icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
+      showPassword: !prevState.showPassword
+    }));
   }
 
   render() {
@@ -78,8 +90,8 @@ class Connexion extends Component {
             <Item style={{ borderColor: 'transparent' }}>
               <Icon name="key" />
               <Item style={{ marginRight: 50, }}>
-
-                <Input placeholder="Mot de passe" secureTextEntry={true} onChangeText={this.handlePassword} />
+                <Input placeholder="Mot de passe" secureTextEntry={!this.state.showPassword} onChangeText={this.handlePassword} />
+                <Icon name={this.state.icon} onPress={() => this._changeIcon()} />
               </Item>
             </Item>
 
