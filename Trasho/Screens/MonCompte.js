@@ -16,7 +16,7 @@ export default class MonCompte extends Component {
             <Container>
                 <Content padder>
                     <Card>
-                        <CardItem  bordered style={{justifyContent: 'center', color: 'black', borderColor: 'black'}}>
+                        <CardItem bordered style={{ justifyContent: 'center', color: 'black', borderColor: 'black' }}>
                             <Text>Modifier mot de passe</Text>
                         </CardItem>
                         <CardItem bordered>
@@ -40,18 +40,19 @@ export default class MonCompte extends Component {
                         </CardItem>
                     </Card>
                     <Card>
-                        <CardItem  bordered style={{justifyContent: 'center', color: 'black'}}>
+                        <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Text>Récupérer mes données</Text>
                         </CardItem>
                     </Card>
                     <Card>
-                        <CardItem  bordered style={{justifyContent: 'center', color: 'black'}}>
+                        <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Text>Supprimer mon compte</Text>
                         </CardItem>
                     </Card>
-                    <Item>
+                    <Text style={{marginRight: 'auto', marginLeft: 'auto', marginTop: 30 }}> Niveau </Text>
+                    <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
                         <Text>1</Text>
-                        <Progress.Bar progress={0.5} width={300}/>
+                        <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
                         <Text>2</Text>
                     </Item>
                 </Content>
