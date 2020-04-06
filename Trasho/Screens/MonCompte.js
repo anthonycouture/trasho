@@ -1,15 +1,55 @@
 //This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
 //import react in our code.
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button } from "native-base";
 // import all basic components
+
+const dataArray = [
+    { title: "Changer mot de passe", content: <Input placeholder="Mot de passe" /> },
+];
 
 export default class MonCompte extends Component {
     render() {
         return (
-            <View style={styles.MainContainer}>
-                <Text style={{ fontSize: 23 }}> Mon compte </Text>
-            </View>
+            <Container>
+                <Content padder>
+                    <Card>
+                        <CardItem  bordered style={{justifyContent: 'center', color: 'black', borderColor: 'black'}}>
+                            <Text>Modifier mot de passe</Text>
+                        </CardItem>
+                        <CardItem bordered>
+                            <Body>
+                                <Item>
+                                    <Input placeholder="Ancien mot de passe" />
+                                </Item>
+                                <Item>
+                                    <Input placeholder="Nouveau mot de passe" />
+                                </Item>
+                                <Item>
+                                    <Input placeholder="Confirmer nouveau mot de passe" />
+                                </Item>
+                                <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
+                                    onPress={
+                                        () => alert('Validé')
+                                    }>
+                                    <Text style={styles.submitButtonText}> Valider </Text>
+                                </Button>
+                            </Body>
+                        </CardItem>
+                    </Card>
+                    <Card>
+                        <CardItem  bordered style={{justifyContent: 'center', color: 'black'}}>
+                            <Text>Récupérer mes données</Text>
+                        </CardItem>
+                    </Card>
+                    <Card>
+                        <CardItem  bordered style={{justifyContent: 'center', color: 'black'}}>
+                            <Text>Supprimer mon compte</Text>
+                        </CardItem>
+                    </Card>
+                </Content>
+            </Container>
         );
     }
 }
@@ -22,4 +62,15 @@ const styles = StyleSheet.create({
         marginTop: 50,
         justifyContent: 'center',
     },
+    submitButton: {
+        backgroundColor: '#74992e',
+        padding: 10,
+        marginTop: 40,
+        height: 40,
+        marginBottom: 30
+    },
+    buttonWidth: {
+        marginLeft: 15,
+        marginRight: 15
+    }
 });
