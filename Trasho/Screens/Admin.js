@@ -7,14 +7,14 @@ import { StyleSheet, View, Text } from 'react-native';
 export default class Admin extends Component {
     render() {
         return (
-        <View style={styles.MainContainer}>
-            <Text style={{ fontSize: 23 }}> Admin </Text>
-        </View>
+            <View style={styles.MainContainer}>
+                <Text style={{ fontSize: 23 }}> Admin </Text>
+            </View>
         );
     }
-    }
+}
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         paddingTop: 20,

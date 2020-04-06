@@ -9,14 +9,14 @@ export default class AjouterPoubelle extends Component {
 
     render() {
         return (
-        <View style={styles.MainContainer}>
-            <Text style={{ fontSize: 23 }}> Ajouter poubelle </Text>
-        </View>
+            <View style={styles.MainContainer}>
+                <Text style={{ fontSize: 23 }}> Ajouter poubelle </Text>
+            </View>
         );
     }
 }
 
-    const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     MainContainer: {
         flex: 1,
         paddingTop: 20,

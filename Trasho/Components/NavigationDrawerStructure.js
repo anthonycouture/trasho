@@ -25,7 +25,7 @@ class NavigationDrawerStructure extends Component {
     toggleDrawer = () => {
         this.props.navigationProps.toggleDrawer();
     };
-    
+
     render() {
         return (
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
@@ -98,9 +98,9 @@ const itineraire_StackNavigator = createStackNavigator({
         screen: Itineraire,
         navigationOptions: ({ navigation }) => ({
             tabBarIcon:
-                <Icon name="ios-bookmarks" size={20}/>
+                <Icon name="ios-bookmarks" size={20} />
             ,
-            title: 'Screen 3',
+            title: 'Itineraire',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
             headerStyle: {
                 backgroundColor: '#74992e',
