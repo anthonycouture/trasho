@@ -67,13 +67,20 @@ class Connexion extends Component {
         <Content>
           <Form>
             <Text style={styles.text}> Adresse email : </Text>
-            <Item error={!this.state.isEmail} success={this.state.isEmail}>
-              <Input placeholder="Email" onChangeText={this.handleEmail} />
-              <Icon name='checkmark-circle' />
+            <Item style={{ borderColor: 'transparent' }}>
+              <Icon name="mail" />
+              <Item error={!this.state.isEmail} success={this.state.isEmail} style={{ marginRight: 50 }}>
+                <Input placeholder="Email" onChangeText={this.handleEmail} />
+                <Icon name='checkmark-circle' />
+              </Item>
             </Item>
             <Text style={styles.text}> Mot de passe : </Text>
-            <Item>
-              <Input placeholder="Mot de passe" secureTextEntry={true} onChangeText={this.handlePassword} />
+            <Item style={{ borderColor: 'transparent' }}>
+              <Icon name="key" />
+              <Item style={{ marginRight: 50, }}>
+
+                <Input placeholder="Mot de passe" secureTextEntry={true} onChangeText={this.handlePassword} />
+              </Item>
             </Item>
 
             <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
