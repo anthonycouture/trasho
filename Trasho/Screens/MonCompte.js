@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 //import react in our code.
 import { StyleSheet, View } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button } from "native-base";
+import * as Progress from 'react-native-progress';
 // import all basic components
 
 const dataArray = [
@@ -48,6 +49,11 @@ export default class MonCompte extends Component {
                             <Text>Supprimer mon compte</Text>
                         </CardItem>
                     </Card>
+                    <Item>
+                        <Text>1</Text>
+                        <Progress.Bar progress={0.5} width={300}/>
+                        <Text>2</Text>
+                    </Item>
                 </Content>
             </Container>
         );
