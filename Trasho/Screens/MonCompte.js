@@ -41,14 +41,17 @@ export default class MonCompte extends Component {
                     </Card>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
-                        <Icon name={'settings'} />
-                            <Text>Récupérer mes données</Text>
+                        <Button transparent style={{color: 'black'}}>
+                        <Icon name={'settings'} style={{color: 'black'}}/>
+                            <Text style={{color: 'black'}}>Récupérer mes données</Text>
+                        </Button>
                         </CardItem>
                     </Card>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
-                            <Icon name={'person'} />
-                            <Text>Supprimer mon compte</Text>
+                        <Button transparent><Icon name={'person'} style={{color: 'black'}} />
+                            
+                            <Text style={{color: 'black'}}>Supprimer mon compte</Text></Button>
                         </CardItem>
                     </Card>
                     <Text style={{marginRight: 'auto', marginLeft: 'auto', marginTop: 30 }}> Niveau </Text>
