@@ -87,16 +87,12 @@ export default class Map extends React.Component {
     }
 
     async getPoubelleAsync() {
-        console.log('async');
-        const url = 'http://localhost:4550/api/trash'
+        const url = 'http://10.0.2.2:4550/api/trash'
         const response = await fetch(url)
         const json = await response.json()
         const poubelles = []
-        console.log(json.poubelle.poubelle_1)
         let poubelle = json.poubelle;
         for (let key in poubelle) {
-            console.log(key);
-            console.log(poubelle[key].latitude);
             poubelles.push(
                 {
                     id: key.substring(1),
