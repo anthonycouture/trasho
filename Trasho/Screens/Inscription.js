@@ -1,43 +1,153 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Button, TextInput, Dimensions } from 'react-native';
-import { Icon } from 'native-base';
+import { StyleSheet, Image, View } from 'react-native';
+import { Container, Header, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
+import Toast from 'react-native-simple-toast';
+import { Root } from "native-base";
+import { Font, AppLoading } from "expo";
 
 export default class Inscription extends Component {
-  goBackPage(){
+
+  state = {
+    loading: true,
+    email: '',
+    password: '',
+    confirmPassword: '',
+    iconPassword: 'eye-off',
+    hidePassword: true,
+    iconConfirmPassword: 'eye-off',
+    hideConfirmPassword: true,
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+    })
+    this.setState({ loading: false })
+  }
+
+  _handleEmail = (text) => {
+    this.setState({ email: text })
+  }
+
+  _handlePassword = (text) => {
+    this.setState({ password: text })
+  }
+
+  _handleConfirmPassword = (text) => {
+    this.setState({ confirmPassword: text })
+  }
+
+  _checkEmail() {
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!regex.test(this.state.email)) {
+      Toast.show('Email invalide', Toast.LONG);
+      return false;
+    }
+    return true;
+  }
+
+  _checkPassword() {
+    if(this.state.password.length < 1) {
+      Toast.show('Mot de passe indéfini', Toast.LONG);
+      return false;
+    }
+    var regex = /^((?=.*[A-Z])(?=.*[a-z])(?=.*\d))$/;
+    if(!regex.test(this.state.password)){
+      Toast.show('Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.', Toast.LONG);
+    }
+    return true;
+  }
+
+  _checkConfirmPassword(){
+    if(this.state.confirmPassword.length < 1) {
+      Toast.show('Confirmation du mot de passe indéfinie', Toast.LONG);
+      return false;
+    }
+    if(this.state.password != this.state.confirmPassword){
+      Toast.show('Les deux mots de passe ne correspondent pas', Toast.LONG);
+      return false;
+    }
+    return true;
+  }
+
+  _changeViewPassword(){
+    if(this.state.hidePassword){
+      this.setState({ iconPassword: 'eye', hidePassword: false});
+    } else {
+      this.setState({ iconPassword: 'eye-off', hidePassword: true});
+    }
+  }
+
+  _changeViewConfirmPassword(){
+    if(this.state.hideConfirmPassword){
+      this.setState({ iconConfirmPassword: 'eye', hideConfirmPassword: false});
+    } else {
+      this.setState({ iconConfirmPassword: 'eye-off', hideConfirmPassword: true});
+    }
+  }
+
+  _goBackPage(){
     console.log("Go Back");    
   }
 
-  checkRegistration(){
-    console.log("checkRegistration");    
+  _checkRegistration(){
+    console.log(this._checkEmail()
+      && this._checkPassword() 
+      && this._checkConfirmPassword() 
+    );    
   }
 
   render() {
+    if(this.state.loading){
+      <View></View>
+    }
     return (
-      <View style={styles.MainContainer}>
-          <Image style={styles.logo} source={require('../Images/logo.png')}/>
-          <View style={styles.info_container}>
-            <View style={styles.input_container}>
-              <Icon name='mail' style={styles.icon}/>
-              <TextInput style={styles.input} placeholder='Adresse mail'></TextInput>
-            </View>
-            <View style={styles.input_container}>
-              <Icon name='key' style={styles.icon}/>
-              <TextInput style={styles.input} placeholder='Mot de passe'></TextInput>
-            </View>
-            <View style={styles.input_container}>
-              <Icon name='key' style={styles.icon}/>
-              <TextInput style={styles.input} placeholder='Confirmer mot de passe'></TextInput>
-            </View>
-            <View style={styles.button_container}>
-              <View style={styles.button}>
-                <Button title="Annuler" onPress={() => goBackPage()} color="#ff0000"/>
-              </View>
-              <View style={styles.button}>
-              <Button title="Valider" onPress={() => checkRegistration()} color="#009933"/>
-              </View>
-            </View>
-        </View>
-      </View>
+      <Container>
+        <Content>
+          <Image 
+            style={styles.logo} 
+            source={require('../Images/logo.png')}
+          />
+          <Form>
+            <Item>
+              <Icon name="mail"/>
+              <Input 
+                placeholder="Adresse mail"
+                onChangeText={this._handleEmail}
+              />
+            </Item>
+            <Item>
+              <Icon name="key"/>
+              <Input 
+                placeholder="Mot de passe" 
+                secureTextEntry={this.state.hidePassword}
+                onChangeText={this._handlePassword}
+              />
+              <Icon
+                name={this.state.iconPassword}
+                onPress={() => this._changeViewPassword()}
+              />
+            </Item>
+            <Item last>
+              <Icon name="key"/>
+              <Input 
+                placeholder="Confirmer mot de passe" 
+                secureTextEntry={this.state.hideConfirmPassword}
+                onChangeText={this._handleConfirmPassword}
+              />
+              <Icon
+                name={this.state.iconConfirmPassword}
+                onPress={() => this._changeViewConfirmPassword()}
+              />
+            </Item>
+          </Form>
+              <Button block success>
+                <Text>S'inscrire</Text>
+              </Button>
+        </Content>
+      </Container>
     );
   }
 }
