@@ -81,9 +81,9 @@ const Screen2_StackNavigator = createStackNavigator({
 
 const Screen3_StackNavigator = createStackNavigator({
     Third: {
-        screen: Screen3,
+        screen: Inscription,
         navigationOptions: ({ navigation }) => ({
-            title: 'Screen 3',
+            title: 'Inscription',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
             headerStyle: {
                 backgroundColor: '#74992e',
@@ -168,7 +168,7 @@ const DrawerNavigator = createDrawerNavigator({
     Screen3: {
         screen: Screen3_StackNavigator,
         navigationOptions: {
-            drawerLabel: 'Screen 3'
+            drawerLabel: 'Inscription'
         },
     },
     Itineraire: {
