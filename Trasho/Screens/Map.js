@@ -214,7 +214,7 @@ export default class Map extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
-                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lat.lng);
+                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                             if (this.state.webViewLeafletRef)
                                 this.state.webViewLeafletRef.setMapCenterPosition();
                         }}
