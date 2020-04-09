@@ -10,7 +10,7 @@ import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
-import { Font, AppLoading } from 'expo';
+import Inscription from '../Screens/Inscription';
 import { Icon } from 'native-base';
 
 
