@@ -13,6 +13,7 @@ import { StyleSheet, Text, View, Image, TouchableHighlight, Modal } from 'react-
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle from './../Components/ModalInfoPoubelle';
+import GLOBAL from '../Globals';
 
 
 export default class Map extends React.Component {
@@ -87,7 +88,7 @@ export default class Map extends React.Component {
     }
 
     async getPoubelleAsync() {
-        const url = 'http://10.0.2.2:4550/api/trash'
+        const url = GLOBAL.BASE_URL + '/api/trash'
         const response = await fetch(url)
         const json = await response.json()
         const poubelles = []
@@ -125,7 +126,6 @@ export default class Map extends React.Component {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text>Id Poubelle : {this.idPoubelle}</Text>
                         <ModalInfoPoubelle idPoubelle={this.idPoubelle} />
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}

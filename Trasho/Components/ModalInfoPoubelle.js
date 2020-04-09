@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Text, StyleSheet, View } from 'react-native';
+import GLOBAL from '../Globals';
 
 export default class ModalInfoPoubelle extends React.Component {
     constructor(props) {
@@ -20,14 +21,14 @@ export default class ModalInfoPoubelle extends React.Component {
 
 
     async getTypePoubelleAsync() {
-        const url = 'http://10.0.2.2:3000/getTypePoubelle?idPoubelle=' + this.state.idPoubelle
+        const url = GLOBAL.BASE_URL + '/api/trash/type/' + this.state.idPoubelle
         const response = await fetch(url)
         const json = await response.json()
         this.setTypePoubelle(
             <View>
                 <Text>Type de la poubelle : </Text>
                 {json.map(item => (
-                    <Text>{item.type}</Text>
+                    <Text>{item}</Text>
                 ))}
             </View>
 

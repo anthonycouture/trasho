@@ -9,12 +9,16 @@ const GET_ALL_POUBELLES_INFO_BY_ID = GET_ALL_POUBELLES_INFO+' WHERE poubelle.id_
 const GET_ALL_POUBELLES = ' SELECT * FROM poubelle  ';
 const GET_ALL_POUBELLES_BY_ID = GET_ALL_POUBELLES+' WHERE id_poubelle = $1';
 
+const GET_TYPE_POUBELLES_BY_ID_POUBELLE = 'select type from type_poubelle t NATURAL JOIN poubelle_type_poubelle p where p.id_poubelle= $1'
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
 
   GET_ALL_POUBELLES_INFO,
   GET_ALL_POUBELLES_INFO_BY_ID,
+
+  GET_TYPE_POUBELLES_BY_ID_POUBELLE,
 
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3) returning id_poubelle',
   INSERT_TYPE_POUBELLE : ' INSERT INTO poubelle_type_poubelle(id_poubelle, id_type_poubelle) '+

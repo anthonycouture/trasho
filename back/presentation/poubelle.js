@@ -40,6 +40,19 @@ router.get('/infos/:id',async (req,res) => {
     .json(rows);
 });
 
+router.get('/type/:id',async (req,res) => {
+  const { id } = req.params;
+  let rows = await domain.getTypePoubellesByIdPoubelle(id);
+  rows = rows.poubelle;
+  let types = [];
+  for(let key in rows){
+    types.push(key.split("_")[0]);
+  }
+  res
+    .status(200)
+    .json(types);
+});
+
 router.post('/create',async (req,res)=>{
   /*
   body = {longitude:XX,
