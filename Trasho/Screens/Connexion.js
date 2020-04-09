@@ -22,8 +22,7 @@ class Connexion extends Component {
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   handleEmail = (text) => {
-    this.setState({ email: text })
-    this.checkEmail();
+    this.setState({ email: text, isEmail: this.regex.test(text) })
   }
 
   handlePassword = (text) => {
@@ -37,7 +36,7 @@ class Connexion extends Component {
   }
 
   navigatePageInscription() {
-    this.props.navigation.navigate('Screen3');
+    this.props.navigation.navigate('Inscription');
 
   }
 
@@ -45,13 +44,6 @@ class Connexion extends Component {
     if (!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
     }
-  }
-
-  checkEmail() {
-    this.setState(prevState => ({
-      isEmail: this.regex.test(this.state.email)
-    })
-    );
   }
 
   checkPasswordButtonTyped() {

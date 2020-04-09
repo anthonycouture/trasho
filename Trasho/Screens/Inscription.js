@@ -15,10 +15,13 @@ export default class Inscription extends Component {
     hidePassword: true,
     iconConfirmPassword: 'eye-off',
     hideConfirmPassword: true,
+    isEmail: false
   }
 
+  regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
   _handleEmail = (text) => {
-    this.setState({ email: text })
+    this.setState({ email: text, isEmail: this.regex.test(text) });
   }
 
   _handlePassword = (text) => {
@@ -30,8 +33,7 @@ export default class Inscription extends Component {
   }
 
   _checkEmail() {
-    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!regex.test(this.state.email)) {
+    if(!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
       return false;
     }
@@ -101,41 +103,48 @@ export default class Inscription extends Component {
             source={require('../Images/logo.png')}
           />
           <Form>
-            <Item>
+            <Item style={{ borderColor: 'transparent' }}>
               <Icon name="mail"/>
-              <Input 
-                placeholder="Adresse mail"
-                onChangeText={this._handleEmail}
-              />
+              <Item error={!this.state.isEmail} success={this.state.isEmail} style={{ marginRight: 40, }}>
+                <Input 
+                  placeholder="Adresse mail"
+                  onChangeText={this._handleEmail}
+                />
+                <Icon name='checkmark-circle' />
+              </Item>
             </Item>
-            <Item>
+            <Item style={{ borderColor: 'transparent' }}>
               <Icon name="key"/>
-              <Input 
-                placeholder="Mot de passe" 
-                secureTextEntry={this.state.hidePassword}
-                onChangeText={this._handlePassword}
-              />
-              <Icon
-                name={this.state.iconPassword}
-                onPress={() => this._changeViewPassword()}
-              />
+              <Item style={{ marginRight: 40, }}>
+                <Input 
+                  placeholder="Mot de passe" 
+                  secureTextEntry={this.state.hidePassword}
+                  onChangeText={this._handlePassword}
+                />
+                <Icon
+                  name={this.state.iconPassword}
+                  onPress={() => this._changeViewPassword()}
+                />
+              </Item>
             </Item>
-            <Item last>
+            <Item style={{ borderColor: 'transparent' }}>
               <Icon name="key"/>
-              <Input 
-                placeholder="Confirmer mot de passe" 
-                secureTextEntry={this.state.hideConfirmPassword}
-                onChangeText={this._handleConfirmPassword}
-              />
-              <Icon
-                name={this.state.iconConfirmPassword}
-                onPress={() => this._changeViewConfirmPassword()}
-              />
+              <Item style={{ marginRight: 40, }}>
+                <Input 
+                  placeholder="Confirmer mot de passe" 
+                  secureTextEntry={this.state.hideConfirmPassword}
+                  onChangeText={this._handleConfirmPassword}
+                />
+                <Icon
+                  name={this.state.iconConfirmPassword}
+                  onPress={() => this._changeViewConfirmPassword()}
+                />
+              </Item>
             </Item>
           </Form>
-              <Button block success>
-                <Text>S'inscrire</Text>
-              </Button>
+            <Button rounded block style={styles.button} onPress={() => this._checkRegistration()}>
+              <Text>S'inscrire</Text>
+            </Button>
         </Content>
       </Container>
     );
@@ -143,36 +152,18 @@ export default class Inscription extends Component {
 }
 
 const styles = StyleSheet.create({
-  MainContainer: {
-    alignItems: 'center'
-  },
   logo: {
     justifyContent: 'center',
     marginRight: 'auto',
     marginLeft: 'auto',
   },
-  input_container: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 30,
-  },
-  icon: {
-    marginRight: 10,
-    marginLeft: 'auto',
-  },
-  input:{
-    height: 40,
-    width: 300,
-    borderColor: 'gray', 
-    borderWidth: 1,
-    paddingLeft: 5,
-    fontSize: 20,
-  },
-  button_container: {
-    flexDirection: 'row',
-    marginTop: 30,
-  },
   button: {
-    flex: 1,
+    marginLeft: 15,
+    marginRight: 15,
+    backgroundColor: '#74992e',
+    padding: 10,
+    marginTop: 40,
+    height: 40,
+    marginBottom: 30
   },
 });
