@@ -4,12 +4,12 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import Connexion from '../Screens/Connexion';
-import Screen3 from '../Screens/Screen3';
 import Itineraire from '../Screens/Itineraire';
 import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
+import Inscription from '../Screens/Inscription';
 import { Font, AppLoading } from 'expo';
 import { Icon } from 'native-base';
 
@@ -165,7 +165,7 @@ const DrawerNavigator = createDrawerNavigator({
             drawerLabel: 'Connexion',
         },
     },
-    Screen3: {
+    Inscription: {
         screen: Screen3_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Inscription'

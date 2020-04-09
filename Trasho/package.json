@@ -27,7 +27,8 @@
     "react-native-webview-leaflet": "5.0.2",
     "react-navigation": "^4.3.6",
     "react-navigation-drawer": "^2.4.10",
-    "react-navigation-stack": "^2.3.10"
+    "react-navigation-stack": "^2.3.10",
+    "expo-font": "~8.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "8.0.0",
