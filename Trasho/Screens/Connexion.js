@@ -37,7 +37,7 @@ class Connexion extends Component {
   }
 
   navigatePageInscription() {
-    this.props.navigation.navigate('Screen3');
+    this.props.navigation.navigate('Inscription');
 
   }
 
