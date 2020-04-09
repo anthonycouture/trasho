@@ -4,7 +4,6 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import Connexion from '../Screens/Connexion';
-import Screen3 from '../Screens/Screen3';
 import Itineraire from '../Screens/Itineraire';
 import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
@@ -65,7 +64,7 @@ const map_StackNavigator = createStackNavigator({
     },
 });
 
-const Screen2_StackNavigator = createStackNavigator({
+const Connexion_StackNavigator = createStackNavigator({
     Second: {
         screen: Connexion,
         navigationOptions: ({ navigation }) => ({
@@ -79,7 +78,7 @@ const Screen2_StackNavigator = createStackNavigator({
     },
 });
 
-const Screen3_StackNavigator = createStackNavigator({
+const inscription_StackNavigator = createStackNavigator({
     Third: {
         screen: Inscription,
         navigationOptions: ({ navigation }) => ({
@@ -160,13 +159,13 @@ const DrawerNavigator = createDrawerNavigator({
         },
     },
     Connexion: {
-        screen: Screen2_StackNavigator,
+        screen: Connexion_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Connexion',
         },
     },
-    Screen3: {
-        screen: Screen3_StackNavigator,
+    Inscription: {
+        screen: inscription_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Inscription'
         },
