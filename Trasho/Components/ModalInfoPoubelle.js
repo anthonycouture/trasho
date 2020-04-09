@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Text, StyleSheet, View } from 'react-native';
+import base64 from 'react-native-base64'
 import GLOBAL from '../Globals';
 
 export default class ModalInfoPoubelle extends React.Component {
@@ -31,9 +32,7 @@ export default class ModalInfoPoubelle extends React.Component {
                     <Text>{item}</Text>
                 ))}
             </View>
-
         );
-
     }
 
     render() {
