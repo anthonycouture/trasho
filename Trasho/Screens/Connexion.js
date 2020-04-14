@@ -76,10 +76,15 @@ class Connexion extends Component {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     })
     const res = await response.json();
-    console.log('ret : ' + res.resp);
 
+    console.log(response.status);
+    if(response.status == 400) {
+      alert('Combinaison email et mot de passe invalide');
+    }
+    else {
       this.setState({ connected: res.resp })
-    alert('Connecté : ' + this.state.connected);
+      alert('Connecté : ' + this.state.connected);
+    }
   }
 
   render() {

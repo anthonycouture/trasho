@@ -32,7 +32,9 @@ router.get('/:mail/:password',async (req,res) => {
     }
   }
   else {
-    res.status(400);
+    res
+      .status(400)
+      .json({})
   }
 
 
