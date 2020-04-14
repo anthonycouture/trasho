@@ -71,18 +71,15 @@ class Connexion extends Component {
   }
 
   async connexion() {
-    const url = GLOBAL.BASE_URL + '/api/user/' + 'lucas.laloux3011@gmail.com/abc'
+    const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
     const response = await fetch(url).catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     })
-    const resp = await response.json();
-    console.log('ret : ' + resp);
+    const res = await response.json();
+    console.log('ret : ' + res.resp);
 
-    if(resp == true) {
-      this.setState({ connected: true })
-    }
-    //console.log('connected ? : ' + this.state.connected);
-    alert('email: ' + this.state.connected);
+      this.setState({ connected: res.resp })
+    alert('Connecté : ' + this.state.connected);
   }
 
   render() {

@@ -19,15 +19,21 @@ router.get('/',async (req,res) => {
 router.get('/:mail/:password',async (req,res) => {
   const { mail, password } = req.params;
   let row = await domain.userByMail(mail);
+  console.log(row);
   let ret = false;
-  console.log('pass : ' + password);
-  //console.log('password2 : ' + row);
-  console.log('aaa : ' + row['utilisateur']['undefined'].password);
-  if(password === row['utilisateur']['undefined'].password) {
-    ret = true;
+  let taille = Object.keys(row['utilisateur'] ).length;
+  console.log('taille : ' + taille);
+  if(taille > 0) {
+    if(password === row['utilisateur']['undefined'].password) {
+      ret = true;
+      res
+        .status(200)
+        .json({ "resp": ret });
+    }
   }
-  //console.log(row);
-  res
-    .status(200)
-    .json({ "resp": ret });
+  else {
+    res.status(400);
+  }
+
+
 });
