@@ -77,16 +77,14 @@ class Connexion extends Component {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
     const response = await fetch(url).catch(function(error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
-    })
+    });
     const res = await response.json();
-
-    console.log(response.status);
     if(response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
     }
     else {
       this.setState({ connected: res.resp })
-      alert('Connecté : ' + this.state.connected);
+      alert('Connexion réussie !');
       AsyncStorage.multiSet([
         ["email", this.state.email]
       ]);

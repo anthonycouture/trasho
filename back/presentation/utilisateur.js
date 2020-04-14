@@ -19,10 +19,8 @@ router.get('/',async (req,res) => {
 router.get('/:mail/:password',async (req,res) => {
   const { mail, password } = req.params;
   let row = await domain.userByMail(mail);
-  console.log(row);
   let ret = false;
   let taille = Object.keys(row['utilisateur'] ).length;
-  console.log('taille : ' + taille);
   if(taille > 0) {
     if(password === row['utilisateur']['undefined'].password) {
       ret = true;
