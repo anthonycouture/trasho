@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
+import { StyleSheet, View, Image, Alert, AsyncStorage } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import {
   StackNavigator,
@@ -41,7 +41,10 @@ class Connexion extends Component {
 
   navigatePageInscription() {
     this.props.navigation.navigate('Inscription');
+  }
 
+  navigatPageMap() {
+    this.props.navigation.navigate('Map');
   }
 
   checkEmailButtonTyped() {
@@ -84,6 +87,10 @@ class Connexion extends Component {
     else {
       this.setState({ connected: res.resp })
       alert('Connecté : ' + this.state.connected);
+      AsyncStorage.multiSet([
+        ["email", this.state.email]
+      ]);
+      this.navigatPageMap();
     }
   }
 
