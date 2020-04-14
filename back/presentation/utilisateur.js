@@ -15,3 +15,11 @@ router.get('/',async (req,res) => {
     .status(200)
     .json(rows);
 });
+
+router.get('/connexion/:mail',async (req,res) => {
+  const { mail } = req.params;
+  let rows = await domain.userByMail(mail);
+  res
+    .status(200)
+    .json(rows);
+});

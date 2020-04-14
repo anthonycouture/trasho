@@ -3,6 +3,7 @@ const imp = require('../import.js');
 const con = imp.db();
 const qry = imp.qry();
 const Poubelle = imp.poubelle();
+const Utilisateur = imp.utilisateur();
 /*
 DOMAIN :  terme metiers : comprehensible
 
@@ -59,6 +60,16 @@ module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
               return ret;
             }).catch((err) => {console.error(err); res = "failled"})
   return {id_poubelle : res };
+}
+
+
+module.exports.userByMail = async (mail) => {
+  let res = await  con.select(
+      qry.GET_USER_BY_EMAIL,
+      (rows)=>(Utilisateur.loadList(rows)),
+      [mail]
+    );
+    return res;
 }
 
 
