@@ -16,7 +16,8 @@ class Connexion extends Component {
     password: '',
     isEmail: false,
     showPassword: false,
-    icon: "eye-off"
+    icon: "eye-off",
+    connected: false
   }
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -31,9 +32,10 @@ class Connexion extends Component {
   }
 
   login = (email, pass) => {
-    alert('email: ' + email + ' password: ' + pass)
+    //alert('email: ' + email + ' password: ' + pass);
     this.checkEmailButtonTyped();
     this.checkPasswordButtonTyped();
+    this.connexion();
   }
 
   navigatePageInscription() {
@@ -65,6 +67,19 @@ class Connexion extends Component {
       icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
       showPassword: !prevState.showPassword
     }));
+  }
+
+  async connexion() {
+    const url = GLOBAL.BASE_URL + '/api/user/' + 'lucas.laloux3011@gmail.com/abc'
+    const response = await fetch(url)
+    const resp = await response.json();
+    console.log('ret : ' + resp);
+
+    if(resp == true) {
+      this.setState({ connected: true })
+    }
+    //console.log('connected ? : ' + this.state.connected);
+    alert('email: ' + this.state.connected);
   }
 
   render() {

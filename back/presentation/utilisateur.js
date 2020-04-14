@@ -16,10 +16,18 @@ router.get('/',async (req,res) => {
     .json(rows);
 });
 
-router.get('/connexion/:mail',async (req,res) => {
-  const { mail } = req.params;
-  let rows = await domain.userByMail(mail);
+router.get('/:mail/:password',async (req,res) => {
+  const { mail, password } = req.params;
+  let row = await domain.userByMail(mail);
+  let ret = false;
+  console.log('pass : ' + password);
+  //console.log('password2 : ' + row);
+  console.log('aaa : ' + row['utilisateur']['undefined'].password);
+  if(password === row['utilisateur']['undefined'].password) {
+    ret = true;
+  }
+  //console.log(row);
   res
     .status(200)
-    .json(rows);
+    .json({ "resp": ret });
 });
