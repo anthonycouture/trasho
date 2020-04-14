@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
+import GLOBAL from '../Globals';
 
 class Connexion extends Component {
 
@@ -71,7 +72,9 @@ class Connexion extends Component {
 
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + 'lucas.laloux3011@gmail.com/abc'
-    const response = await fetch(url)
+    const response = await fetch(url).catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    })
     const resp = await response.json();
     console.log('ret : ' + resp);
 
