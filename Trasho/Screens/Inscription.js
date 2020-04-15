@@ -18,10 +18,10 @@ export default class Inscription extends Component {
     isEmail: false
   }
 
-  regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   _handleEmail = (text) => {
-    this.setState({ email: text, isEmail: this.regex.test(text) });
+    this.setState({ email: text, isEmail: this.regexEmail.test(text) });
   }
 
   _handlePassword = (text) => {
@@ -33,7 +33,7 @@ export default class Inscription extends Component {
   }
 
   _checkEmail() {
-    if(!this.regex.test(this.state.email)) {
+    if(!this.regexEmail.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
       return false;
     }
@@ -45,9 +45,17 @@ export default class Inscription extends Component {
       Toast.show('Mot de passe indéfini', Toast.LONG);
       return false;
     }
-    var regex = /^((?=.*[A-Z])(?=.*[a-z])(?=.*\d))$/;
-    if(!regex.test(this.state.password)){
+    var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,50}$/;
+    if(this.state.password.length<6){
+      Toast.show('Le mot de passe doit contenir au moins 6 caractères.', Toast.LONG);
+      return false;
+    } else if(this.state.password.length>50){
+      Toast.show('Le mot de passe doit contenir au maximim 50 caractères.', Toast.LONG);
+      return false;
+    }     
+    else if(!regexPassword.test(this.state.password)){
       Toast.show('Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.', Toast.LONG);
+      return false;
     }
     return true;
   }
