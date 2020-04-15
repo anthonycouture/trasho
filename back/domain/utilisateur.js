@@ -22,7 +22,7 @@ class Utilisateur extends JSONable{
     actif = 'undefined',
   ){
     super();
-    this.#mail = this.mail,
+    this.#mail = mail,
     this.password = password;
     this.flag_admin = flag_admin;
     this.token = token;

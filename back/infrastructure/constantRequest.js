@@ -23,4 +23,8 @@ module.exports = {
   ');',
   DELETE_POUBELLE_BY_ID : 'DELETE FROM poubelle WHERE id_poubelle = $1',
 
+  GET_ALL_USERS : 'SELECT * FROM utilisateur',
+  INSERT_USER : 'INSERT INTO utilisateur(mail, password, flag_admin, token, date_expire, experience, actif) '+
+    'VALUES ($1, $2, false, null, null, 0, false) returning *',
+
 };

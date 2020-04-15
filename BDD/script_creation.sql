@@ -1,9 +1,9 @@
-/*drop table signalement;
+drop table signalement;
 drop table utilisateur;
 drop table type_signalement;
 drop table poubelle_type_poubelle;
 drop table poubelle;
-drop table type_poubelle;*/
+drop table type_poubelle;
 
 create table type_poubelle (
   id_type_poubelle serial primary key,
@@ -32,8 +32,8 @@ create table utilisateur (
   mail varchar primary key,
   password varchar not null,
   flag_admin boolean not null,
-  token varchar not null,
-  date_expire date not null,
+  token varchar,
+  date_expire date,
   experience integer not null,
   actif boolean not null
 );

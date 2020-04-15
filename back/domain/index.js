@@ -3,6 +3,7 @@ const imp = require('../import.js');
 const con = imp.db();
 const qry = imp.qry();
 const Poubelle = imp.poubelle();
+const Utilisateur = imp.utilisateur();
 /*
 DOMAIN :  terme metiers : comprehensible
 
@@ -48,10 +49,28 @@ module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
               dataTypePoubelle = [ret].concat(dataTypePoubelle);
               transaction(qry.INSERT_TYPE_POUBELLE,dataTypePoubelle);
               return ret;
-            }).catch((err) => {console.error(err); res = "failled"})
+            }).catch((err) => {console.error(err); res = "failed"})
   return {id_poubelle : res };
 }
 
+module.exports.sendAllUsers = async () => {
+  let res = await con.select(
+      qry.GET_ALL_USERS,
+      (rows)=>(Utilisateur.loadList(rows))
+    );
+    return res;
+}
+
+module.exports.insertUser = async (dataUser) =>{
+  let res = await transaction(qry.INSERT_USER, dataUser).then((resp) => {
+    let ret = resp.rows[0];
+    return ret;
+  }). catch((err) => {
+    console.error(err);
+    res = "failed";
+  });
+  return {user : res};
+}
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;
