@@ -72,8 +72,10 @@ export default class Map extends React.Component {
                     this.setModalVisible(true);
                 }
                 break;
+            case WebViewLeafletEvents.ON_MOVE_END:
+                this.setMapCenterPosition(message.payload.mapCenterPosition.lat,message.payload.mapCenterPosition.lng);
             default:
-                null;//console.log("App received", message.event);
+                null;//console.log("App received", message);
         }
     }
 
