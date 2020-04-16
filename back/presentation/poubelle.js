@@ -53,6 +53,14 @@ router.get('/type/:id',async (req,res) => {
     .json(types);
 });
 
+router.get('/url/:id', async (req,res) => {
+  const { id } = req.params;
+  let rows = await domain.getUrlPoubelleByIdPoubelle(id);
+  res
+    .status(200)
+    .json(rows.poubelle._undefined.url_photo);
+})
+
 router.post('/create',async (req,res)=>{
   /*
   body = {longitude:XX,
