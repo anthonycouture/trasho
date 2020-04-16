@@ -67,11 +67,13 @@ export default class Map extends React.Component {
     onMessageReceived = (message) => {
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
-                this.idPoubelle = message.payload.mapMarkerID
-                this.setModalVisible(true);
+                if (message.payload.mapMarkerID !== 'OWN_POSTION_MARKER_ID') {
+                    this.idPoubelle = message.payload.mapMarkerID
+                    this.setModalVisible(true);
+                }
                 break;
             default:
-                null//console.log("App received", message);
+                null;//console.log("App received", message.event);
         }
     }
 
@@ -84,6 +86,7 @@ export default class Map extends React.Component {
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude)
         }
     }
 
@@ -175,12 +178,12 @@ export default class Map extends React.Component {
                                 position: this.state.ownPosition,
                                 icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
                                 size: [24, 32],
-                                animation: {
+                                /*animation: {
                                     duration: "0.5",
                                     delay: 0,
                                     iterationCount: INFINITE_ANIMATION_ITERATIONS,
                                     type: AnimationType.PULSE
-                                } //si tu veux le voir bondir 
+                                } *///si tu veux le voir bondir 
 
                                 /*
                                 
@@ -215,8 +218,6 @@ export default class Map extends React.Component {
                         onPress={() => {
                             this.getLocationAsync();
                             this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
-                            if (this.state.webViewLeafletRef)
-                                this.state.webViewLeafletRef.setMapCenterPosition();
                         }}
                         style={styles.mapButton}
                         success
