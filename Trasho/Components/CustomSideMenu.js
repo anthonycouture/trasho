@@ -15,6 +15,40 @@ import MonCompte from '../Screens/MonCompte';
 
 export default class CustomSideMenu extends Component {
 
+    state = {
+        currentPage: ''
+    }
+
+    getStylePage(page) {
+        console.log('----------------------------------------------------');
+        console.log('page : ' + page);
+        console.log('state : ' + this.state.currentPage);
+        if (this.state.currentPage == page) {
+            return {
+                color: '#74992e'
+            }
+        } else {
+            return {
+                color: 'black'
+            }
+        }
+    }
+
+    getBackground(page) {
+        console.log('----------------------------------------------------');
+        console.log('page : ' + page);
+        console.log('state : ' + this.state.currentPage);
+        if (this.state.currentPage == page) {
+            return {
+                backgroundColor: '#dcdcdc'
+            }
+        } else {
+            return {
+                backgroundColor: 'white'
+            }
+        }
+    }
+
     render() {
 
         return (
@@ -27,44 +61,44 @@ export default class CustomSideMenu extends Component {
 
                 <View style={{ width: '100%' }}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                    <View style={[styles.onglet, this.getBackground('Connexion')]}>
 
 
-                        <Icon name='md-log-in' style={styles.sideMenuIcon} />
+                        <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Connexion') }} > Connexion </Text>
-
-                    </View>
-
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
-
-                        <Icon name='map' style={styles.sideMenuIcon} />
-
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Map') }} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Connexion')]} onPress={() => { this.props.navigation.navigate('Connexion'), this.setState({ currentPage: 'Connexion' }); }} > Connexion </Text>
 
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                    <View style={[styles.onglet, this.getBackground('Map')]}>
 
-                        <Icon name='md-locate' style={styles.sideMenuIcon} />
+                        <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Itineraire') }} > Itineraire </Text>
-
-                    </View>
-
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
-
-                        <Icon name='md-person' style={styles.sideMenuIcon} />
-
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('MonCompte') }} > Mon compte </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }); }} > Map </Text>
 
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+                    <View style={[styles.onglet, this.getBackground('Itineraire')]}>
 
-                        <Icon name='md-settings' style={styles.sideMenuIcon} />
+                        <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Admin') }} > Admin </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }); }} > Itineraire </Text>
+
+                    </View>
+
+                    <View style={[styles.onglet, this.getBackground('MonCompte')]}>
+
+                        <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
+
+                        <Text style={[styles.menuText, this.getStylePage('MonCompte')]} onPress={() => { this.props.navigation.navigate('MonCompte'), this.setState({ currentPage: 'MonCompte' }); }} > Mon compte </Text>
+
+                    </View>
+
+                    <View style={[styles.onglet, this.getBackground('Admin')]}>
+
+                        <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
+
+                        <Text style={[styles.menuText, this.getStylePage('Admin')]} onPress={() => { this.props.navigation.navigate('Admin'), this.setState({ currentPage: 'Admin' }); }} > Admin </Text>
 
                     </View>
 
@@ -118,6 +152,13 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: '#000000',
 
+    },
+
+    onglet: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 15
     }
 
 });
