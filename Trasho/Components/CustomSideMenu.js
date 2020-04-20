@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Platform, View, Text, Image, TouchableOpacity, YellowBox, Dimensions } from 'react-native';
+import { StyleSheet, Platform, View, Image, TouchableOpacity, YellowBox, Dimensions } from 'react-native';
+import { Text, Icon, Item } from 'native-base';
 
 import { DrawerNavigator } from 'react-navigation';
 
 import { StackNavigator } from 'react-navigation';
 
+import Map from '../Screens/Map';
 import Connexion from '../Screens/Connexion';
+import Itineraire from '../Screens/Itineraire';
+import Admin from '../Screens/Admin';
+import MonCompte from '../Screens/MonCompte';
 
 export default class CustomSideMenu extends Component {
 
@@ -16,41 +21,53 @@ export default class CustomSideMenu extends Component {
 
             <View style={styles.sideMenuContainer}>
 
-                <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2017/10/Guitar.jpg' }}
-                    style={styles.sideMenuProfileIcon} />
+                <Image source={require('../Images/logo.png')} style={{ height: 140, width: 140, marginTop: 50 }} />
 
                 <View style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
 
                 <View style={{ width: '100%' }}>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
 
-                        <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2018/08/social.jpg' }}
-                            style={styles.sideMenuIcon} />
+                        
+                            <Icon name='md-log-in' style={styles.sideMenuIcon} />
 
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Connexion') }} > First Activity </Text>
-
-                    </View>
-
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-
-                        <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2018/08/promotions.jpg' }}
-                            style={styles.sideMenuIcon} />
-
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Second') }} > Second Activity </Text>
+                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Connexion') }} > Connexion </Text>
 
                     </View>
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
 
-                        <Image source={{ uri: 'https://reactnativecode.com/wp-content/uploads/2018/08/outbox.jpg' }}
-                            style={styles.sideMenuIcon} />
+                        <Icon name='map' style={styles.sideMenuIcon} />
 
-                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Third') }} > Third Activity </Text>
+                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Map') }} > Map </Text>
 
                     </View>
 
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
 
+                        <Icon name='md-locate' style={styles.sideMenuIcon} />
+
+                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Itineraire') }} > Itineraire </Text>
+
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+
+                        <Icon name='md-person' style={styles.sideMenuIcon} />
+
+                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('MonCompte') }} > Mon compte </Text>
+
+                    </View>
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
+
+                        <Icon name='md-settings' style={styles.sideMenuIcon} />
+
+                        <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Admin') }} > Admin </Text>
+
+                    </View>
+                    
                 </View>
 
                 <View style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
