@@ -26,7 +26,9 @@ router.get('/:mail/:password',async (req,res) => {
       ret = true;
       res
         .status(200)
-        .json({ "resp": ret });
+        .json({ "resp": ret,
+                "user": row['utilisateur']
+              });
     }
   }
   else {

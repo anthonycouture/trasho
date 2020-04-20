@@ -23,6 +23,11 @@ class Connexion extends Component {
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  async componentDidMount() {
+    console.log("componentDidMount");
+    await AsyncStorage.clear();
+  }
+
   handleEmail = (text) => {
     this.setState({ email: text })
     this.checkEmail();
@@ -73,21 +78,35 @@ class Connexion extends Component {
     }));
   }
 
+  _storeData = async (res) => {
+    try {
+      let adm = 'false';
+      await AsyncStorage.setItem('EMAIL', this.state.email);
+      const admin = res['user']['undefined']['flag_admin'];
+      if (admin == true) {
+        adm = 'true';
+      }
+      await AsyncStorage.setItem('ADMIN', adm);
+      await AsyncStorage.setItem('CONNECTED', 'true');
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
-    const response = await fetch(url).catch(function(error) {
+    const response = await fetch(url).catch(function (error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
     const res = await response.json();
-    if(response.status == 400) {
+    if (response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
     }
-    else {
-      this.setState({ connected: res.resp })
+    else if (response.status == 200) {
+      this._storeData(res);
+      this.setState({ connected: res.resp });
+      console.log(res);
       alert('Connexion réussie !');
-      AsyncStorage.multiSet([
-        ["email", this.state.email]
-      ]);
       this.navigatPageMap();
     }
   }

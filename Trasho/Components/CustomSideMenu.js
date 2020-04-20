@@ -29,8 +29,8 @@ export default class CustomSideMenu extends Component {
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 30 }}>
 
-                        
-                            <Icon name='md-log-in' style={styles.sideMenuIcon} />
+
+                        <Icon name='md-log-in' style={styles.sideMenuIcon} />
 
                         <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Connexion') }} > Connexion </Text>
 
@@ -67,11 +67,8 @@ export default class CustomSideMenu extends Component {
                         <Text style={styles.menuText} onPress={() => { this.props.navigation.navigate('Admin') }} > Admin </Text>
 
                     </View>
-                    
+
                 </View>
-
-                <View style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
-
 
             </View>
         );
@@ -118,8 +115,8 @@ const styles = StyleSheet.create({
 
     menuText: {
 
-        fontSize: 15,
-        color: '#222222',
+        fontSize: 18,
+        color: '#000000',
 
     }
 
