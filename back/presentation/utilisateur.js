@@ -3,6 +3,7 @@ const imp = require('../import.js');
 
 const Router = imp.router();
 const domain = imp.domain();
+const sendConfirmMail = imp.sendConfirmMail();
 
 const router = new Router();
 
@@ -18,6 +19,16 @@ router.get('/',async (req,res) => {
 
 router.post('/', async (req, res) => {
   const {mail, password} = req.body;
-  let rows = await domain.insertUser([mail, password]);
-  res.status(201).json(rows);
+  sendConfirmMail.sendMail(mail, null).then(async () => {
+    await domain.insertUser([mail, password]).then((newRow) => {
+      res.status(201).json(newRow);
+    }).catch((error) => {
+      console.error(error);
+      res.status(500);
+    });
+  }).catch((error) => {
+    console.error(error);
+    res.status(500);
+  });
+  
 })

@@ -7,7 +7,7 @@ module.exports = {
   express    : () => require("express"),
   bodyParser : () => require("body-parser"),
   router : () => require('express-promise-router'),
-
+  nodemailer: () => require('nodemailer'),
 
   prop : () => require('./utils/propertyReader'),
   cst   : () => require('./utils/constantes'),
@@ -25,4 +25,6 @@ module.exports = {
   utilisateur : () => require('./domain/utilisateur'),
   signalement : () => require('./domain/signalement'),
   jsonable : () => require('./domain/JSONable'),
+
+  sendConfirmMail: () => require('./utils/sendConfirmMail'),
 }
