@@ -10,6 +10,7 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
+import CustomSideMenu from './/CustomSideMenu';
 import { Icon } from 'native-base';
 
 
@@ -39,7 +40,7 @@ class NavigationDrawerStructure extends Component {
     }
 }
 
-const CustomDrawerComponent = (props) => (
+/*const CustomDrawerComponent = (props) => (
     <SafeAreaView style={{ flex: 1 }}>
         <View style={{ height: 150, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
             <Image source={require('../Images/logo.png')} style={{ height: 120, width: 120, marginTop: 50 }} />
@@ -48,7 +49,7 @@ const CustomDrawerComponent = (props) => (
             <DrawerItems {...props} />
         </ScrollView>
     </SafeAreaView>
-);
+);*/
 
 const map_StackNavigator = createStackNavigator({
     First: {
@@ -196,7 +197,7 @@ const DrawerNavigator = createDrawerNavigator({
     }
 },
     {
-        contentComponent: CustomDrawerComponent,
+        contentComponent: CustomSideMenu,
         contentOptions: {
             activeTintColor: 'green'
         }
