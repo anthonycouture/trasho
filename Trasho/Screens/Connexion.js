@@ -40,10 +40,22 @@ class Connexion extends Component {
 
   login = (email, pass) => {
     //alert('email: ' + email + ' password: ' + pass);
-    this.checkEmailButtonTyped();
-    this.checkPasswordButtonTyped();
-    this.connexion();
+    let emailOk = false;
+    let passOk = false;
+
+    if (email || pass) {
+      emailOk = this.checkEmailButtonTyped();
+      passOk = this.checkPasswordButtonTyped();
+      if (emailOk && passOk) {
+        this.connexion();
+      }
+    }
+    else {
+      Toast.show('Veuillez remplir les champs', Toast.LONG);
+    }
   }
+
+
 
   navigatePageInscription() {
     this.props.navigation.navigate('Inscription');
@@ -78,6 +90,8 @@ class Connexion extends Component {
       showPassword: !prevState.showPassword
     }));
   }
+
+
 
   /*_storeData = async (res) => {
     try {

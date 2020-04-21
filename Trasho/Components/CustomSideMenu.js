@@ -16,20 +16,8 @@ import Globals from '../Globals';
 
 export default class CustomSideMenu extends Component {
 
-    async componentDidMount() {
-        console.log("componentDidMount");
-    }
-
-    constructor() {
-        super();
-        console.log("const");
-    }
-
-
     state = {
-        currentPage: '',
-        isConnected: false,
-        isAdmin: false
+        currentPage: ''
     }
 
     getStylePage(page) {
