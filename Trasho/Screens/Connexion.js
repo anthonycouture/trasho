@@ -69,6 +69,9 @@ class Connexion extends Component {
     if (!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
     }
+    else {
+      return true;
+    }
   }
 
   checkEmail() {
@@ -82,6 +85,10 @@ class Connexion extends Component {
     if (this.state.password.length < 1) {
       Toast.show('Mot de passe indéfini', Toast.LONG);
     }
+    else {
+      return true;
+    }
+
   }
 
   _changeIcon() {
