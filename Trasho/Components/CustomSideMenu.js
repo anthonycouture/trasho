@@ -20,6 +20,48 @@ export default class CustomSideMenu extends Component {
         currentPage: ''
     }
 
+    async componentDidMount() {
+        await Expo.Font.loadAsync({
+            'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
+        });
+        await this._retrieveData();
+    }
+
+    _retrieveData = async () => {
+        console.log('retrieveData()');
+        try {
+            const admin = await AsyncStorage.getItem('ADMIN');
+            const connected = await AsyncStorage.getItem('CONNECTED');
+            console.log("connected const : " + connected);
+            console.log("admin const : " + admin);
+            console.log("apres");
+
+            if (admin !== null) {
+                console.log(admin);
+                Globals.admin = admin;
+            }
+            else {
+                console.log("admin null");
+            }
+
+            if (connected !== null) {
+                Globals.connected = connected;
+                console.log(connected);
+            }
+            else {
+                console.log("connected null");
+            }
+            console.log("fin");
+            console.log('global connected : ' + Globals.connected);
+            console.log('global admin : ' + Globals.admin);
+
+        } catch (error) {
+            // Error retrieving data
+            console.log('non !');
+            console.log(error)
+        }
+    };
+
     getStylePage(page) {
         if (this.state.currentPage == page) {
             return {
@@ -33,6 +75,8 @@ export default class CustomSideMenu extends Component {
     }
 
     getBackground(page) {
+        console.log("global side connected : " + Globals.connected);
+        console.log("global side admin : " + Globals.admin);
         if (this.state.currentPage == page) {
             return {
                 backgroundColor: '#dcdcdc'
@@ -56,7 +100,7 @@ export default class CustomSideMenu extends Component {
 
                 <View style={{ width: '100%' }}>
 
-                    {!Globals.connexion && <View style={[styles.onglet, this.getBackground('Connexion')]}>
+                    {!Globals.connected && <View style={[styles.onglet, this.getBackground('Connexion')]}>
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
@@ -69,7 +113,7 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' })}} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }) }} > Map </Text>
 
                     </View>
 
@@ -77,11 +121,11 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' })}} > Itineraire </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }) }} > Itineraire </Text>
 
                     </View>
 
-                    {Globals.admin && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
+                    {Globals.connected && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
@@ -90,7 +134,7 @@ export default class CustomSideMenu extends Component {
                     </View>
                     }
 
-                    {Globals.admin && <View style={[styles.onglet, this.getBackground('Admin')]}>
+                    {Globals.admin == true && <View style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 

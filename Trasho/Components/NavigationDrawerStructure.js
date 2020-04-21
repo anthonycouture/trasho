@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -12,7 +12,7 @@ import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
-
+import Globals from '../Globals';
 
 class NavigationDrawerStructure extends Component {
 
@@ -24,7 +24,45 @@ class NavigationDrawerStructure extends Component {
         await Expo.Font.loadAsync({
             'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
         });
+        await this._retrieveData();
+        //await AsyncStorage.clear();
     }
+
+    _retrieveData = async () => {
+        console.log('retrieveData()');
+        try {
+            const admin = await AsyncStorage.getItem('ADMIN');
+            const connected = await AsyncStorage.getItem('CONNECTED');
+            console.log("connected const : " + connected);
+            console.log("admin const : " + admin);
+            console.log("apres");
+
+            if (admin !== null) {
+                console.log(admin);
+                Globals.admin = admin;
+            }
+            else {
+                console.log("admin null");
+            }
+
+            if (connected !== null) {
+                Globals.connected = connected;
+                console.log(connected);
+            }
+            else {
+                console.log("connected null");
+            }
+            console.log("fin");
+            console.log('global connected : ' + Globals.connected);
+            console.log('global admin : ' + Globals.admin);
+
+        } catch (error) {
+            // Error retrieving data
+            console.log('non !');
+            console.log(error)
+        }
+    };
+
 
     toggleDrawer = () => {
         this.setState(prevState => ({
