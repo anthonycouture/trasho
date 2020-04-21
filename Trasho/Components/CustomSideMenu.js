@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Platform, Image, TouchableOpacity, YellowBox, Dimensions, View } from 'react-native';
+import { StyleSheet, Platform, Image, TouchableOpacity, YellowBox, Dimensions, View, AsyncStorage } from 'react-native';
 import { Text, Icon, Item } from 'native-base';
 
 import { DrawerNavigator } from 'react-navigation';
@@ -15,12 +15,48 @@ import MonCompte from '../Screens/MonCompte';
 
 export default class CustomSideMenu extends Component {
 
+    async componentDidMount() {
+        console.log("componentDidMount");
+        this._retrieveData()
+    }
+
     state = {
         currentPage: '',
-        isConnexionHidden: true,
-        isAdminHidden: true,
-        isMonCompteHidden: true
+        isConnected: false,
+        isAdmin: false
     }
+
+    _retrieveData = async () => {
+        console.log('retrieveData()');
+        try {
+            const admin = await AsyncStorage.getItem('ADMIN');
+            const connected = await AsyncStorage.getItem('CONNECTED');
+            console.log("apres");
+
+            if (admin !== null) {
+                console.log(admin);
+                this.setState({ isAdmin: true });
+            }
+            else {
+                this.setState({ isAdmin: false });
+                console.log("admin null");
+            }
+
+            if (connected !== null) {
+                this.setState({ isConnected: true });
+                console.log(connected);
+            }
+            else {
+                this.setState({ isConnected: false });
+                console.log("connected null");
+            }
+            console.log("fin");
+
+        } catch (error) {
+            // Error retrieving data
+            console.log('non !');
+        }
+    };
 
     getStylePage(page) {
         if (this.state.currentPage == page) {
@@ -58,7 +94,7 @@ export default class CustomSideMenu extends Component {
 
                 <View style={{ width: '100%' }}>
 
-                    {!this.state.isConnexionHidden && <View style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.isConnexionHidden}>
+                    {!this.state.isConnected && <View style={[styles.onglet, this.getBackground('Connexion')]}>
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
@@ -71,7 +107,7 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }); }} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }), this._retrieveData()}} > Map </Text>
 
                     </View>
 
@@ -79,11 +115,11 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }); }} > Itineraire </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }), this._retrieveData()}} > Itineraire </Text>
 
                     </View>
 
-                    {!this.state.isMonCompteHidden && <View style={[styles.onglet, this.getBackground('MonCompte')]} hide={this.state.isMonCompteHidden}>
+                    {this.state.isConnected && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
@@ -92,7 +128,7 @@ export default class CustomSideMenu extends Component {
                     </View>
                     }
 
-                    {!this.state.isAdminHidden && <View style={[styles.onglet, this.getBackground('Admin')]}>
+                    {this.state.isAdmin && <View style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 

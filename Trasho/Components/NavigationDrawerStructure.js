@@ -10,7 +10,7 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
-import CustomSideMenu from './/CustomSideMenu';
+import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 
 
