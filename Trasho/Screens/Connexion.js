@@ -60,7 +60,7 @@ class Connexion extends Component {
   }
 
   navigatPageMap() {
-    this.props.navigation.navigate('Map');
+    this.props.navigation.navigate('MonCompte');
   }
 
   checkEmailButtonTyped() {
