@@ -18,13 +18,12 @@ export default class CustomSideMenu extends Component {
 
     state = {
         currentPage: '',
-        isConnexionHidden: true
+        isConnexionHidden: true,
+        isAdminHidden: true,
+        isMonCompteHidden: true
     }
 
     getStylePage(page) {
-        console.log('----------------------------------------------------');
-        console.log('page : ' + page);
-        console.log('state : ' + this.state.currentPage);
         if (this.state.currentPage == page) {
             return {
                 color: '#74992e'
@@ -37,9 +36,6 @@ export default class CustomSideMenu extends Component {
     }
 
     getBackground(page) {
-        console.log('----------------------------------------------------');
-        console.log('page : ' + page);
-        console.log('state : ' + this.state.currentPage);
         if (this.state.currentPage == page) {
             return {
                 backgroundColor: '#dcdcdc'
@@ -63,8 +59,7 @@ export default class CustomSideMenu extends Component {
 
                 <CustomView style={{ width: '100%' }}>
 
-                    <CustomView style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.is}>
-
+                    <CustomView style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.isConnexionHidden}>
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
@@ -88,7 +83,7 @@ export default class CustomSideMenu extends Component {
 
                     </CustomView>
 
-                    <CustomView style={[styles.onglet, this.getBackground('MonCompte')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('MonCompte')]} hide={this.state.isMonCompteHidden}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
@@ -96,7 +91,7 @@ export default class CustomSideMenu extends Component {
 
                     </CustomView>
 
-                    <CustomView style={[styles.onglet, this.getBackground('Admin')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('Admin')]} hide={this.state.isMonCompteHidden}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 
