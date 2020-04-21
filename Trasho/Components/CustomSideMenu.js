@@ -104,6 +104,14 @@ export default class CustomSideMenu extends Component {
 
                     </View>}
 
+                    {Globals.connected && <View style={[styles.onglet, this.getBackground('Deconnexion')]}>
+
+                        <Icon name='md-log-out' style={[styles.sideMenuIcon, this.getStylePage('Deconnexion')]} />
+
+                        <Text style={[styles.menuText, this.getStylePage('Deconnexion')]} onPress={() => { this.props.navigation.navigate('Deconnexion'), this.setState({ currentPage: 'Deconnexion' }); }} > Déconnexion </Text>
+
+                    </View>}
+
 
 
 
