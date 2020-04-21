@@ -12,7 +12,6 @@ import Connexion from '../Screens/Connexion';
 import Itineraire from '../Screens/Itineraire';
 import Admin from '../Screens/Admin';
 import MonCompte from '../Screens/MonCompte';
-import CustomView from './CustomView';
 
 export default class CustomSideMenu extends Component {
 
