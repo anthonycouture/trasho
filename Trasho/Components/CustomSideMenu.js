@@ -24,43 +24,7 @@ export default class CustomSideMenu extends Component {
         await Expo.Font.loadAsync({
             'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
         });
-        await this._retrieveData();
     }
-
-    _retrieveData = async () => {
-        console.log('retrieveData()');
-        try {
-            const admin = await AsyncStorage.getItem('ADMIN');
-            const connected = await AsyncStorage.getItem('CONNECTED');
-            console.log("connected const : " + connected);
-            console.log("admin const : " + admin);
-            console.log("apres");
-
-            if (admin !== null) {
-                console.log(admin);
-                Globals.admin = admin;
-            }
-            else {
-                console.log("admin null");
-            }
-
-            if (connected !== null) {
-                Globals.connected = connected;
-                console.log(connected);
-            }
-            else {
-                console.log("connected null");
-            }
-            console.log("fin");
-            console.log('global connected : ' + Globals.connected);
-            console.log('global admin : ' + Globals.admin);
-
-        } catch (error) {
-            // Error retrieving data
-            console.log('non !');
-            console.log(error)
-        }
-    };
 
     getStylePage(page) {
         if (this.state.currentPage == page) {
@@ -75,8 +39,6 @@ export default class CustomSideMenu extends Component {
     }
 
     getBackground(page) {
-        console.log("global side connected : " + Globals.connected);
-        console.log("global side admin : " + Globals.admin);
         if (this.state.currentPage == page) {
             return {
                 backgroundColor: '#dcdcdc'

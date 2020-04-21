@@ -25,7 +25,6 @@ class Connexion extends Component {
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   async componentDidMount() {
-    console.log("componentDidMount");
     await AsyncStorage.clear();
   }
 
@@ -59,7 +58,7 @@ class Connexion extends Component {
     this.props.navigation.navigate('Inscription');
   }
 
-  navigatPageMap() {
+  navigatPageMonCompte() {
     this.props.navigation.navigate('MonCompte');
   }
 
@@ -128,10 +127,8 @@ class Connexion extends Component {
       this.setState({ connected: res.resp });
       Globals.connexion = true
       Globals.admin = res['user']['undefined']['flag_admin'];
-      console.log('global admin dans connexion : ' + Globals.admin);
-      console.log(res);
       alert('Connexion réussie !');
-      this.navigatPageMap();
+      this.navigatPageMonCompte();
     }
   }
 

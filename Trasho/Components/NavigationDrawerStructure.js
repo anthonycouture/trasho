@@ -29,40 +29,21 @@ class NavigationDrawerStructure extends Component {
     }
 
     _retrieveData = async () => {
-        console.log('retrieveData()');
         try {
             const admin = await AsyncStorage.getItem('ADMIN');
             const connected = await AsyncStorage.getItem('CONNECTED');
-            console.log("connected const : " + connected);
-            console.log("admin const : " + admin);
-            console.log("apres");
 
             if (admin !== null) {
-                console.log(admin);
                 Globals.admin = admin;
-            }
-            else {
-                console.log("admin null");
             }
 
             if (connected !== null) {
                 Globals.connected = connected;
-                console.log(connected);
             }
-            else {
-                console.log("connected null");
-            }
-            console.log("fin");
-            console.log('global connected : ' + Globals.connected);
-            console.log('global admin : ' + Globals.admin);
-
         } catch (error) {
-            // Error retrieving data
-            console.log('non !');
             console.log(error)
         }
     };
-
 
     toggleDrawer = () => {
         this.setState(prevState => ({
