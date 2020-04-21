@@ -18,13 +18,11 @@ export default class CustomSideMenu extends Component {
 
     async componentDidMount() {
         console.log("componentDidMount");
-        //this._retrieveData()
     }
 
     constructor() {
         super();
         console.log("const");
-        //this.forceUpdate();
     }
 
 
@@ -33,39 +31,6 @@ export default class CustomSideMenu extends Component {
         isConnected: false,
         isAdmin: false
     }
-
-    /*_retrieveData = async () => {
-        console.log('retrieveData()');
-        try {
-            const admin = await AsyncStorage.getItem('ADMIN');
-            const connected = await AsyncStorage.getItem('CONNECTED');
-            console.log("apres");
-
-            if (admin !== null) {
-                console.log(admin);
-                this.setState({ isAdmin: true });
-            }
-            else {
-                this.setState({ isAdmin: Globals.connexion });
-                console.log("admin null");
-            }
-
-            if (connected !== null) {
-                this.setState({ isConnected: true });
-                console.log(connected);
-            }
-            else {
-                this.setState({ isConnected: false });
-                console.log("connected null");
-            }
-            console.log("fin");
-
-        } catch (error) {
-            // Error retrieving data
-            console.log('non !');
-        }
-    };
-    */
 
     getStylePage(page) {
         if (this.state.currentPage == page) {

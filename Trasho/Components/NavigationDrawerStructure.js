@@ -47,17 +47,6 @@ class NavigationDrawerStructure extends Component {
     }
 }
 
-/*const CustomDrawerComponent = (props) => (
-    <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ height: 150, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../Images/logo.png')} style={{ height: 120, width: 120, marginTop: 50 }} />
-        </View>
-        <ScrollView>
-            <DrawerItems {...props} />
-        </ScrollView>
-    </SafeAreaView>
-);*/
-
 const map_StackNavigator = createStackNavigator({
     First: {
         screen: Map,
