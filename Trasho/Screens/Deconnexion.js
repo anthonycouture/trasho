@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { Dialog } from 'react-native-simple-dialogs';
 
-export default class Admin extends Component {
-
-    async componentDidMount() {
-        console.log("componentDidMount");
-        await AsyncStorage.clear();
-    }
-
+export default class Deconnexion extends Component {
     render() {
         return (
             <View style={styles.MainContainer}>
-                <Text style={{ fontSize: 23 }}> Admin </Text>
+                <Text style={{ fontSize: 23 }}> Déconnexion </Text>
             </View>
         );
     }

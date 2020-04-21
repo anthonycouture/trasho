@@ -1,10 +1,7 @@
-//This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
-//import react in our code.
 import { StyleSheet, View } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
 import * as Progress from 'react-native-progress';
-// import all basic components
 
 const dataArray = [
     { title: "Changer mot de passe", content: <Input placeholder="Mot de passe" /> },

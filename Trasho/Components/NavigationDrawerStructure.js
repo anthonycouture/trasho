@@ -9,6 +9,7 @@ import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
+import Deconnexion from '../Screens/Deconnexion';
 import Inscription from '../Screens/Inscription';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
@@ -167,6 +168,20 @@ const admin_StackNavigator = createStackNavigator({
     },
 });
 
+const deconnexion_StackNavigator = createStackNavigator({
+    Third: {
+        screen: Deconnexion,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Deconnexion',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
 const DrawerNavigator = createDrawerNavigator({
     Map: {
         screen: map_StackNavigator,
@@ -208,6 +223,12 @@ const DrawerNavigator = createDrawerNavigator({
         screen: admin_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Admin'
+        }
+    },
+    Deconnexion: {
+        screen: deconnexion_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Deconnexion'
         }
     }
 },
