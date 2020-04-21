@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Platform, View, Image, TouchableOpacity, YellowBox, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Image, TouchableOpacity, YellowBox, Dimensions } from 'react-native';
 import { Text, Icon, Item } from 'native-base';
 
 import { DrawerNavigator } from 'react-navigation';
@@ -12,11 +12,13 @@ import Connexion from '../Screens/Connexion';
 import Itineraire from '../Screens/Itineraire';
 import Admin from '../Screens/Admin';
 import MonCompte from '../Screens/MonCompte';
+import CustomView from './CustomView';
 
 export default class CustomSideMenu extends Component {
 
     state = {
-        currentPage: ''
+        currentPage: '',
+        isConnexionHidden: true
     }
 
     getStylePage(page) {
@@ -53,58 +55,58 @@ export default class CustomSideMenu extends Component {
 
         return (
 
-            <View style={styles.sideMenuContainer}>
+            <CustomView style={styles.sideMenuContainer}>
 
                 <Image source={require('../Images/logo.png')} style={{ height: 140, width: 140, marginTop: 50 }} />
 
-                <View style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
+                <CustomView style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
 
-                <View style={{ width: '100%' }}>
+                <CustomView style={{ width: '100%' }}>
 
-                    <View style={[styles.onglet, this.getBackground('Connexion')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.is}>
 
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Connexion')]} onPress={() => { this.props.navigation.navigate('Connexion'), this.setState({ currentPage: 'Connexion' }); }} > Connexion </Text>
 
-                    </View>
+                    </CustomView>
 
-                    <View style={[styles.onglet, this.getBackground('Map')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('Map')]}>
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }); }} > Map </Text>
 
-                    </View>
+                    </CustomView>
 
-                    <View style={[styles.onglet, this.getBackground('Itineraire')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('Itineraire')]}>
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }); }} > Itineraire </Text>
 
-                    </View>
+                    </CustomView>
 
-                    <View style={[styles.onglet, this.getBackground('MonCompte')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('MonCompte')]}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('MonCompte')]} onPress={() => { this.props.navigation.navigate('MonCompte'), this.setState({ currentPage: 'MonCompte' }); }} > Mon compte </Text>
 
-                    </View>
+                    </CustomView>
 
-                    <View style={[styles.onglet, this.getBackground('Admin')]}>
+                    <CustomView style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Admin')]} onPress={() => { this.props.navigation.navigate('Admin'), this.setState({ currentPage: 'Admin' }); }} > Admin </Text>
 
-                    </View>
+                    </CustomView>
 
-                </View>
+                </CustomView>
 
-            </View>
+            </CustomView>
         );
     }
 }
