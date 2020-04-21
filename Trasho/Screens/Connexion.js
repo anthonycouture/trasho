@@ -9,6 +9,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
 import GLOBAL from '../Globals';
+import Globals from '../Globals';
 
 class Connexion extends Component {
 
@@ -78,7 +79,7 @@ class Connexion extends Component {
     }));
   }
 
-  _storeData = async (res) => {
+  /*_storeData = async (res) => {
     try {
       let adm = 'false';
       await AsyncStorage.setItem('EMAIL', this.state.email);
@@ -92,6 +93,7 @@ class Connexion extends Component {
       // Error saving data
     }
   };
+  */
 
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
@@ -103,8 +105,10 @@ class Connexion extends Component {
       alert('Combinaison email et mot de passe invalide');
     }
     else if (response.status == 200) {
-      this._storeData(res);
+      //this._storeData(res);
       this.setState({ connected: res.resp });
+      Globals.connexion = true
+      Globals.admin = res['user']['undefined']['flag_admin'];
       console.log(res);
       alert('Connexion réussie !');
       this.navigatPageMap();

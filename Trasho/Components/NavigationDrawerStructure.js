@@ -16,6 +16,10 @@ import { Icon } from 'native-base';
 
 class NavigationDrawerStructure extends Component {
 
+    state = {
+        reload: false
+    }
+
     async componentDidMount() {
         await Expo.Font.loadAsync({
             'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
@@ -23,6 +27,9 @@ class NavigationDrawerStructure extends Component {
     }
 
     toggleDrawer = () => {
+        this.setState(prevState => ({
+            reload: !prevState.reload
+        }));
         this.props.navigationProps.toggleDrawer();
     };
 

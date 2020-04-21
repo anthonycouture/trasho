@@ -12,13 +12,21 @@ import Connexion from '../Screens/Connexion';
 import Itineraire from '../Screens/Itineraire';
 import Admin from '../Screens/Admin';
 import MonCompte from '../Screens/MonCompte';
+import Globals from '../Globals';
 
 export default class CustomSideMenu extends Component {
 
     async componentDidMount() {
         console.log("componentDidMount");
-        this._retrieveData()
+        //this._retrieveData()
     }
+
+    constructor() {
+        super();
+        console.log("const");
+        //this.forceUpdate();
+    }
+
 
     state = {
         currentPage: '',
@@ -26,7 +34,7 @@ export default class CustomSideMenu extends Component {
         isAdmin: false
     }
 
-    _retrieveData = async () => {
+    /*_retrieveData = async () => {
         console.log('retrieveData()');
         try {
             const admin = await AsyncStorage.getItem('ADMIN');
@@ -38,7 +46,7 @@ export default class CustomSideMenu extends Component {
                 this.setState({ isAdmin: true });
             }
             else {
-                this.setState({ isAdmin: false });
+                this.setState({ isAdmin: Globals.connexion });
                 console.log("admin null");
             }
 
@@ -57,6 +65,7 @@ export default class CustomSideMenu extends Component {
             console.log('non !');
         }
     };
+    */
 
     getStylePage(page) {
         if (this.state.currentPage == page) {
@@ -94,7 +103,7 @@ export default class CustomSideMenu extends Component {
 
                 <View style={{ width: '100%' }}>
 
-                    {!this.state.isConnected && <View style={[styles.onglet, this.getBackground('Connexion')]}>
+                    {!Globals.connexion && <View style={[styles.onglet, this.getBackground('Connexion')]}>
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
@@ -107,7 +116,7 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }), this._retrieveData()}} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' })}} > Map </Text>
 
                     </View>
 
@@ -115,11 +124,11 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }), this._retrieveData()}} > Itineraire </Text>
+                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' })}} > Itineraire </Text>
 
                     </View>
 
-                    {this.state.isConnected && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
+                    {Globals.admin && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
@@ -128,7 +137,7 @@ export default class CustomSideMenu extends Component {
                     </View>
                     }
 
-                    {this.state.isAdmin && <View style={[styles.onglet, this.getBackground('Admin')]}>
+                    {Globals.admin && <View style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 
