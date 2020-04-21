@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { StyleSheet, Platform, Image, TouchableOpacity, YellowBox, Dimensions } from 'react-native';
+import { StyleSheet, Platform, Image, TouchableOpacity, YellowBox, Dimensions, View } from 'react-native';
 import { Text, Icon, Item } from 'native-base';
 
 import { DrawerNavigator } from 'react-navigation';
@@ -51,57 +51,62 @@ export default class CustomSideMenu extends Component {
 
         return (
 
-            <CustomView style={styles.sideMenuContainer}>
+            <View style={styles.sideMenuContainer}>
 
                 <Image source={require('../Images/logo.png')} style={{ height: 140, width: 140, marginTop: 50 }} />
 
-                <CustomView style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
+                <View style={{ width: '100%', height: 1, backgroundColor: '#e2e2e2', marginTop: 15 }} />
 
-                <CustomView style={{ width: '100%' }}>
+                <View style={{ width: '100%' }}>
 
-                    <CustomView style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.isConnexionHidden}>
+                    {!this.state.isConnexionHidden && <View style={[styles.onglet, this.getBackground('Connexion')]} hide={this.state.isConnexionHidden}>
 
                         <Icon name='md-log-in' style={[styles.sideMenuIcon, this.getStylePage('Connexion')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Connexion')]} onPress={() => { this.props.navigation.navigate('Connexion'), this.setState({ currentPage: 'Connexion' }); }} > Connexion </Text>
 
-                    </CustomView>
+                    </View>
+                    }
 
-                    <CustomView style={[styles.onglet, this.getBackground('Map')]}>
+                    <View style={[styles.onglet, this.getBackground('Map')]}>
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }); }} > Map </Text>
 
-                    </CustomView>
+                    </View>
 
-                    <CustomView style={[styles.onglet, this.getBackground('Itineraire')]}>
+                    <View style={[styles.onglet, this.getBackground('Itineraire')]}>
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }); }} > Itineraire </Text>
 
-                    </CustomView>
+                    </View>
 
-                    <CustomView style={[styles.onglet, this.getBackground('MonCompte')]} hide={this.state.isMonCompteHidden}>
+                    {!this.state.isMonCompteHidden && <View style={[styles.onglet, this.getBackground('MonCompte')]} hide={this.state.isMonCompteHidden}>
 
                         <Icon name='md-person' style={[styles.sideMenuIcon, this.getStylePage('MonCompte')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('MonCompte')]} onPress={() => { this.props.navigation.navigate('MonCompte'), this.setState({ currentPage: 'MonCompte' }); }} > Mon compte </Text>
 
-                    </CustomView>
+                    </View>
+                    }
 
-                    <CustomView style={[styles.onglet, this.getBackground('Admin')]} hide={this.state.isMonCompteHidden}>
+                    {!this.state.isAdminHidden && <View style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 
                         <Text style={[styles.menuText, this.getStylePage('Admin')]} onPress={() => { this.props.navigation.navigate('Admin'), this.setState({ currentPage: 'Admin' }); }} > Admin </Text>
 
-                    </CustomView>
+                    </View>}
 
-                </CustomView>
 
-            </CustomView>
+
+
+                </View>
+
+            </View>
         );
     }
 }
@@ -128,7 +133,6 @@ const styles = StyleSheet.create({
 
     sideMenuProfileIcon:
         {
-            resizeMode: 'center',
             width: 150,
             height: 150,
             borderRadius: 150 / 2
@@ -136,7 +140,6 @@ const styles = StyleSheet.create({
 
     sideMenuIcon:
         {
-            resizeMode: 'center',
             width: 28,
             height: 28,
             marginRight: 10,
