@@ -3,6 +3,8 @@ const imp = require('../import.js');
 
 const Router = imp.router();
 const domain = imp.domain();
+const cst = imp.cst();
+const property = imp.prop();
 const sendConfirmMail = imp.sendConfirmMail();
 
 const router = new Router();
@@ -30,5 +32,18 @@ router.post('/', async (req, res) => {
     console.error(error);
     res.status(500);
   });
-  
-})
+});
+
+router.get('/confirmMail/:token', async (req, res) => {
+  const {token} = req.params;
+  res.render('confirmMail', {
+    token: JSON.stringify(token),
+    api_user : JSON.stringify(cst.URL + property.url_utilisateur),
+  });
+});
+
+router.post('/validMail/:token', async (req, res) => {
+  const {token} = req.params;
+  console.log(token);
+  res.status(200);
+});

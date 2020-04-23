@@ -1,0 +1,35 @@
+<%- include('header', {title: 'Trasho - Confirmation mail'})%>
+    <style>
+        body{
+            background-color: #93d12e;
+        }
+        #all{
+            text-align: center;
+            margin : 0 auto;
+        }
+        h1{
+            margin-top: 0;
+        }
+    </style>
+</head 
+
+<body>
+    <div id="all">
+        <img alt="Trasho Logo" src="https://i.ibb.co/WGzKX8k/logo-Convert-Image.png" id="logo"/>
+        <h1>Bienvenue chez Trasho</h1> 
+        <p id="text">Souhaitez-vous confirmer le mail : <%= JSON.parse(token) %> ?</p>
+        <div #buttons>
+            <button id="valid" onclick="validMail()">Valider</button>
+            <button id="cancel onclick="cancelMail()">Annuler</button>
+        </div>
+    </div>
+
+    <script>
+        function validMail(){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", JSON.parse('<%- api_user %>') + "/validMail/" + JSON.parse('<%- token %>'), true);
+            xmlHttp.send(null);
+            document.getElementById("text").innerHTML = "Votre mail est bien confirmé !";
+        }
+    </script>
+</body>

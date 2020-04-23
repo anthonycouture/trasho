@@ -17,6 +17,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors())
 
+// Configure ejs
+app.set('views', './views');
+app.set('view engine', 'ejs');
 
 app.listen(PORT, () => {
  mountRoutes.init();
