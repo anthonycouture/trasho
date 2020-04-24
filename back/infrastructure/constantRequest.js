@@ -25,6 +25,9 @@ module.exports = {
 
   GET_ALL_USERS : 'SELECT * FROM utilisateur',
   INSERT_USER : 'INSERT INTO utilisateur(mail, password, flag_admin, token, date_expire, experience, actif) '+
-    'VALUES ($1, $2, false, null, null, 0, false) returning *',
+    'VALUES ($1, $2, false, $3, current_date + interval \'1 month\', 0, false) returning *',
+  GET_USER_BY_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1',
+  GET_USER_BY_UNEXPRIRED_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1 and now() < date_expire',
+  BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *', 
 
 };

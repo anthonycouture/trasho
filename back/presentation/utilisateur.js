@@ -6,6 +6,7 @@ const domain = imp.domain();
 const cst = imp.cst();
 const property = imp.prop();
 const sendConfirmMail = imp.sendConfirmMail();
+const uuid = imp.uuid();
 
 const router = new Router();
 
@@ -21,8 +22,9 @@ router.get('/',async (req,res) => {
 
 router.post('/', async (req, res) => {
   const {mail, password} = req.body;
-  sendConfirmMail.sendMail(mail, null).then(async () => {
-    await domain.insertUser([mail, password]).then((newRow) => {
+  const token = uuid.v4();
+  sendConfirmMail.sendMail(mail, token).then(async () => {
+    await domain.insertUser([mail, password, token]).then((newRow) => {
       res.status(201).json(newRow);
     }).catch((error) => {
       console.error(error);
@@ -42,8 +44,33 @@ router.get('/confirmMail/:token', async (req, res) => {
   });
 });
 
+router.get('/token/:token', async (req, res) => {
+  const {token} = req.params;
+  await domain.findUserByToken(token).then((user) => {
+    res.status(200).json(user);
+  }).catch((err) => {
+    console.error(err);
+    res.status(500);
+  });
+});
+
+router.get('/noExpiredToken/:token', async (req, res) => {
+  const {token} = req.params;
+  await domain.checkExpiredToken(token).then((user) => {
+    res.status(200).json(user);
+  }).catch((err) => {
+    console.error(err);
+    res.status(500);
+  });
+});
+
+
 router.post('/validMail/:token', async (req, res) => {
   const {token} = req.params;
-  console.log(token);
-  res.status(200);
+  await domain.becomeActif(token).then((user) => {
+    res.status(200).json(user);
+  }).catch((err) => {
+    console.error(err);
+    res.status(500);
+  });
 });

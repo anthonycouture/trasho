@@ -8,9 +8,11 @@ module.exports = {
   bodyParser : () => require("body-parser"),
   router : () => require('express-promise-router'),
   nodemailer: () => require('nodemailer'),
+  uuid : () => require("uuid"),
 
   prop : () => require('./utils/propertyReader'),
   cst   : () => require('./utils/constantes'),
+  sendConfirmMail: () => require('./utils/sendConfirmMail'),
 
   route : () => require('./presentation'),
   routePoubelle : () => require('./presentation/poubelle'),
@@ -25,6 +27,4 @@ module.exports = {
   utilisateur : () => require('./domain/utilisateur'),
   signalement : () => require('./domain/signalement'),
   jsonable : () => require('./domain/JSONable'),
-
-  sendConfirmMail: () => require('./utils/sendConfirmMail'),
 }

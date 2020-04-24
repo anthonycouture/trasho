@@ -2,6 +2,7 @@ const imp = require('../import.js');
 const nodemailer = imp.nodemailer();
 const fs = imp.fs();
 const cst = imp.cst();
+const property = imp.prop();
 const mailProperties = JSON.parse(fs.readFileSync(cst.PATH_CONF_MAIL));
 
 async function sendMail(mail, token){
@@ -12,14 +13,17 @@ async function sendMail(mail, token){
             user: mailProperties.email_adress,
             pass: mailProperties.email_password
         }
-   });
+    });
+
+    const url_to_confirm = cst.URL + property.url_utilisateur + "/confirmMail/" + token;
 
     let info = await transporter.sendMail({
         from: '"Trasho" <'+ mailProperties.email_adress+ '>',
         to: mail,
-        subject: "Bienvenue chez Trasho - Confirmez votre adresse mail",
-        text: "Hello new world", // plain text body
-        html: "<b>Hello new world</b>" // html body
+        subject: "Trasho - Confirmez votre adresse mail",
+        text: "Bienvenue chez Trasho - Cliquez votre email ici : " + url_to_confirm, // plain text body
+        html: "<h1>Bienvenue chez Trasho</h1><br/>"+
+            "Confirmez votre mail en suivant <a href=" + url_to_confirm +">ce lien</a>" // html body
     });
 
     console.log("Message sent: %s", info.messageId);
