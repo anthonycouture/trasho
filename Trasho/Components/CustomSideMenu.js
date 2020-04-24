@@ -17,7 +17,18 @@ import Globals from '../Globals';
 export default class CustomSideMenu extends Component {
 
     state = {
-        currentPage: ''
+        currentPage: '',
+        reload: false
+    }
+
+    constructor(props) {
+        super(props)
+    }
+
+    UNSAFE_componentWillReceiveProps({ goal }) {
+        this.setState(prevState => ({
+            reload: !prevState.reload
+        }));
     }
 
     async componentDidMount() {
@@ -103,17 +114,6 @@ export default class CustomSideMenu extends Component {
                         <Text style={[styles.menuText, this.getStylePage('Admin')]} onPress={() => { this.props.navigation.navigate('Admin'), this.setState({ currentPage: 'Admin' }); }} > Admin </Text>
 
                     </View>}
-
-                    {Globals.connected && <View style={[styles.onglet, this.getBackground('Deconnexion')]}>
-
-                        <Icon name='md-log-out' style={[styles.sideMenuIcon, this.getStylePage('Deconnexion')]} />
-
-                        <Text style={[styles.menuText, this.getStylePage('Deconnexion')]} onPress={() => { this.props.navigation.navigate('Deconnexion'), this.setState({ currentPage: 'Deconnexion' }); }} > Déconnexion </Text>
-
-                    </View>}
-
-
-
 
                 </View>
 
