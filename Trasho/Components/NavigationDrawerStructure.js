@@ -10,6 +10,7 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
+import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
@@ -167,6 +168,20 @@ const admin_StackNavigator = createStackNavigator({
     },
 });
 
+const listeUtilisateurs_StackNavigator = createStackNavigator({
+    Third: {
+        screen: ListeUtilisateurs,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Liste Utilisateurs',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
 
 const DrawerNavigator = createDrawerNavigator({
     Map: {
@@ -207,6 +222,12 @@ const DrawerNavigator = createDrawerNavigator({
     },
     Admin: {
         screen: admin_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Admin'
+        }
+    },
+    ListeUtilisateurs: {
+        screen: listeUtilisateurs_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Admin'
         }

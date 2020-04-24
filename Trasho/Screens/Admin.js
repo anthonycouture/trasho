@@ -18,7 +18,7 @@ export default class Admin extends Component {
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent
                                 onPress={
-                                    () => alert('Liste utilisateurs')
+                                    () => this.props.navigation.navigate('ListeUtilisateurs')
                                 }>
                                 <Icon name={'person'} style={styles.black} />
                                 <Text style={styles.black}>Liste utilisateurs</Text>
