@@ -6,6 +6,14 @@ import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class Utilisateur extends Component {
     state = { switchValue: false, dialogVisible: false, email: 'lucas.laloux3011@gmail.com' }
+
+    async componentDidMount() {
+        //console.log(useNavigationParam('email'));
+
+        //console.log(this.props.navigation.state.params.mail);
+        console.log(this.props.navigation.getParam());
+    }
+
     toggleSwitch = (value) => {
         //onValueChange of the switch this function will be called
         this.setState({ switchValue: value })
@@ -27,15 +35,16 @@ export default class Utilisateur extends Component {
                         style={styles.logo}
                     />
 
-                    <Text style={{marginLeft: 'auto',  marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Email</Text>
-                    <Text style={{marginLeft: 'auto',  marginRight: 'auto', marginTop: 15  }}>{this.state.email}</Text>
+                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Email</Text>
+                    
+                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.state.email}</Text>
 
-                        <Text style={{marginLeft: 'auto',  marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Admin</Text>
-                        <Switch
-                            style={{ marginTop: 15, marginLeft: 'auto', marginRight: 'auto' }}
-                            onValueChange={this.toggleSwitch}
-                            value={this.state.switchValue}
-                        />
+                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Admin</Text>
+                    <Switch
+                        style={{ marginTop: 15, marginLeft: 'auto', marginRight: 'auto' }}
+                        onValueChange={this.toggleSwitch}
+                        value={this.state.switchValue}
+                    />
 
                     <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>

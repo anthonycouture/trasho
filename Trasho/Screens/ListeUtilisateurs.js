@@ -6,6 +6,11 @@ import GLOBAL from '../Globals';
 
 export default class ListeUtilisateurs extends Component {
 
+    constructor(props) {
+        //constructor to set default state
+        super(props);
+      }
+
     state = {
         dialogVisible: false,
         listeUtilisateurs: []
@@ -48,25 +53,21 @@ export default class ListeUtilisateurs extends Component {
         }
     }
 
+    navigatePageUser(email) {
+        console.log("emmmmmmmmmmmmmmmmmmmmmmail : " + email);
+        this.props.navigation.navigate('Utilisateur', {}, {mail: email});
+    }
+
     render() {
         return (
             <Container>
                 <Content>
                     <List>
-                        <ListItem>
-                            <Button transparent
-                                onPress={
-                                    () => this.props.navigation.navigate('Utilisateur')
-                                }>
-                                <Icon name={'person'} style={styles.black} />
-                                <Text style={styles.black}>Nathaniel Clyne</Text>
-                            </Button>
-                        </ListItem>
                         {this.state.listeUtilisateurs.map((item, key) => (
-                            <ListItem>
+                            <ListItem key={key}>
                                 <Button transparent
                                     onPress={
-                                        () => this.props.navigation.navigate('Utilisateur')
+                                        () => this.navigatePageUser(item)
                                     }>
                                     <Icon name={'person'} style={styles.black} />
                                     <Text style={styles.black}>{item}</Text>
