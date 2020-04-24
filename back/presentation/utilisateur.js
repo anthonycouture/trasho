@@ -74,3 +74,25 @@ router.post('/validMail/:token', async (req, res) => {
     res.status(500);
   });
 });
+
+router.post('/newToken/:token', async (req, res) => {
+  const {token} = req.params;
+  await domain.findUserByToken(token).then((user) => {
+    const newToken = uuid.v4();
+    const email = Object.keys(user)[0];
+    sendConfirmMail.sendMail(email, newToken).then(async () => {
+      await domain.generateNewToken([newToken, token]).then((newRow) => {
+        res.status(200).json(newRow);
+      }).catch((err) => {
+        console.error(err);
+        res.status(500);
+      });
+    }).catch((err) => {
+      console.error(err);
+      res.status(500);
+    });
+  }).catch((err) => {
+    console.error(err);
+    res.status(500);
+  });
+})

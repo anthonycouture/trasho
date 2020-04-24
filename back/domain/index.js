@@ -100,6 +100,16 @@ module.exports.becomeActif = async (token) => {
   return res;
 }
 
+module.exports.generateNewToken = async(dataNewToken) => {
+  let res = await transaction(qry.NEW_TOKEN, dataNewToken).then((resp) => {
+    return resp.rows[0];
+  }).catch((err) =>{
+    console.error(err);
+    res = "failed";
+  });
+  return res;
+}
+
 function transaction(requete,donnees_colonnes) {
   let retour = true;
   try {

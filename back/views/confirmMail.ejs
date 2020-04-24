@@ -1,7 +1,8 @@
 <%- include('header', {title: 'Trasho - Confirmation mail'})%>
     <style>
         body{
-            background-color: #93d12e;
+            background-color: #95D47A;
+            color: #373737;
         }
         #all{
             text-align: center;
@@ -10,6 +11,16 @@
         h1{
             margin-top: 0;
         }
+        #explain{
+            margin-bottom: 0;
+        }
+        #newMail{
+            background-color: #00B0B2;
+            padding: 15px 30px;
+            border-radius: 4px;
+            border: none;
+            color: white;
+        }
     </style>
 </head 
 
@@ -17,15 +28,22 @@
     <div id="all">
         <img alt="Trasho Logo" src="https://i.ibb.co/WGzKX8k/logo-Convert-Image.png" id="logo"/>
         <h1>Bienvenue chez Trasho</h1> 
-        <p id="text">Vérification de votre inscription...</p>
+        <div id="text">Vérification de votre inscription...</div>
     </div>
 
     <script>
+        function newMail(){
+            var newToken = new XMLHttpRequest();
+            newToken.open("POST", JSON.parse('<%- api_user %>') + "/newToken/" + JSON.parse('<%- token %>'));
+            newToken.send(null);
+            text.innerHTML="Un nouveau mail de confirmation vous a été envoyé sur votre adresse mail !"
+        }
+
         const text = document.querySelector("#text");
         var checkToken = new XMLHttpRequest();
         checkToken.open("GET", JSON.parse('<%- api_user %>') + "/token/" + JSON.parse('<%- token %>'), false);
         checkToken.send(null);
-        if(checkToken.responseText == ""){
+        if(checkToken.responseText == "{}"){
             text.innerHTML = "Votre compte n'existe pas.";
             throw 'Votre compte n\'existe pas.';
         }
@@ -33,14 +51,14 @@
         var noExpiredToken = new XMLHttpRequest();
         noExpiredToken.open("GET", JSON.parse('<%- api_user %>') + "/noExpiredToken/" + JSON.parse('<%- token %>'), false);
         noExpiredToken.send(null);
-        if(checkToken.responseText == ""){
-            text.innerHTML = "Votre compte est expiré";
-            throw 'Votre compte est expiré';
+        if(noExpiredToken.responseText == "{}"){
+            text.innerHTML = "<p id=\"explain\">Vous avez dépassé le délai pour la confirmation d'une adresse email.</p><br/>" + 
+                "<button id=\"newMail\" onclick=\"newMail()\">Redemander un mail de confirmation</button>";
+        } else {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", JSON.parse('<%- api_user %>') + "/validMail/" + JSON.parse('<%- token %>'), true);
+            xmlHttp.send(null);
+            document.getElementById("text").innerHTML = "Votre mail est bien confirmé !";
         }
-
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.open("POST", JSON.parse('<%- api_user %>') + "/validMail/" + JSON.parse('<%- token %>'), true);
-        xmlHttp.send(null);
-        document.getElementById("text").innerHTML = "Votre mail est bien confirmé !";
     </script>
 </body>
