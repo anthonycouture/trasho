@@ -7,11 +7,12 @@ import GLOBAL from '../Globals';
 export default class ListeUtilisateurs extends Component {
 
     state = {
-        dialogVisible: false
+        dialogVisible: false,
+        listeUtilisateurs: []
     }
 
     async componentDidMount() {
-this.getAllUsers();
+        this.getAllUsers();
     }
 
     changeDialogState() {
@@ -24,16 +25,28 @@ this.getAllUsers();
     async getAllUsers() {
         const url = GLOBAL.BASE_URL + '/api/user/users';
         const response = await fetch(url).catch(function (error) {
-          console.log('There has been a problem with your fetch operation: ' + error.message);
+            console.log('There has been a problem with your fetch operation: ' + error.message);
         });
         const res = await response.json();
         if (response.status == 400) {
-          alert('Problème de récupération des données');
+            alert('Problème de récupération des données');
         }
         else if (response.status == 200) {
-          console.log(res);
+            console.log(res);
+
+            const utilisateurs = []
+            let utilisateur = res.utilisateur;
+
+            for (let key in utilisateur) {
+                utilisateurs.push(utilisateur[key].mail
+                )
+                console.log(key);
+            }
+            //this.state.listeUtilisateurs = utilisateurs;
+            this.setState({ listeUtilisateurs: utilisateurs });
+            console.log(utilisateurs[0]);
         }
-      }
+    }
 
     render() {
         return (
@@ -41,7 +54,7 @@ this.getAllUsers();
                 <Content>
                     <List>
                         <ListItem>
-                        <Button transparent
+                            <Button transparent
                                 onPress={
                                     () => this.props.navigation.navigate('Utilisateur')
                                 }>
@@ -49,57 +62,18 @@ this.getAllUsers();
                                 <Text style={styles.black}>Nathaniel Clyne</Text>
                             </Button>
                         </ListItem>
-                        <ListItem>
-                            <Text>Nathaniel Clyne</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
-                        <ListItem>
-                            <Text>Dejan Lovren</Text>
-                        </ListItem>
+                        {this.state.listeUtilisateurs.map((item, key) => (
+                            <ListItem>
+                                <Button transparent
+                                    onPress={
+                                        () => this.props.navigation.navigate('Utilisateur')
+                                    }>
+                                    <Icon name={'person'} style={styles.black} />
+                                    <Text style={styles.black}>{item}</Text>
+                                </Button>
+                            </ListItem>
+                        ))}
+
                     </List>
                     <ConfirmDialog
                         title="Confirmation"
