@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
+import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -10,18 +10,45 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
+import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
-
+import Globals from '../Globals';
 
 class NavigationDrawerStructure extends Component {
+
+    state = {
+        reload: false
+    }
 
     async componentDidMount() {
         await Expo.Font.loadAsync({
             'Roboto_medium': require('../assets/fonts/Roboto-Medium.ttf'),
         });
+        await this._retrieveData();
+        //await AsyncStorage.clear();
     }
 
+    _retrieveData = async () => {
+        try {
+            const admin = await AsyncStorage.getItem('ADMIN');
+            const connected = await AsyncStorage.getItem('CONNECTED');
+
+            if (admin !== null) {
+                Globals.admin = admin;
+            }
+
+            if (connected !== null) {
+                Globals.connected = connected;
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     toggleDrawer = () => {
+        this.setState(prevState => ({
+            reload: !prevState.reload
+        }));
         this.props.navigationProps.toggleDrawer();
     };
 
@@ -38,17 +65,6 @@ class NavigationDrawerStructure extends Component {
         );
     }
 }
-
-const CustomDrawerComponent = (props) => (
-    <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ height: 150, backgroundColor: 'white', alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={require('../Images/logo.png')} style={{ height: 120, width: 120, marginTop: 50 }} />
-        </View>
-        <ScrollView>
-            <DrawerItems {...props} />
-        </ScrollView>
-    </SafeAreaView>
-);
 
 const map_StackNavigator = createStackNavigator({
     First: {
@@ -151,6 +167,7 @@ const admin_StackNavigator = createStackNavigator({
     },
 });
 
+
 const DrawerNavigator = createDrawerNavigator({
     Map: {
         screen: map_StackNavigator,
@@ -196,7 +213,7 @@ const DrawerNavigator = createDrawerNavigator({
     }
 },
     {
-        contentComponent: CustomDrawerComponent,
+        contentComponent: CustomSideMenu,
         contentOptions: {
             activeTintColor: 'green'
         }

@@ -1,11 +1,15 @@
-//This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
-//import react in our code.
-import { StyleSheet, View } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
-// import all basic components
+
+import { StyleSheet, View, Text, AsyncStorage } from 'react-native';
 
 export default class Admin extends Component {
+
+    async componentDidMount() {
+        console.log("componentDidMount");
+        await AsyncStorage.clear();
+    }
+
     render() {
         return (
             <Container>

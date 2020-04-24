@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
-export default class Itineraire extends Component {
+export default class ListeUtilisateurs extends Component {
     render() {
         return (
             <View style={styles.MainContainer}>
-                <Text style={{ fontSize: 23 }}> Itineraire </Text>
+                <Text style={{ fontSize: 23 }}> Liste utilisateurs </Text>
             </View>
         );
     }
