@@ -101,7 +101,8 @@ class Connexion extends Component {
     try {
       let adm = 'false';
       await AsyncStorage.setItem('EMAIL', this.state.email);
-      const admin = res['user']['undefined']['flag_admin'];
+      console.log(res);
+      const admin = res['user'][this.state.email]['flag_admin'];
       if (admin == true) {
         adm = 'true';
       }
@@ -126,7 +127,8 @@ class Connexion extends Component {
       await this._storeData(res);
       this.setState({ connected: res.resp });
       Globals.connexion = true
-      Globals.admin = res['user']['undefined']['flag_admin'];
+      console.log(res);
+      Globals.admin = res['user'][this.state.email]['flag_admin'];
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }

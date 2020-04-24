@@ -22,7 +22,7 @@ router.get('/:mail/:password', async (req, res) => {
   let ret = false;
   let taille = Object.keys(row['utilisateur']).length;
   if (taille > 0) {
-    if (password === row['utilisateur']['undefined'].password) {
+    if (password === row['utilisateur'][mail].password) {
       ret = true;
       res
         .status(200)
