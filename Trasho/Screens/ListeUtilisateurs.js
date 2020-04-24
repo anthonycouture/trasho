@@ -23,7 +23,7 @@ export default class ListeUtilisateurs extends Component {
                         <ListItem>
                         <Button transparent
                                 onPress={
-                                    () => this.changeDialogState()
+                                    () => this.props.navigation.navigate('Utilisateur')
                                 }>
                                 <Icon name={'person'} style={styles.black} />
                                 <Text style={styles.black}>Nathaniel Clyne</Text>

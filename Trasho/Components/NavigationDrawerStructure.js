@@ -11,6 +11,7 @@ import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
 import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
+import Utilisateur from '../Screens/Utilisateur';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
@@ -182,6 +183,20 @@ const listeUtilisateurs_StackNavigator = createStackNavigator({
     },
 });
 
+const utilisateur_StackNavigator = createStackNavigator({
+    Third: {
+        screen: Utilisateur,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Utilisateur',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    },
+});
+
 
 const DrawerNavigator = createDrawerNavigator({
     Map: {
@@ -230,6 +245,12 @@ const DrawerNavigator = createDrawerNavigator({
         screen: listeUtilisateurs_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Admin'
+        }
+    },
+    Utilisateur: {
+        screen: utilisateur_StackNavigator,
+        navigationOptions: {
+            drawerLabel: 'Utilisateur'
         }
     }
 },
