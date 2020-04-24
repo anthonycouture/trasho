@@ -13,6 +13,8 @@ const GET_TYPE_POUBELLES_BY_ID_POUBELLE = 'select type from type_poubelle t NATU
 
 const GET_USER_BY_EMAIL = 'select * from utilisateur where mail = $1';
 
+const GET_ALL_USERS = 'select * from utilisateur where flag_admin = false';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -22,6 +24,7 @@ module.exports = {
 
   GET_TYPE_POUBELLES_BY_ID_POUBELLE,
   GET_USER_BY_EMAIL,
+  GET_ALL_USERS,
 
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3) returning id_poubelle',
   INSERT_TYPE_POUBELLE : ' INSERT INTO poubelle_type_poubelle(id_poubelle, id_type_poubelle) '+

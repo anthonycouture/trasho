@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Header, Content, List, ListItem, Text, Button, Icon } from 'native-base';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
+import GLOBAL from '../Globals';
 
 export default class ListeUtilisateurs extends Component {
 
@@ -9,11 +10,30 @@ export default class ListeUtilisateurs extends Component {
         dialogVisible: false
     }
 
+    async componentDidMount() {
+this.getAllUsers();
+    }
+
     changeDialogState() {
         this.setState(prevState => ({
             dialogVisible: !prevState.dialogVisible
         }));
     }
+
+
+    async getAllUsers() {
+        const url = GLOBAL.BASE_URL + '/api/user/users';
+        const response = await fetch(url).catch(function (error) {
+          console.log('There has been a problem with your fetch operation: ' + error.message);
+        });
+        const res = await response.json();
+        if (response.status == 400) {
+          alert('Problème de récupération des données');
+        }
+        else if (response.status == 200) {
+          console.log(res);
+        }
+      }
 
     render() {
         return (
