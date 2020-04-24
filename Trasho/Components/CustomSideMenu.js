@@ -107,7 +107,7 @@ export default class CustomSideMenu extends Component {
                     </View>
                     }
 
-                    {Globals.admin == true && <View style={[styles.onglet, this.getBackground('Admin')]}>
+                    {Globals.admin && <View style={[styles.onglet, this.getBackground('Admin')]}>
 
                         <Icon name='md-settings' style={[styles.sideMenuIcon, this.getStylePage('Admin')]} />
 

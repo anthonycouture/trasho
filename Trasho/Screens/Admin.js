@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
 
-import { StyleSheet, View, Text, AsyncStorage } from 'react-native';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 
 export default class Admin extends Component {
 
