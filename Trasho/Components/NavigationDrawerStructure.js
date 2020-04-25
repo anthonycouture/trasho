@@ -69,7 +69,7 @@ class NavigationDrawerStructure extends Component {
 }
 
 const map_StackNavigator = createStackNavigator({
-    First: {
+    Map: {
         screen: Map,
         navigationOptions: ({ navigation }) => ({
             title: 'Map',
@@ -83,7 +83,7 @@ const map_StackNavigator = createStackNavigator({
 });
 
 const Connexion_StackNavigator = createStackNavigator({
-    Second: {
+    Connexion: {
         screen: Connexion,
         navigationOptions: ({ navigation }) => ({
             title: 'Connexion',
@@ -97,7 +97,7 @@ const Connexion_StackNavigator = createStackNavigator({
 });
 
 const inscription_StackNavigator = createStackNavigator({
-    Third: {
+    Inscription: {
         screen: Inscription,
         navigationOptions: ({ navigation }) => ({
             title: 'Inscription',
@@ -111,7 +111,7 @@ const inscription_StackNavigator = createStackNavigator({
 });
 
 const itineraire_StackNavigator = createStackNavigator({
-    Third: {
+    Itineraire: {
         screen: Itineraire,
         navigationOptions: ({ navigation }) => ({
             tabBarIcon:
@@ -128,7 +128,7 @@ const itineraire_StackNavigator = createStackNavigator({
 });
 
 const monCompte_StackNavigator = createStackNavigator({
-    Third: {
+    MonCompte: {
         screen: MonCompte,
         navigationOptions: ({ navigation }) => ({
             title: 'Mon compte',
@@ -142,7 +142,7 @@ const monCompte_StackNavigator = createStackNavigator({
 });
 
 const ajouterPoubelle_StackNavigator = createStackNavigator({
-    Third: {
+    AjouterPoubelle: {
         screen: AjouterPoubelle,
         navigationOptions: ({ navigation }) => ({
             title: 'Ajouter poubelle',
@@ -156,7 +156,7 @@ const ajouterPoubelle_StackNavigator = createStackNavigator({
 });
 
 const admin_StackNavigator = createStackNavigator({
-    Third: {
+    Admin: {
         screen: Admin,
         navigationOptions: ({ navigation }) => ({
             title: 'Admin',
@@ -170,7 +170,7 @@ const admin_StackNavigator = createStackNavigator({
 });
 
 const listeUtilisateurs_StackNavigator = createStackNavigator({
-    Third: {
+    ListeUtilisateurs: {
         screen: ListeUtilisateurs,
         navigationOptions: ({ navigation }) => ({
             title: 'Liste Utilisateurs',
@@ -184,7 +184,7 @@ const listeUtilisateurs_StackNavigator = createStackNavigator({
 });
 
 const utilisateur_StackNavigator = createStackNavigator({
-    Third: {
+    Utilisateur: {
         screen: Utilisateur,
         navigationOptions: ({ navigation }) => ({
             title: 'Utilisateur',
