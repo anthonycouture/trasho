@@ -11,7 +11,7 @@ export default class Utilisateur extends Component {
         //console.log(useNavigationParam('email'));
 
         //console.log(this.props.navigation.state.params.mail);
-        console.log(this.props.navigation.getParam());
+        console.log("Parametre : "+this.props.navigation.getParam("mail"));
     }
 
     toggleSwitch = (value) => {
@@ -27,6 +27,7 @@ export default class Utilisateur extends Component {
     }
 
     render() {
+        console.log("Parametre1 : "+this.props.navigation.getParam("mail"));
         return (
             <Container>
                 <Content>

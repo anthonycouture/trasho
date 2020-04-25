@@ -55,7 +55,7 @@ export default class ListeUtilisateurs extends Component {
 
     navigatePageUser(email) {
         console.log("emmmmmmmmmmmmmmmmmmmmmmail : " + email);
-        this.props.navigation.navigate('Utilisateur', {}, {mail: email});
+        this.props.navigation.navigate('Utilisateur', {mail: email});
     }
 
     render() {

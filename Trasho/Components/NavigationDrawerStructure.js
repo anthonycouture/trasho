@@ -68,187 +68,57 @@ class NavigationDrawerStructure extends Component {
     }
 }
 
-const map_StackNavigator = createStackNavigator({
-    Map: {
-        screen: Map,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Map',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const Connexion_StackNavigator = createStackNavigator({
-    Connexion: {
-        screen: Connexion,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Connexion',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const inscription_StackNavigator = createStackNavigator({
-    Inscription: {
-        screen: Inscription,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Inscription',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const itineraire_StackNavigator = createStackNavigator({
-    Itineraire: {
-        screen: Itineraire,
-        navigationOptions: ({ navigation }) => ({
-            tabBarIcon:
-                <Icon name="ios-bookmarks" size={20} />
-            ,
-            title: 'Itineraire',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const monCompte_StackNavigator = createStackNavigator({
-    MonCompte: {
-        screen: MonCompte,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Mon compte',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const ajouterPoubelle_StackNavigator = createStackNavigator({
-    AjouterPoubelle: {
-        screen: AjouterPoubelle,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Ajouter poubelle',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const admin_StackNavigator = createStackNavigator({
-    Admin: {
-        screen: Admin,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Admin',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const listeUtilisateurs_StackNavigator = createStackNavigator({
-    ListeUtilisateurs: {
-        screen: ListeUtilisateurs,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Liste Utilisateurs',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-const utilisateur_StackNavigator = createStackNavigator({
-    Utilisateur: {
-        screen: Utilisateur,
-        navigationOptions: ({ navigation }) => ({
-            title: 'Utilisateur',
-            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-                backgroundColor: '#74992e',
-            },
-            headerTintColor: '#fff',
-        }),
-    },
-});
-
-
 const DrawerNavigator = createDrawerNavigator({
     Map: {
-        screen: map_StackNavigator,
+        screen: Map,
         navigationOptions: {
             drawerLabel: 'Map',
         },
     },
     Connexion: {
-        screen: Connexion_StackNavigator,
+        screen: Connexion,
         navigationOptions: {
             drawerLabel: 'Connexion',
         },
     },
     Inscription: {
-        screen: inscription_StackNavigator,
+        screen: Inscription,
         navigationOptions: {
             drawerLabel: 'Inscription'
         },
     },
     Itineraire: {
-        screen: itineraire_StackNavigator,
+        screen: Itineraire,
         navigationOptions: {
             drawerLabel: 'Itineraire'
         }
     },
     MonCompte: {
-        screen: monCompte_StackNavigator,
+        screen: MonCompte,
         navigationOptions: {
             drawerLabel: 'Mon compte'
         }
     },
     AjouterPoubelle: {
-        screen: ajouterPoubelle_StackNavigator,
+        screen: AjouterPoubelle,
         navigationOptions: {
             drawerLabel: 'Ajouter poubelle'
         }
     },
     Admin: {
-        screen: admin_StackNavigator,
+        screen: Admin,
         navigationOptions: {
             drawerLabel: 'Admin'
         }
     },
     ListeUtilisateurs: {
-        screen: listeUtilisateurs_StackNavigator,
+        screen: ListeUtilisateurs,
         navigationOptions: {
             drawerLabel: 'Admin'
         }
     },
     Utilisateur: {
-        screen: utilisateur_StackNavigator,
+        screen: Utilisateur,
         navigationOptions: {
             drawerLabel: 'Utilisateur'
         }
@@ -262,4 +132,18 @@ const DrawerNavigator = createDrawerNavigator({
     }
 );
 
-export default createAppContainer(DrawerNavigator);
+const StackNavigator = createStackNavigator({
+    DrawerNavigator:{
+        screen: DrawerNavigator,
+        navigationOptions: ({ navigation }) => ({
+            title: 'Map',
+            headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
+            headerStyle: {
+                backgroundColor: '#74992e',
+            },
+            headerTintColor: '#fff',
+        }),
+    }
+});
+
+export default createAppContainer(StackNavigator);
