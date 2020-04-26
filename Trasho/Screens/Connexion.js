@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image, Alert } from 'react-native';
+import { StyleSheet, View, Image, Alert, AsyncStorage } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import {
   StackNavigator,
@@ -8,6 +8,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
+import GLOBAL from '../Globals';
 
 class Connexion extends Component {
 
@@ -16,7 +17,8 @@ class Connexion extends Component {
     password: '',
     isEmail: false,
     showPassword: false,
-    icon: "eye-off"
+    icon: "eye-off",
+    connected: false
   }
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -30,14 +32,18 @@ class Connexion extends Component {
   }
 
   login = (email, pass) => {
-    alert('email: ' + email + ' password: ' + pass)
+    //alert('email: ' + email + ' password: ' + pass);
     this.checkEmailButtonTyped();
     this.checkPasswordButtonTyped();
+    this.connexion();
   }
 
   navigatePageInscription() {
     this.props.navigation.navigate('Inscription');
+  }
 
+  navigatPageMap() {
+    this.props.navigation.navigate('Map');
   }
 
   checkEmailButtonTyped() {
@@ -57,6 +63,25 @@ class Connexion extends Component {
       icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
       showPassword: !prevState.showPassword
     }));
+  }
+
+  async connexion() {
+    const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
+    const response = await fetch(url).catch(function(error) {
+      console.log('There has been a problem with your fetch operation: ' + error.message);
+    });
+    const res = await response.json();
+    if(response.status == 400) {
+      alert('Combinaison email et mot de passe invalide');
+    }
+    else {
+      this.setState({ connected: res.resp })
+      alert('Connexion réussie !');
+      AsyncStorage.multiSet([
+        ["email", this.state.email]
+      ]);
+      this.navigatPageMap();
+    }
   }
 
   render() {

@@ -3,6 +3,7 @@ import { StyleSheet, Image, View } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 import Toast from 'react-native-simple-toast';
+import { Root } from "native-base";
 
 export default class Inscription extends Component {
 
@@ -17,8 +18,6 @@ export default class Inscription extends Component {
     hideConfirmPassword: true,
     isEmail: false
   }
-
-  regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   _handleEmail = (text) => {
     this.setState({ email: text, isEmail: this.regexEmail.test(text) });

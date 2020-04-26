@@ -10,7 +10,6 @@ import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
-import { Font, AppLoading } from 'expo';
 import { Icon } from 'native-base';
 
 
@@ -65,7 +64,7 @@ const map_StackNavigator = createStackNavigator({
     },
 });
 
-const Screen2_StackNavigator = createStackNavigator({
+const Connexion_StackNavigator = createStackNavigator({
     Second: {
         screen: Connexion,
         navigationOptions: ({ navigation }) => ({
@@ -79,7 +78,7 @@ const Screen2_StackNavigator = createStackNavigator({
     },
 });
 
-const Screen3_StackNavigator = createStackNavigator({
+const inscription_StackNavigator = createStackNavigator({
     Third: {
         screen: Inscription,
         navigationOptions: ({ navigation }) => ({
@@ -160,13 +159,13 @@ const DrawerNavigator = createDrawerNavigator({
         },
     },
     Connexion: {
-        screen: Screen2_StackNavigator,
+        screen: Connexion_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Connexion',
         },
     },
     Inscription: {
-        screen: Screen3_StackNavigator,
+        screen: inscription_StackNavigator,
         navigationOptions: {
             drawerLabel: 'Inscription'
         },

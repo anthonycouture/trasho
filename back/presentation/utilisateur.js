@@ -95,4 +95,26 @@ router.post('/newToken/:token', async (req, res) => {
     console.error(err);
     res.status(500);
   });
-})
+});
+
+router.get('/:mail/:password',async (req,res) => {
+  const { mail, password } = req.params;
+  let row = await domain.userByMail(mail);
+  let ret = false;
+  let taille = Object.keys(row['utilisateur'] ).length;
+  if(taille > 0) {
+    if(password === row['utilisateur']['undefined'].password) {
+      ret = true;
+      res
+        .status(200)
+        .json({ "resp": ret });
+    }
+  }
+  else {
+    res
+      .status(400)
+      .json({})
+  }
+
+
+});
