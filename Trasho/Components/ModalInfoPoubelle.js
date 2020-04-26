@@ -8,7 +8,8 @@ export default class ModalInfoPoubelle extends React.Component {
         super(props)
         this.state = {
             idPoubelle: this.props.idPoubelle,
-            typePoubelle: null
+            typePoubelle: null,
+            photo: '',
         }
     }
 
@@ -16,8 +17,13 @@ export default class ModalInfoPoubelle extends React.Component {
         this.setState({ typePoubelle: type });
     }
 
+    setPhoto(photoUrl) {
+        this.setState({ photo: photoUrl });
+    }
+
     componentDidMount() {
         this.getTypePoubelleAsync();
+        this.getPhotoPoubelle();
     }
 
 
@@ -26,22 +32,37 @@ export default class ModalInfoPoubelle extends React.Component {
         const response = await fetch(url)
         const json = await response.json()
         this.setTypePoubelle(
-            <View>
-                <Text>Type de la poubelle : </Text>
-                {json.map(item => (
-                    <Text>{item}</Text>
-                ))}
-            </View>
+            json.map(item => (
+                <Text>- {item}</Text>
+            ))
         );
     }
+
+    async getPhotoPoubelle() {
+        const url = GLOBAL.BASE_URL + '/api/trash/url/' + this.state.idPoubelle
+        const response = await fetch(url)
+        const json = await response.json()
+        const base64Icon = json;
+        this.setPhoto(
+            base64Icon
+        );
+    }
+
 
     render() {
         return (
             <View>
+                <Text>Type de la poubelle : </Text>
                 {this.state.typePoubelle}
-                <Image
-                    source={require('./../Images/drawer.png')}
-                />
+                <View style={{
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <Image
+                        source={{ uri: this.state.photo }}
+                        style={{ width: 100, height: 120, alignItems: 'center' }}
+                    />
+                </View>
             </View>
         )
     }

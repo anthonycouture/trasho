@@ -51,6 +51,15 @@ module.exports.getTypePoubellesByIdPoubelle = async (id_poubelle) => {
   return res;
 }
 
+module.exports.getUrlPoubelleByIdPoubelle = async (id_poubelle) => {
+  let res = await con.select(
+    qry.GET_URL_POUBELLE,
+    (rows) => (Poubelle.loadList(rows)),
+    [id_poubelle]
+  );
+  return res;
+}
+
 module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
   let res = await transaction(qry.INSERT_POUBELLE,dataPoubelle)
             .then((resp) => {

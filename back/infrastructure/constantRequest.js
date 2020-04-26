@@ -15,6 +15,8 @@ const GET_USER_BY_EMAIL = 'select * from utilisateur where mail = $1';
 
 const GET_ALL_USERS = 'select * from utilisateur where flag_admin = false';
 
+const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -25,6 +27,8 @@ module.exports = {
   GET_TYPE_POUBELLES_BY_ID_POUBELLE,
   GET_USER_BY_EMAIL,
   GET_ALL_USERS,
+
+  GET_URL_POUBELLE,
 
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3) returning id_poubelle',
   INSERT_TYPE_POUBELLE : ' INSERT INTO poubelle_type_poubelle(id_poubelle, id_type_poubelle) '+
@@ -39,6 +43,6 @@ module.exports = {
   GET_USER_BY_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1',
   GET_USER_BY_UNEXPRIRED_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1 and now() < date_expire',
   NEW_TOKEN : 'UPDATE utilisateur SET token = $1, date_expire = current_date + interval \'1 month\' WHERE token = $2 returning *',
-  BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *', 
+  BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *',
 
 };
