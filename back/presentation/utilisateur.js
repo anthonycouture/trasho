@@ -97,6 +97,16 @@ router.post('/newToken/:token', async (req, res) => {
   });
 });
 
+router.get('/email/:mail', async (req, res) => {
+  const {mail} = req.params;
+  await domain.userByMail(mail).then((rows) => {
+    res.status(200).json(rows);
+  }).catch((err) => {
+    res.status(500);
+  });
+});
+
+
 router.get('/:mail/:password', async (req, res) => {
   const { mail, password } = req.params;
   let row = await domain.userByMail(mail);
@@ -119,6 +129,7 @@ router.get('/:mail/:password', async (req, res) => {
       .json({})
   }
 });
+
 
 router.get('/users', async (req, res) => {
   let rows = await domain.users();

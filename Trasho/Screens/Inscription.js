@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, View } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Icon, Button, Text } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Icon, Button, Text, Toast } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
-import Toast from 'react-native-simple-toast';
 import { Root } from "native-base";
+import Globals from '../Globals';
 
 export default class Inscription extends Component {
 
@@ -35,7 +35,12 @@ export default class Inscription extends Component {
 
   _checkEmail() {
     if(!this.regexEmail.test(this.state.email)) {
-      Toast.show('Email invalide', Toast.LONG);
+      Toast.show({
+        text: "Email invalide",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }
     return true;
@@ -43,19 +48,39 @@ export default class Inscription extends Component {
 
   _checkPassword() {
     if(this.state.password.length < 1) {
-      Toast.show('Mot de passe indéfini', Toast.LONG);
+      Toast.show({
+        text: "Mot de passe indéfini",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }
     var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,50}$/;
     if(this.state.password.length<6){
-      Toast.show('Le mot de passe doit contenir au moins 6 caractères.', Toast.LONG);
+      Toast.show({
+        text: "Le mot de passe doit contenir au moins 6 caractères.",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     } else if(this.state.password.length>50){
-      Toast.show('Le mot de passe doit contenir au maximim 50 caractères.', Toast.LONG);
+      Toast.show({
+        text: "Le mot de passe doit contenir au maximim 50 caractères.",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }     
     else if(!regexPassword.test(this.state.password)){
-      Toast.show('Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.', Toast.LONG);
+      Toast.show({
+        text: "Le mot de passe doit contenir au moins une majuscule, une minuscule et un chiffre.",
+        duration : 7000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }
     return true;
@@ -63,11 +88,21 @@ export default class Inscription extends Component {
 
   _checkConfirmPassword(){
     if(this.state.confirmPassword.length < 1) {
-      Toast.show('Confirmation du mot de passe indéfinie', Toast.LONG);
+      Toast.show({
+        text: "Confirmation du mot de passe indéfinie",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }
     if(this.state.password != this.state.confirmPassword){
-      Toast.show('Les deux mots de passe ne correspondent pas', Toast.LONG);
+      Toast.show({
+        text: "Les deux mots de passe ne correspondent pas",
+        duration : 5000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
       return false;
     }
     return true;
@@ -93,11 +128,32 @@ export default class Inscription extends Component {
     console.log("Go Back");    
   }
 
-  _checkRegistration(){
+  async _checkRegistration(){
     if(this._checkEmail()
       && this._checkPassword() 
       && this._checkConfirmPassword() 
     ){
+      const url = Globals.BASE_URL + '/api/user/email/' + this.state.email;
+      const response = await fetch(url).catch((err) => {console.log('Problème API')});
+      if(response.status != 200){
+        Toast.show({
+          text: "Problème de communication !",
+          duration : 2000,
+          type: "danger"
+        });
+        return;
+      }
+      const json = await response.json();
+      console.log(Object.keys(json.utilisateur).length);
+      if (Object.keys(json.utilisateur).length != 0){
+        Toast.show({
+          text: "L'adresse mail indiquée a déjà un compte sur Trasho.",
+          duration : 6000,
+          buttonText: "Okay !",
+          type: "danger"
+        });
+        return;
+      }
       this.props.navigation.navigate('CGU', {mail : this.state.email, password : this.state.password})  
     }
   }
