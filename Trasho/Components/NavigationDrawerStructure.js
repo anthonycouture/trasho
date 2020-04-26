@@ -15,6 +15,7 @@ import Utilisateur from '../Screens/Utilisateur';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
+import CGU from '../Screens/CGU';
 
 class NavigationDrawerStructure extends Component {
 
@@ -121,6 +122,12 @@ const DrawerNavigator = createDrawerNavigator({
         screen: Utilisateur,
         navigationOptions: {
             drawerLabel: 'Utilisateur'
+        }
+    },
+    CGU:{
+        screen: CGU,
+        navigationOptions: {
+            drawerLabel: 'CGU'
         }
     }
 },

@@ -94,10 +94,13 @@ export default class Inscription extends Component {
   }
 
   _checkRegistration(){
-    console.log(this._checkEmail()
+    /*console.log(this._checkEmail()
       && this._checkPassword() 
       && this._checkConfirmPassword() 
-    );    
+    ); */
+    console.log(this.state.email);
+    console.log(this.state.password);
+    this.props.navigation.navigate('CGU', {mail : this.state.email, password : this.state.password})   
   }
 
   render() {
