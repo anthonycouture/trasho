@@ -1,9 +1,12 @@
 import React from 'react';
+import { Root } from "native-base";
 import NavigationDrawerStructure from "./Components/NavigationDrawerStructure";
 
 export default function App() {
 
   return (
-    <NavigationDrawerStructure />
+    <Root>
+      <NavigationDrawerStructure />
+    </Root>
   );
 }

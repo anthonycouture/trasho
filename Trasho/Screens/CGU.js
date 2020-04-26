@@ -1,20 +1,97 @@
 import React, { Component } from 'react';
-import { Container, Content, Text, Card, CardItem, Body, View, Button, Icon } from "native-base";
+import { Container, Content, Text, Card, CardItem, Body, View, Button, Icon, Toast } from "native-base";
 import { StyleSheet, Dimensions, ScrollView} from 'react-native';
+import Globals from '../Globals';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-const windowHeight = Dimensions.get('window').height;
-
+/**
+ * CGU screen to valid registration
+ *
+ * @export
+ * @class CGU
+ * @extends {Component}
+ */
 export default class CGU extends Component{
 
-    async componentDidMount() {
-        console.log("Parametre1 : "+this.props.navigation.getParam("mail"));
-        console.log("Parametre2 : "+this.props.navigation.getParam("password"));
+    state = {
+        spinner: false
+    };
+
+    /**
+     * Cancel the registration and go back to the map screen
+     *
+     * @memberof CGU
+     */
+    _cancelRegistration(){
+        Toast.show({
+            text: "Inscription annulée !",
+            buttonText: "Okay !",
+            duration: 3000,
+            type: "danger"
+        });
+        this.props.navigation.navigate("Map");
+    }
+
+    /**
+     * Valid the registration
+     *
+     * @returns nothing
+     * @memberof CGU
+     */
+    async _validRegistration(){
+        this.setState({spinner : true});
+        const url = Globals.BASE_URL + '/api/user';
+        const response = await fetch(url,{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                mail: this.props.navigation.getParam("mail"),
+                password: this.props.navigation.getParam("password"),
+              }),
+        }).catch((err) => {
+            this.setState({spinner : false});
+            Toast.show({
+                text: "Problème lors de l'inscription !",
+                duration : 2000,
+                type: "danger"
+            });
+        });
+        this.setState({spinner : false});
+        if(response.status != 201){
+            Toast.show({
+                text: "Problème lors de l'inscription !",
+                duration : 2000,
+                type: "danger"
+            });
+            return;
+        }
+        Toast.show({
+            text: "Inscription validée ! Un mail vous a été envoyé pour confirmer votre compte. Il peut se trouver dans les spams.",
+            buttonText: "Okay !",
+            duration: 10000,
+            type: "success"
+        });
+        this.props.navigation.navigate("Connexion");
     }
     
+    /**
+     * Render the screen
+     *
+     * @returns
+     * @memberof CGU
+     */
     render() {
         return (
             <Container>
                 <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                    <Spinner
+                        visible={this.state.spinner}
+                        textContent={'Patientez s\'il vous plaît...'}
+                        textStyle={styles.spinnerTextStyle}
+                    />
                     <View style={styles.card}>
                         <Card>
                             <CardItem>
@@ -38,11 +115,13 @@ export default class CGU extends Component{
                     </View>
                     
                     <View style={styles.buttons}>
-                        <Button iconLeft danger style={styles.button}>
+                        <Button iconLeft danger style={styles.button}
+                            onPress={() => this._cancelRegistration()}>
                             <Icon type="MaterialCommunityIcons" name='cancel'/>
                             <Text>Annuler</Text>
                         </Button>
-                        <Button iconLeft success style={styles.button}>
+                        <Button iconLeft success style={styles.button}
+                            onPress={() => this._validRegistration()}>
                             <Icon type="AntDesign" name='check'/>
                             <Text>Valider</Text>
                         </Button>
@@ -66,5 +145,9 @@ const styles = StyleSheet.create({
     },
     button : {
         flex: 1,
-    }
+    },
+    spinnerTextStyle: {
+        color: '#37ff00',
+        fontWeight: 'bold',
+    },
 })
