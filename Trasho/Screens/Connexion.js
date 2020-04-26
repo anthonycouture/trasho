@@ -9,6 +9,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
 import GLOBAL from '../Globals';
+import Globals from '../Globals';
 
 class Connexion extends Component {
 
@@ -23,6 +24,10 @@ class Connexion extends Component {
 
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  async componentDidMount() {
+    await AsyncStorage.clear();
+  }
+
   handleEmail = (text) => {
     this.setState({ email: text, isEmail: this.regex.test(text) })
   }
@@ -33,22 +38,35 @@ class Connexion extends Component {
 
   login = (email, pass) => {
     //alert('email: ' + email + ' password: ' + pass);
-    this.checkEmailButtonTyped();
-    this.checkPasswordButtonTyped();
-    this.connexion();
+    let emailOk = false;
+    let passOk = false;
+
+    if (email || pass) {
+      emailOk = this.checkEmailButtonTyped();
+      passOk = this.checkPasswordButtonTyped();
+      if (emailOk && passOk) {
+        this.connexion();
+      }
+    }
+    else {
+      Toast.show('Veuillez remplir les champs', Toast.LONG);
+    }
   }
 
   navigatePageInscription() {
     this.props.navigation.navigate('Inscription');
   }
 
-  navigatPageMap() {
-    this.props.navigation.navigate('Map');
+  navigatPageMonCompte() {
+    this.props.navigation.navigate('MonCompte');
   }
 
   checkEmailButtonTyped() {
     if (!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
+    }
+    else {
+      return true;
     }
   }
 
@@ -56,6 +74,10 @@ class Connexion extends Component {
     if (this.state.password.length < 1) {
       Toast.show('Mot de passe indéfini', Toast.LONG);
     }
+    else {
+      return true;
+    }
+
   }
 
   _changeIcon() {
@@ -65,22 +87,42 @@ class Connexion extends Component {
     }));
   }
 
+
+
+  _storeData = async (res) => {
+    try {
+      let adm = 'false';
+      await AsyncStorage.setItem('EMAIL', this.state.email);
+      console.log(res);
+      const admin = res['user'][this.state.email]['flag_admin'];
+      if (admin == true) {
+        adm = 'true';
+      }
+      await AsyncStorage.setItem('ADMIN', adm);
+      await AsyncStorage.setItem('CONNECTED', 'true');
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
-    const response = await fetch(url).catch(function(error) {
+    const response = await fetch(url).catch(function (error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
     const res = await response.json();
-    if(response.status == 400) {
+    if (response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
     }
-    else {
-      this.setState({ connected: res.resp })
+    else if (response.status == 200) {
+      await this._storeData(res);
+      this.setState({ connected: res.resp });
+      Globals.connexion = true
+      console.log(res);
+      Globals.admin = res['user'][this.state.email]['flag_admin'];
       alert('Connexion réussie !');
-      AsyncStorage.multiSet([
-        ["email", this.state.email]
-      ]);
-      this.navigatPageMap();
+      this.navigatPageMonCompte();
     }
   }
 

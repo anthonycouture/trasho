@@ -1,10 +1,9 @@
-//This is an example code for NavigationDrawer//
 import React, { Component } from 'react';
-//import react in our code.
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, AsyncStorage } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
 import * as Progress from 'react-native-progress';
-// import all basic components
+import { ConfirmDialog } from 'react-native-simple-dialogs';
+import Globals from '../Globals';
 
 const dataArray = [
     { title: "Changer mot de passe", content: <Input placeholder="Mot de passe" /> },
@@ -17,7 +16,21 @@ export default class MonCompte extends Component {
         showConfirmPassword: false,
         password: '',
         confirmPassword: '',
-        icon: "eye-off"
+        icon: "eye-off",
+        dialogVisible: false
+    }
+
+    async _deconnexion() {
+        await AsyncStorage.clear();
+        Globals.admin = false
+        Globals.connected = false
+        this.props.navigation.navigate('Connexion');
+    };
+
+    changeDialogState() {
+        this.setState(prevState => ({
+            dialogVisible: !prevState.dialogVisible
+        }));
     }
 
     _changeIcon() {
@@ -94,6 +107,26 @@ export default class MonCompte extends Component {
                             </Button>
                         </CardItem>
                     </Card>
+                    <Button rounded block style={[styles.deconnexion, styles.buttonWidth]}
+                        onPress={
+                            () => this.changeDialogState()
+                        }>
+                        <Text style={styles.submitButtonText}> Déconnexion </Text>
+                    </Button>
+                    <ConfirmDialog
+                        title="Confirmation"
+                        message="Voulez-vous vraiment vous déconnecter ?"
+                        visible={this.state.dialogVisible}
+                        onTouchOutside={() => this.setState({ dialogVisible: false })}
+                        positiveButton={{
+                            title: "Oui",
+                            onPress: () => { this._deconnexion(), this.changeDialogState() }
+                        }}
+                        negativeButton={{
+                            title: "Non",
+                            onPress: () => { this.props.navigation.navigate('Map'), this.changeDialogState() }
+                        }}
+                    />
                     <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5 }}>1</Text>
@@ -116,6 +149,13 @@ const styles = StyleSheet.create({
     },
     submitButton: {
         backgroundColor: '#74992e',
+        padding: 10,
+        marginTop: 40,
+        height: 40,
+        marginBottom: 30
+    },
+    deconnexion: {
+        backgroundColor: 'red',
         padding: 10,
         marginTop: 40,
         height: 40,

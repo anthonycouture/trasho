@@ -128,6 +128,14 @@ module.exports.userByMail = async (mail) => {
     return res;
 }
 
+module.exports.users = async () => {
+  let res = await  con.select(
+      qry.GET_ALL_USERS,
+      (rows)=>(Utilisateur.loadList(rows))
+    );
+    return res;
+}
+
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;
