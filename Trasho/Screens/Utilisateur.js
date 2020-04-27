@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, Switch } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
+import GLOBAL from '../Globals';
 
 export default class Utilisateur extends Component {
     state = { switchValue: false, dialogVisible: false, email: '', admin: false }
@@ -47,6 +48,22 @@ export default class Utilisateur extends Component {
 
     saveModifications() {
         alert('clic');
+        const url = GLOBAL.BASE_URL + '/api/user/update';
+        const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+            }),
+            body: body // <-- Post parameters
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                alert("Modifications sauvegardées !");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     render() {
