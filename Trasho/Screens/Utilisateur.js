@@ -45,6 +45,10 @@ export default class Utilisateur extends Component {
         }
     }
 
+    saveModifications() {
+        alert('clic');
+    }
+
     render() {
         console.log("Parametre1 : " + this.props.navigation.getParam("mail"));
         return (
@@ -72,6 +76,13 @@ export default class Utilisateur extends Component {
                         <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
                         <Text style={{ marginLeft: 5 }}>2</Text>
                     </Item>
+
+                    <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
+                        onPress={
+                            () => this.saveModifications()
+                        }>
+                        <Text style={styles.submitButtonText}> Sauvegarder modifications </Text>
+                    </Button>
 
                     <Button rounded block style={[styles.deconnexion, styles.buttonWidth]}
                         onPress={
@@ -136,5 +147,12 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         marginLeft: 'auto',
         marginTop: 30
+    },
+    submitButton: {
+        backgroundColor: '#74992e',
+        padding: 10,
+        marginTop: 40,
+        height: 40,
+        marginBottom: 30
     }
 });
