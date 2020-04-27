@@ -11,6 +11,7 @@ import Admin from '../Screens/Admin';
 import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
 import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
+import ListePoubelles from '../Screens/ListePoubelles';
 import Utilisateur from '../Screens/Utilisateur';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
@@ -114,13 +115,19 @@ const DrawerNavigator = createDrawerNavigator({
     ListeUtilisateurs: {
         screen: ListeUtilisateurs,
         navigationOptions: {
-            drawerLabel: 'Admin'
+            drawerLabel: 'ListeUtilisateurs'
         }
     },
     Utilisateur: {
         screen: Utilisateur,
         navigationOptions: {
             drawerLabel: 'Utilisateur'
+        }
+    },
+    ListePoubelles: {
+        screen: ListePoubelles,
+        navigationOptions: {
+            drawerLabel: 'ListePoubelles'
         }
     }
 },

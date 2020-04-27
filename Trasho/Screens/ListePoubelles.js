@@ -4,7 +4,7 @@ import { Container, Header, Content, List, ListItem, Text, Button, Icon, Input, 
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import GLOBAL from '../Globals';
 
-export default class ListeUtilisateurs extends Component {
+export default class ListePoubelles extends Component {
 
     constructor(props) {
         super(props);
@@ -80,6 +80,7 @@ export default class ListeUtilisateurs extends Component {
                                 </Button>
                             </ListItem>
                         ))}
+
                     </List>
                 </Content>
             </Container>
