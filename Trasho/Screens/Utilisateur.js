@@ -5,15 +5,18 @@ import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class Utilisateur extends Component {
-    state = { switchValue: false, dialogVisible: false, email: '' }
+    state = { switchValue: false, dialogVisible: false, email: '', admin: false }
 
     async componentDidMount() {
         //console.log(useNavigationParam('email'));
 
         //console.log(this.props.navigation.state.params.mail);
-        console.log("Parametre : " + this.props.navigation.getParam("mail"));
+        console.log("Parametre mail : " + this.props.navigation.getParam("mail"));
+        console.log("Parametre admin : " + this.props.navigation.getParam("admin"));
         this.setState({
-            email: this.props.navigation.getParam("mail")
+            email: this.props.navigation.getParam("mail"),
+            admin: this.props.navigation.getParam("admin"),
+            switchValue: this.props.navigation.getParam("admin")
         });
     }
 
@@ -35,7 +38,9 @@ export default class Utilisateur extends Component {
             //this.fetchData(this.props.userID);
             console.log('ca a changé !');
             this.setState({
-                email: this.props.navigation.getParam("mail")
+                email: this.props.navigation.getParam("mail"),
+                admin: this.props.navigation.getParam("admin"),
+                switchValue: this.props.navigation.getParam("admin")
             });
         }
     }

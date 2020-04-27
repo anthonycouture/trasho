@@ -9,7 +9,7 @@ export default class ListeUtilisateurs extends Component {
     constructor(props) {
         //constructor to set default state
         super(props);
-      }
+    }
 
     state = {
         dialogVisible: false,
@@ -43,7 +43,7 @@ export default class ListeUtilisateurs extends Component {
             let utilisateur = res.utilisateur;
 
             for (let key in utilisateur) {
-                utilisateurs.push(utilisateur[key].mail
+                utilisateurs.push(utilisateur[key]
                 )
                 console.log(key);
             }
@@ -53,9 +53,8 @@ export default class ListeUtilisateurs extends Component {
         }
     }
 
-    navigatePageUser(email) {
-        console.log("emmmmmmmmmmmmmmmmmmmmmmail : " + email);
-        this.props.navigation.navigate('Utilisateur', {mail: email});
+    navigatePageUser(email, admin) {
+        this.props.navigation.navigate('Utilisateur', { mail: email, admin: admin });
     }
 
     render() {
@@ -67,10 +66,10 @@ export default class ListeUtilisateurs extends Component {
                             <ListItem key={key}>
                                 <Button transparent
                                     onPress={
-                                        () => this.navigatePageUser(item)
+                                        () => this.navigatePageUser(item.mail, item.flag_admin)
                                     }>
                                     <Icon name={'person'} style={styles.black} />
-                                    <Text style={styles.black}>{item}</Text>
+                                    <Text style={styles.black}>{item.mail}</Text>
                                 </Button>
                             </ListItem>
                         ))}
