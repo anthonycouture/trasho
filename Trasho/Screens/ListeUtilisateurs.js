@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Content, List, ListItem, Text, Button, Icon } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, Button, Icon, Input, Item } from 'native-base';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import GLOBAL from '../Globals';
 
@@ -13,7 +13,8 @@ export default class ListeUtilisateurs extends Component {
 
     state = {
         dialogVisible: false,
-        listeUtilisateurs: []
+        listeUtilisateurs: [],
+        search: ''
     }
 
     async componentDidMount() {
@@ -57,13 +58,21 @@ export default class ListeUtilisateurs extends Component {
         this.props.navigation.navigate('Utilisateur', { mail: email, admin: admin });
     }
 
+    handleSearch = (text) => {
+        this.setState({ search: text });
+    }
+
     render() {
         return (
             <Container>
                 <Content>
+                    <Item style={{ borderColor: 'dark', marginLeft: 15, marginRight: 15 }}>
+                        <Input placeholder="Email" onChangeText={this.handleSearch} />
+                        <Icon name="refresh" onPress={() => {this.setState({search: ''}), this.getAllUsers()}}/>
+                    </Item>
                     <List>
                         {this.state.listeUtilisateurs.map((item, key) => (
-                            <ListItem key={key}>
+                            (item.mail.includes(this.state.search) || this.state.search == '') && <ListItem key={key}>
                                 <Button transparent
                                     onPress={
                                         () => this.navigatePageUser(item.mail, item.flag_admin)
