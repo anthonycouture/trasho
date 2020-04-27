@@ -47,19 +47,38 @@ export default class Utilisateur extends Component {
     }
 
     saveModifications() {
-        alert('clic');
         const url = GLOBAL.BASE_URL + '/api/user/update';
         const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
         fetch(url, {
             method: 'POST',
             headers: new Headers({
-                'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+                'Content-Type': 'application/x-www-form-urlencoded',
             }),
-            body: body // <-- Post parameters
+            body: body
         })
             .then((response) => response.text())
             .then((responseText) => {
                 alert("Modifications sauvegardées !");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    deleteUser(mail) {
+        const url = GLOBAL.BASE_URL + '/api/user/delete';
+        const body = 'mail=' + this.state.email;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                this.changeDialogState();
+                alert("Compte supprimé !");
             })
             .catch((error) => {
                 console.error(error);
@@ -114,7 +133,7 @@ export default class Utilisateur extends Component {
                         onTouchOutside={() => this.setState({ dialogVisible: false })}
                         positiveButton={{
                             title: "Oui",
-                            onPress: () => { this.changeDialogState() }
+                            onPress: () => { this.deleteUser(this.state.email) }
                         }}
                         negativeButton={{
                             title: "Non",
