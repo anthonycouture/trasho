@@ -56,3 +56,14 @@ router.post('/update',async (req,res)=>{
     .status(201)
     .json(rows);
 });
+
+router.post('/delete',async (req,res)=>{
+  const {mail, admin} = req.body;
+  let rows = await domain.deleteUserByMail(
+    [mail]
+  );
+  
+  res
+    .status(201)
+    .json(rows);
+});

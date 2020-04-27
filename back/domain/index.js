@@ -89,6 +89,15 @@ module.exports.updateUtilisateur = async (data) => {
   return {user : res };
 }
 
+module.exports.deleteUserByMail = async (mail) => {
+  let res = await transaction(qry.DELETE_USER_BY_MAIL, mail)
+            .then((resp) => {
+              let ret = resp.rows[0];
+              return ret;
+            }).catch((err) => {console.error(err); res = "failed"})
+  return {user : res };
+}
+
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;
