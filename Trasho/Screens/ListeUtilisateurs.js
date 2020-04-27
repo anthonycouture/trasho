@@ -7,7 +7,6 @@ import GLOBAL from '../Globals';
 export default class ListeUtilisateurs extends Component {
 
     constructor(props) {
-        //constructor to set default state
         super(props);
     }
 
@@ -48,7 +47,6 @@ export default class ListeUtilisateurs extends Component {
                 )
                 console.log(key);
             }
-            //this.state.listeUtilisateurs = utilisateurs;
             this.setState({ listeUtilisateurs: utilisateurs });
             console.log(utilisateurs[0]);
         }

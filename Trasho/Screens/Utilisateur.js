@@ -9,11 +9,6 @@ export default class Utilisateur extends Component {
     state = { switchValue: false, dialogVisible: false, email: '', admin: false }
 
     async componentDidMount() {
-        //console.log(useNavigationParam('email'));
-
-        //console.log(this.props.navigation.state.params.mail);
-        console.log("Parametre mail : " + this.props.navigation.getParam("mail"));
-        console.log("Parametre admin : " + this.props.navigation.getParam("admin"));
         this.setState({
             email: this.props.navigation.getParam("mail"),
             admin: this.props.navigation.getParam("admin"),
@@ -22,10 +17,7 @@ export default class Utilisateur extends Component {
     }
 
     toggleSwitch = (value) => {
-        //onValueChange of the switch this function will be called
-        this.setState({ switchValue: value })
-        //state changes according to switch
-        //which will result in re-render the text
+        this.setState({ switchValue: value });
     }
     changeDialogState() {
         this.setState(prevState => ({
@@ -34,10 +26,7 @@ export default class Utilisateur extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        // Utilisation classique (pensez bien à comparer les props) :
         if (this.props.navigation.getParam("mail") != this.state.email) {
-            //this.fetchData(this.props.userID);
-            console.log('ca a changé !');
             this.setState({
                 email: this.props.navigation.getParam("mail"),
                 admin: this.props.navigation.getParam("admin"),
