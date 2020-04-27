@@ -46,3 +46,13 @@ router.get('/users', async (req, res) => {
     .json(rows);
 });
 
+router.post('/update',async (req,res)=>{
+  const {mail, admin} = req.body;
+  let rows = await domain.updateUtilisateur(
+    [mail, admin]
+  );
+  
+  res
+    .status(201)
+    .json(rows);
+});
