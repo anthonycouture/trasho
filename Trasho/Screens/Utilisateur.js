@@ -79,6 +79,7 @@ export default class Utilisateur extends Component {
             .then((responseText) => {
                 this.changeDialogState();
                 alert("Compte supprimé !");
+                this.props.navigation.navigate('ListeUtilisateurs');
             })
             .catch((error) => {
                 console.error(error);
