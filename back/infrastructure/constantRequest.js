@@ -13,7 +13,7 @@ const GET_TYPE_POUBELLES_BY_ID_POUBELLE = 'select type from type_poubelle t NATU
 
 const GET_USER_BY_EMAIL = 'select * from utilisateur where mail = $1';
 
-const GET_ALL_USERS = 'select * from utilisateur where flag_admin = false';
+const GET_ALL_USERS = 'select * from utilisateur';
 
 const UPDATE_USER = 'UPDATE utilisateur SET flag_admin = $2 where mail = $1'; 
 
