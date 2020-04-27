@@ -5,13 +5,16 @@ import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 export default class Utilisateur extends Component {
-    state = { switchValue: false, dialogVisible: false, email: 'lucas.laloux3011@gmail.com' }
+    state = { switchValue: false, dialogVisible: false, email: '' }
 
     async componentDidMount() {
         //console.log(useNavigationParam('email'));
 
         //console.log(this.props.navigation.state.params.mail);
-        console.log("Parametre : "+this.props.navigation.getParam("mail"));
+        console.log("Parametre : " + this.props.navigation.getParam("mail"));
+        this.setState({
+            email: this.props.navigation.getParam("mail")
+        });
     }
 
     toggleSwitch = (value) => {
@@ -26,8 +29,19 @@ export default class Utilisateur extends Component {
         }));
     }
 
+    componentDidUpdate(prevProps) {
+        // Utilisation classique (pensez bien à comparer les props) :
+        if (this.props.navigation.getParam("mail") != this.state.email) {
+            //this.fetchData(this.props.userID);
+            console.log('ca a changé !');
+            this.setState({
+                email: this.props.navigation.getParam("mail")
+            });
+        }
+    }
+
     render() {
-        console.log("Parametre1 : "+this.props.navigation.getParam("mail"));
+        console.log("Parametre1 : " + this.props.navigation.getParam("mail"));
         return (
             <Container>
                 <Content>
@@ -37,8 +51,8 @@ export default class Utilisateur extends Component {
                     />
 
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Email</Text>
-                    
-                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.state.email}</Text>
+
+                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.props.navigation.getParam("mail")}</Text>
 
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Admin</Text>
                     <Switch
