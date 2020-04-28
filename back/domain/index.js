@@ -103,43 +103,26 @@ module.exports.updatePassword = async (data) => {
   const mail = data[0];
   const oldPassword = data[1];
   const newPassword = data[2];
-  let verifPassword = '';
-  //console.log("mail : " + data[0]);
-
-
   dataUpdate = [mail, newPassword];
   let retour = '';
 
   let resUser = await transaction(qry.GET_USER_BY_EMAIL, [mail])
     .then((resp) => {
       let user = resp.rows[0];
-      console.log(user["password"]);
       if (user["password"] == oldPassword) {
         let res = transaction(qry.UPDATE_PASSWORD, dataUpdate)
           .then((resp) => {
             let ret = resp.rows[0];
-            console.log("va retourner true");
           }).catch((err) => { console.error(err); res = "failed" });
           retour = true;
       }
       else {
-        console.log("va retourner nul");
         retour = false;
       }
       
 
     });
     return retour;
-
-
-
-  /* let res = await transaction(qry.UPDATE_PASSWORD, dataUpdate)
-             .then((resp) => {
-               let ret = resp.rows[0];
-               return ret;
-             }).catch((err) => {console.error(err); res = "failed"})
-             */
-  //return {user : res };
 }
 
 
