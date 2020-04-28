@@ -35,6 +35,7 @@ class NavigationDrawerStructure extends Component {
         try {
             const admin = await AsyncStorage.getItem('ADMIN');
             const connected = await AsyncStorage.getItem('CONNECTED');
+            const email = await AsyncStorage.getItem('EMAIL');
 
             if (admin !== null) {
                 Globals.admin = admin;
@@ -43,6 +44,11 @@ class NavigationDrawerStructure extends Component {
             if (connected !== null) {
                 Globals.connected = connected;
             }
+
+            if (email !== null) {
+                Globals.email = email;
+            }
+
         } catch (error) {
             console.log(error)
         }
