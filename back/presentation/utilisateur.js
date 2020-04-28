@@ -46,35 +46,43 @@ router.get('/users', async (req, res) => {
     .json(rows);
 });
 
-router.post('/update',async (req,res)=>{
-  const {mail, admin} = req.body;
+router.post('/update', async (req, res) => {
+  const { mail, admin } = req.body;
   let rows = await domain.updateUtilisateur(
     [mail, admin]
   );
-  
+
   res
     .status(201)
     .json(rows);
 });
 
-router.post('/delete',async (req,res)=>{
-  const {mail, admin} = req.body;
+router.post('/delete', async (req, res) => {
+  const { mail, admin } = req.body;
   let rows = await domain.deleteUserByMail(
     [mail]
   );
-  
+
   res
     .status(201)
     .json(rows);
 });
 
-router.post('/updatePassword',async (req,res)=>{
-  const {mail, oldPassword, newPassword} = req.body;
+router.post('/updatePassword', async (req, res) => {
+  const { mail, oldPassword, newPassword } = req.body;
   let rows = await domain.updatePassword(
     [mail, oldPassword, newPassword]
   );
-  
-  res
-    .status(201)
-    .json(rows);
+
+  console.log("rows : " + rows);
+  if (rows == false) {
+    res
+      .status(400)
+      .json({});
+  }
+  else {
+    res
+      .status(201)
+      .json(rows);
+  }
 });
