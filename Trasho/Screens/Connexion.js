@@ -85,7 +85,6 @@ class Connexion extends Component {
     else {
       return true;
     }
-
   }
 
   _changeIcon() {
@@ -95,13 +94,10 @@ class Connexion extends Component {
     }));
   }
 
-
-
   _storeData = async (res) => {
     try {
       let adm = 'false';
       await AsyncStorage.setItem('EMAIL', this.state.email);
-      console.log(res);
       const admin = res['user'][this.state.email]['flag_admin'];
       if (admin == true) {
         adm = 'true';
@@ -112,7 +108,6 @@ class Connexion extends Component {
       // Error saving data
     }
   };
-
 
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
@@ -137,7 +132,6 @@ class Connexion extends Component {
 
   render() {
     return (
-
       <Container>
         <Image
           source={require('../Images/logo.png')}
@@ -170,7 +164,6 @@ class Connexion extends Component {
               <Text style={styles.submitButtonText}> Connexion </Text>
             </Button>
 
-
             <Button dark rounded block style={[styles.buttonWidth]}
               onPress={
                 () => this.navigatePageInscription()
@@ -179,17 +172,11 @@ class Connexion extends Component {
             </Button>
           </Form>
         </Content>
-
       </Container>
-
-
-
     )
   }
 }
 export default Connexion
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -232,4 +219,4 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto'
   }
-})
+});

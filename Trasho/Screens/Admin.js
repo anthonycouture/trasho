@@ -36,7 +36,6 @@ export default class Admin extends Component {
                             </Button>
                         </CardItem>
                     </Card>
-                    
                 </Content>
             </Container>
         );

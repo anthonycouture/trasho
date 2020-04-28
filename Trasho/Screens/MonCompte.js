@@ -85,13 +85,7 @@ export default class MonCompte extends Component {
         return true;
     }
 
-
     checkChangePassword() {
-        //console.log("old password : " + this.state.oldPassword);
-        //console.log("password : " + this.state.password);
-        //console.log(this.state.password == this.state.oldPassword);
-        //console.log("confirm password : " + this.state.confirmPassword);
-        //console.log(this.state.password == this.state.confirmPassword);
         if (this.state.oldPassword && this.state.password && this.state.confirmPassword) {
             if (this.state.password == this.state.oldPassword) {
                 Toast.show("Le nouveau mot de passe ne peut être le même que l'ancien", Toast.LONG);
@@ -109,7 +103,6 @@ export default class MonCompte extends Component {
         else {
             Toast.show('Veuillez remplir les champs', Toast.LONG);
         }
-
     }
 
     changePassword() {
@@ -130,42 +123,9 @@ export default class MonCompte extends Component {
                 }
                 else if (response.status == 201) {
                     alert('Changement de mot de passe réussi !');
-
                 }
-                
             })
-            .then((responseText) => {
-
-
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-
-
-
-
-
-
-
-
-
-    }
-
-    saveModifications() {
-        const url = GLOBAL.BASE_URL + '/api/user/update';
-        const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
-        fetch(url, {
-            method: 'POST',
-            headers: new Headers({
-                'Content-Type': 'application/x-www-form-urlencoded',
-            }),
-            body: body
-        })
-            .then((response) => response.text())
-            .then((responseText) => {
-                alert("Modifications sauvegardées !");
-            })
+            .then((responseText) => { })
             .catch((error) => {
                 console.error(error);
             });

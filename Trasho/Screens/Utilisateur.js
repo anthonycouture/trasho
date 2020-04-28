@@ -6,6 +6,7 @@ import { ConfirmDialog } from 'react-native-simple-dialogs';
 import GLOBAL from '../Globals';
 
 export default class Utilisateur extends Component {
+
     state = { switchValue: false, dialogVisible: false, email: '', admin: false }
 
     async componentDidMount() {
@@ -76,7 +77,6 @@ export default class Utilisateur extends Component {
     }
 
     render() {
-        console.log("Parametre1 : " + this.props.navigation.getParam("mail"));
         return (
             <Container>
                 <Content>
@@ -84,11 +84,8 @@ export default class Utilisateur extends Component {
                         source={require('../Images/logo.png')}
                         style={styles.logo}
                     />
-
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Email</Text>
-
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.props.navigation.getParam("mail")}</Text>
-
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Admin</Text>
                     <Switch
                         style={{ marginTop: 15, marginLeft: 'auto', marginRight: 'auto' }}
@@ -130,10 +127,7 @@ export default class Utilisateur extends Component {
                             onPress: () => { this.changeDialogState() }
                         }}
                     />
-
-
                 </Content>
-
             </Container >
         );
     }

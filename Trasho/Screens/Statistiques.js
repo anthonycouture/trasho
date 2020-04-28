@@ -4,16 +4,16 @@ import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Ic
 
 export default class Statistiques extends Component {
 
-state = {
-    nbPoubelles: 0,
-    nbSignalements: 0
-}
+    state = {
+        nbPoubelles: 0,
+        nbSignalements: 0
+    }
 
     render() {
         return (
             <Container>
                 <Content padder>
-                <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
+                    <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbPoubelles} nouvelles poubelles</Text>
                     </Item>

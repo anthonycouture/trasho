@@ -26,7 +26,6 @@ export default class ListeUtilisateurs extends Component {
         }));
     }
 
-
     async getAllUsers() {
         const url = GLOBAL.BASE_URL + '/api/user/users';
         const response = await fetch(url).catch(function (error) {
@@ -37,8 +36,6 @@ export default class ListeUtilisateurs extends Component {
             alert('Problème de récupération des données');
         }
         else if (response.status == 200) {
-            console.log(res);
-
             const utilisateurs = []
             let utilisateur = res.utilisateur;
 
@@ -48,7 +45,6 @@ export default class ListeUtilisateurs extends Component {
                 console.log(key);
             }
             this.setState({ listeUtilisateurs: utilisateurs });
-            console.log(utilisateurs[0]);
         }
     }
 
@@ -66,7 +62,7 @@ export default class ListeUtilisateurs extends Component {
                 <Content>
                     <Item style={{ borderColor: 'dark', marginLeft: 15, marginRight: 15 }}>
                         <Input placeholder="Email" onChangeText={this.handleSearch} />
-                        <Icon name="refresh" onPress={() => {this.setState({search: ''}), this.getAllUsers()}}/>
+                        <Icon name="refresh" onPress={() => { this.setState({ search: '' }), this.getAllUsers() }} />
                     </Item>
                     <List>
                         {this.state.listeUtilisateurs.map((item, key) => (
