@@ -15,8 +15,11 @@ export default class MonCompte extends Component {
     state = {
         showPassword: false,
         showConfirmPassword: false,
+        showOldPassword: false,
+        oldPassword: '',
         password: '',
         confirmPassword: '',
+        iconOldPassword: "eye-off",
         iconPassword: "eye-off",
         iconConfirmPassword: "eye-off",
         dialogVisible: false
@@ -35,6 +38,13 @@ export default class MonCompte extends Component {
         }));
     }
 
+    _changeIconOldPassword() {
+        this.setState(prevState => ({
+            iconOldPassword: prevState.iconOldPassword === 'eye' ? 'eye-off' : 'eye',
+            showOldPassword: !prevState.showOldPassword
+        }));
+    }
+
     _changeIconPassword() {
         this.setState(prevState => ({
             iconPassword: prevState.iconPassword === 'eye' ? 'eye-off' : 'eye',
@@ -49,6 +59,10 @@ export default class MonCompte extends Component {
         }));
     }
 
+    handleOldPassword = (text) => {
+        this.setState({ oldPassword: text })
+    }
+
     handlePassword = (text) => {
         this.setState({ password: text })
     }
@@ -61,8 +75,8 @@ export default class MonCompte extends Component {
         const url = GLOBAL.BASE_URL + '/api/user/updatePassword';
         console.log("email : " + Globals.email);
         console.log("oldPassword : " + this.state.password);
-        console.log("newPassword : " + this.state.conformPassword);
-        const body = 'mail=' + this.state.email + '&oldPassword=' + this.state.password + '&newPassword=' + this.state.confirmPassword;
+        console.log("newPassword : " + this.state.confirmPassword);
+        const body = 'mail=' + Globals.email + '&oldPassword=' + this.state.oldPassword + '&newPassword=' + this.state.password;
         fetch(url, {
             method: 'POST',
             headers: new Headers({
@@ -125,7 +139,8 @@ export default class MonCompte extends Component {
                         <CardItem bordered>
                             <Body>
                                 <Item>
-                                    <Input placeholder="Ancien mot de passe" />
+                                    <Input placeholder="Ancien mot de passe" secureTextEntry={!this.state.showOldPassword} onChangeText={this.handleOldPassword}/>
+                                    <Icon name={this.state.iconOldPassword} onPress={() => this._changeIconOldPassword()} />
                                 </Item>
                                 <Item>
                                     <Input placeholder="Nouveau mot de passe" secureTextEntry={!this.state.showPassword} onChangeText={this.handlePassword} />

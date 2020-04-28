@@ -70,6 +70,9 @@ router.post('/delete', async (req, res) => {
 
 router.post('/updatePassword', async (req, res) => {
   const { mail, oldPassword, newPassword } = req.body;
+  console.log("email : " + mail);
+  console.log("oldPassword : " + oldPassword);
+  console.log("newPassword : " + newPassword);
   let rows = await domain.updatePassword(
     [mail, oldPassword, newPassword]
   );
@@ -77,8 +80,7 @@ router.post('/updatePassword', async (req, res) => {
   console.log("rows : " + rows);
   if (rows == false) {
     res
-      .status(400)
-      .json({});
+      .status(400);
   }
   else {
     res
