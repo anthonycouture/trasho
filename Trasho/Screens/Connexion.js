@@ -42,7 +42,7 @@ class Connexion extends Component {
     let emailOk = false;
     let passOk = false;
 
-    if (email || pass) {
+    if (email && pass) {
       emailOk = this.checkEmailButtonTyped();
       passOk = this.checkPasswordButtonTyped();
       if (emailOk && passOk) {

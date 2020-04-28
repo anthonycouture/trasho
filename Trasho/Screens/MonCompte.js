@@ -3,6 +3,7 @@ import { StyleSheet, View, AsyncStorage } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
 import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
+import Toast from 'react-native-simple-toast';
 import Globals from '../Globals';
 import GLOBAL from '../Globals';
 
@@ -71,11 +72,48 @@ export default class MonCompte extends Component {
         this.setState({ confirmPassword: text })
     }
 
+    _checkPassword() {
+        var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,50}$/;
+        if (this.state.password.length < 6) {
+            return false;
+        } else if (this.state.password.length > 50) {
+            return false;
+        }
+        else if (!regexPassword.test(this.state.password)) {
+            return false;
+        }
+        return true;
+    }
+
+
+    checkChangePassword() {
+        console.log("old password : " + this.state.oldPassword);
+        console.log("password : " + this.state.password);
+        console.log(this.state.password == this.state.oldPassword);
+        console.log("confirm password : " + this.state.confirmPassword);
+        console.log(this.state.password == this.state.confirmPassword);
+        if (this.state.oldPassword && this.state.password && this.state.confirmPassword) {
+            if (this.state.password == this.state.oldPassword) {
+                Toast.show("Le nouveau mot de passe ne peut être le même que l'ancien", Toast.LONG);
+            }
+            else if (this.state.password != this.state.confirmPassword) {
+                Toast.show('La confirmation du mot de passe est incorrecte', Toast.LONG);
+            }
+            else if (!this._checkPassword()) {
+                Toast.show('Le mot de passe doit faire entre 6 et 50 caractères et contenir au moin une minuscule, une majuscule et un chiffre', Toast.LONG);
+            }
+            else {
+                this.changePassword();
+            }
+        }
+        else {
+            Toast.show('Veuillez remplir les champs', Toast.LONG);
+        }
+
+    }
+
     changePassword() {
         const url = GLOBAL.BASE_URL + '/api/user/updatePassword';
-        console.log("email : " + Globals.email);
-        console.log("oldPassword : " + this.state.password);
-        console.log("newPassword : " + this.state.confirmPassword);
         const body = 'mail=' + Globals.email + '&oldPassword=' + this.state.oldPassword + '&newPassword=' + this.state.password;
         fetch(url, {
             method: 'POST',
@@ -98,7 +136,7 @@ export default class MonCompte extends Component {
             .catch((error) => {
                 console.error(error);
             });
-            
+
 
 
 
@@ -139,7 +177,7 @@ export default class MonCompte extends Component {
                         <CardItem bordered>
                             <Body>
                                 <Item>
-                                    <Input placeholder="Ancien mot de passe" secureTextEntry={!this.state.showOldPassword} onChangeText={this.handleOldPassword}/>
+                                    <Input placeholder="Ancien mot de passe" secureTextEntry={!this.state.showOldPassword} onChangeText={this.handleOldPassword} />
                                     <Icon name={this.state.iconOldPassword} onPress={() => this._changeIconOldPassword()} />
                                 </Item>
                                 <Item>
@@ -152,7 +190,7 @@ export default class MonCompte extends Component {
                                 </Item>
                                 <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
                                     onPress={
-                                        () => this.changePassword()
+                                        () => this.checkChangePassword()
                                     }>
                                     <Text style={styles.submitButtonText}> Valider </Text>
                                 </Button>
