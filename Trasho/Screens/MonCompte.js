@@ -4,6 +4,7 @@ import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Ic
 import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import Globals from '../Globals';
+import GLOBAL from '../Globals';
 
 const dataArray = [
     { title: "Changer mot de passe", content: <Input placeholder="Mot de passe" /> },
@@ -16,7 +17,8 @@ export default class MonCompte extends Component {
         showConfirmPassword: false,
         password: '',
         confirmPassword: '',
-        icon: "eye-off",
+        iconPassword: "eye-off",
+        iconConfirmPassword: "eye-off",
         dialogVisible: false
     }
 
@@ -33,16 +35,16 @@ export default class MonCompte extends Component {
         }));
     }
 
-    _changeIcon() {
+    _changeIconPassword() {
         this.setState(prevState => ({
-            icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
+            iconPassword: prevState.iconPassword === 'eye' ? 'eye-off' : 'eye',
             showPassword: !prevState.showPassword
         }));
     }
 
     _changeIconConfirmPassword() {
         this.setState(prevState => ({
-            icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',
+            iconConfirmPassword: prevState.iconConfirmPassword === 'eye' ? 'eye-off' : 'eye',
             showConfirmPassword: !prevState.showConfirmPassword
         }));
     }
@@ -53,6 +55,63 @@ export default class MonCompte extends Component {
 
     handleConfirmPassword = (text) => {
         this.setState({ confirmPassword: text })
+    }
+
+    changePassword() {
+        const url = GLOBAL.BASE_URL + '/api/user/updatePassword';
+        console.log("email : " + Globals.email);
+        console.log("oldPassword : " + this.state.password);
+        console.log("newPassword : " + this.state.conformPassword);
+        const body = 'mail=' + this.state.email + '&oldPassword=' + this.state.password + '&newPassword=' + this.state.confirmPassword;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                /*if (response.status == 400) {
+                    alert("Problème sur l'ancien mot de passe");
+                }
+                else if (response.status == 201) {
+                    alert('Changement de mot de passe réussi !');
+
+                }*/
+                console.log(responseText);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+            
+
+
+
+
+
+
+
+
+    }
+
+    saveModifications() {
+        const url = GLOBAL.BASE_URL + '/api/user/update';
+        const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                alert("Modifications sauvegardées !");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     render() {
@@ -70,15 +129,15 @@ export default class MonCompte extends Component {
                                 </Item>
                                 <Item>
                                     <Input placeholder="Nouveau mot de passe" secureTextEntry={!this.state.showPassword} onChangeText={this.handlePassword} />
-                                    <Icon name={this.state.icon} onPress={() => this._changeIcon()} />
+                                    <Icon name={this.state.iconPassword} onPress={() => this._changeIconPassword()} />
                                 </Item>
                                 <Item>
                                     <Input placeholder="Confirmer nouveau mot de passe" secureTextEntry={!this.state.showConfirmPassword} onChangeText={this.handleConfirmPassword} />
-                                    <Icon name={this.state.icon} onPress={() => this._changeIconConfirmPassword()} />
+                                    <Icon name={this.state.iconConfirmPassword} onPress={() => this._changeIconConfirmPassword()} />
                                 </Item>
                                 <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
                                     onPress={
-                                        () => alert('Validé ! Nouveau mdp : ' + this.state.password + ' mdp confirmé : ' + this.state.confirmPassword)
+                                        () => this.changePassword()
                                     }>
                                     <Text style={styles.submitButtonText}> Valider </Text>
                                 </Button>
