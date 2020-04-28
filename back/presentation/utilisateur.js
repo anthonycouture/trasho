@@ -67,3 +67,14 @@ router.post('/delete',async (req,res)=>{
     .status(201)
     .json(rows);
 });
+
+router.post('/updatePassword',async (req,res)=>{
+  const {mail, oldPassword, newPassword} = req.body;
+  let rows = await domain.updatePassword(
+    [mail, oldPassword, newPassword]
+  );
+  
+  res
+    .status(201)
+    .json(rows);
+});

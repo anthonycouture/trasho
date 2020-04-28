@@ -129,6 +129,7 @@ class Connexion extends Component {
       Globals.connexion = true
       console.log(res);
       Globals.admin = res['user'][this.state.email]['flag_admin'];
+      Globals.email = this.state.email;
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }

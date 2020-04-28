@@ -98,6 +98,22 @@ module.exports.deleteUserByMail = async (mail) => {
   return {user : res };
 }
 
+module.exports.updatePassword = async (data) => {
+
+  const mail = data[0];
+  const newPassword = data[2];
+  //console.log("mail : " + data[0]);
+
+  dataUpdate = [ mail, newPassword ];
+
+  let res = await transaction(qry.UPDATE_PASSWORD, dataUpdate)
+            .then((resp) => {
+              let ret = resp.rows[0];
+              return ret;
+            }).catch((err) => {console.error(err); res = "failed"})
+  return {user : res };
+}
+
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;

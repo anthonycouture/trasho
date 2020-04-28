@@ -19,6 +19,8 @@ const UPDATE_USER = 'UPDATE utilisateur SET flag_admin = $2 where mail = $1';
 
 const DELETE_USER_BY_MAIL = 'DELETE FROM utilisateur where mail = $1';
 
+const UPDATE_PASSWORD = 'UPDATE utilisateur SET password = $2 where mail = $1';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -31,6 +33,7 @@ module.exports = {
   GET_ALL_USERS,
   UPDATE_USER,
   DELETE_USER_BY_MAIL,
+  UPDATE_PASSWORD,
 
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3) returning id_poubelle',
   INSERT_TYPE_POUBELLE : ' INSERT INTO poubelle_type_poubelle(id_poubelle, id_type_poubelle) '+
