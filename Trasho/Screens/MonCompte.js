@@ -87,11 +87,11 @@ export default class MonCompte extends Component {
 
 
     checkChangePassword() {
-        console.log("old password : " + this.state.oldPassword);
-        console.log("password : " + this.state.password);
-        console.log(this.state.password == this.state.oldPassword);
-        console.log("confirm password : " + this.state.confirmPassword);
-        console.log(this.state.password == this.state.confirmPassword);
+        //console.log("old password : " + this.state.oldPassword);
+        //console.log("password : " + this.state.password);
+        //console.log(this.state.password == this.state.oldPassword);
+        //console.log("confirm password : " + this.state.confirmPassword);
+        //console.log(this.state.password == this.state.confirmPassword);
         if (this.state.oldPassword && this.state.password && this.state.confirmPassword) {
             if (this.state.password == this.state.oldPassword) {
                 Toast.show("Le nouveau mot de passe ne peut être le même que l'ancien", Toast.LONG);
@@ -122,16 +122,21 @@ export default class MonCompte extends Component {
             }),
             body: body
         })
-            .then((response) => response.text())
-            .then((responseText) => {
-                /*if (response.status == 400) {
+            .then((response) => {
+                response.text();
+                console.log(response.status);
+                if (response.status == 400) {
                     alert("Problème sur l'ancien mot de passe");
                 }
                 else if (response.status == 201) {
                     alert('Changement de mot de passe réussi !');
 
-                }*/
-                console.log(responseText);
+                }
+                
+            })
+            .then((responseText) => {
+
+
             })
             .catch((error) => {
                 console.error(error);

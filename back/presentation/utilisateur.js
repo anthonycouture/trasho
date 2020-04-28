@@ -80,7 +80,8 @@ router.post('/updatePassword', async (req, res) => {
   console.log("rows : " + rows);
   if (rows == false) {
     res
-      .status(400);
+      .status(400)
+      .json();
   }
   else {
     res
