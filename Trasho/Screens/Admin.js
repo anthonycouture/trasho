@@ -29,7 +29,7 @@ export default class Admin extends Component {
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent
                                 onPress={
-                                    () => alert('Statistiques')
+                                    () => this.props.navigation.navigate('Statistiques')
                                 }>
                                 <Icon name={'stats'} style={styles.black} />
                                 <Text style={styles.black}>Statistiques</Text>

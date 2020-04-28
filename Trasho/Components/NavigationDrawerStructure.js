@@ -12,6 +12,7 @@ import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
 import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
 import Utilisateur from '../Screens/Utilisateur';
+import Statistiques from '../Screens/Statistiques';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
@@ -121,6 +122,12 @@ const DrawerNavigator = createDrawerNavigator({
         screen: Utilisateur,
         navigationOptions: {
             drawerLabel: 'Utilisateur'
+        }
+    },
+    Statistiques: {
+        screen: Statistiques,
+        navigationOptions: {
+            drawerLabel: 'Statistiques'
         }
     }
 },
