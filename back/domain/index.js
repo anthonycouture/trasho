@@ -62,7 +62,6 @@ module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
   return { id_poubelle: res };
 }
 
-
 module.exports.userByMail = async (mail) => {
   let res = await con.select(
     qry.GET_USER_BY_EMAIL,
@@ -114,19 +113,14 @@ module.exports.updatePassword = async (data) => {
           .then((resp) => {
             let ret = resp.rows[0];
           }).catch((err) => { console.error(err); res = "failed" });
-          retour = true;
+        retour = true;
       }
       else {
         retour = false;
       }
-      
-
     });
-    return retour;
+  return retour;
 }
-
-
-
 
 function transaction(requete, donnees_colonnes) {
   let retour = true;
