@@ -4,6 +4,8 @@ const con = imp.db();
 const qry = imp.qry();
 const Poubelle = imp.poubelle();
 const Utilisateur = imp.utilisateur();
+const Type = imp.type();
+
 /*
 DOMAIN :  terme metiers : comprehensible
 
@@ -79,6 +81,7 @@ module.exports.sendAllUsers = async () => {
     return res;
 }
 
+/* Insert a new user */
 module.exports.insertUser = async (dataUser) =>{
   let res = await transaction(qry.INSERT_USER, dataUser).then((resp) => {
     let ret = resp.rows[0];
@@ -90,6 +93,7 @@ module.exports.insertUser = async (dataUser) =>{
   return {user : res};
 }
 
+/* Return the user by token */
 module.exports.findUserByToken = async (token) => {
   let res = await con.select(
     qry.GET_USER_BY_TOKEN,
@@ -99,6 +103,7 @@ module.exports.findUserByToken = async (token) => {
   return res.utilisateur;
 }
 
+/* Return the user by token (the token need to be no expired) */
 module.exports.checkExpiredToken = async (token) => {
   let res = await con.select(
     qry.GET_USER_BY_UNEXPRIRED_TOKEN,
@@ -108,6 +113,7 @@ module.exports.checkExpiredToken = async (token) => {
   return res.utilisateur;
 }
 
+/* The selected user become active */
 module.exports.becomeActif = async (token) => {
   let res = await transaction(qry.BECOME_ACTIF, [token]).then((resp) => {
     return resp.rows[0];
@@ -118,6 +124,7 @@ module.exports.becomeActif = async (token) => {
   return res;
 }
 
+/* Generate a new token */
 module.exports.generateNewToken = async(dataNewToken) => {
   let res = await transaction(qry.NEW_TOKEN, dataNewToken).then((resp) => {
     return resp.rows[0];
@@ -128,6 +135,7 @@ module.exports.generateNewToken = async(dataNewToken) => {
   return res;
 }
 
+/* Get all users by mail */
 module.exports.userByMail = async (mail) => {
   let res = await  con.select(
       qry.GET_USER_BY_EMAIL,
@@ -137,6 +145,7 @@ module.exports.userByMail = async (mail) => {
     return res;
 }
 
+/* Get all users */
 module.exports.users = async () => {
   let res = await  con.select(
       qry.GET_ALL_USERS,
@@ -145,6 +154,14 @@ module.exports.users = async () => {
     return res;
 }
 
+/* Get all types */
+module.exports.getAllTypes = async () => {
+  let res = await con.select(
+    qry.GET_ALL_TYPES,
+    (rows) => (Type.loadList(rows))
+  );
+  return res;
+}
 
 function transaction(requete,donnees_colonnes) {
   let retour = true;
