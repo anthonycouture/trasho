@@ -141,7 +141,7 @@ class Connexion extends Component {
             <Item style={{ borderColor: 'transparent' }}>
               <Icon name="mail" />
               <Item error={!this.state.isEmail} success={this.state.isEmail} style={{ marginRight: 50 }}>
-                <Input placeholder="Email" onChangeText={this.handleEmail} />
+                <Input placeholder="Email" onChangeText={this.handleEmail} autoCapitalize="none"/>
                 <Icon name='checkmark-circle' />
               </Item>
             </Item>

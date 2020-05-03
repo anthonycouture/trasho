@@ -144,7 +144,6 @@ export default class Inscription extends Component {
         return;
       }
       const json = await response.json();
-      console.log(Object.keys(json.utilisateur).length);
       if (Object.keys(json.utilisateur).length != 0){
         Toast.show({
           text: "L'adresse mail indiquée a déjà un compte sur Trasho.",

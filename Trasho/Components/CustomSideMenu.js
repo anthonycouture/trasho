@@ -90,6 +90,15 @@ export default class CustomSideMenu extends Component {
 
                     </View>
 
+                    {!Globals.connected && <View style={[styles.onglet, this.getBackground('AjouterPoubelle')]}>
+
+                        <Icon type="AntDesign" name='plus' style={[styles.sideMenuIcon, this.getStylePage('AjouterPoubelle')]} />
+
+                        <Text style={[styles.menuText, this.getStylePage('AjouterPoubelle')]} onPress={() => { this.props.navigation.navigate('AjouterPoubelle'), this.setState({ currentPage: 'AjouterPoubelle' }); }} > Ajouter </Text>
+
+                    </View>
+                    }
+
                     <View style={[styles.onglet, this.getBackground('Itineraire')]}>
 
                         <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
