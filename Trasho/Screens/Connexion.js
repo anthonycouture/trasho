@@ -121,7 +121,7 @@ class Connexion extends Component {
     else if (response.status == 200) {
       await this._storeData(res);
       this.setState({ connected: res.resp });
-      Globals.connexion = true
+      Globals.connected = true
       console.log(res);
       Globals.admin = res['user'][this.state.email]['flag_admin'];
       Globals.email = this.state.email;
