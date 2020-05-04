@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Header, Left, Right, Icon, Container, Content } from 'native-base';
-import PickerType from '../Components/PickerType';
+import { StyleSheet, View } from 'react-native';
+import { Icon, Container, Content, Button, ListItem, CheckBox, Body, Text, Toast } from 'native-base';
 import Globals from '../Globals';
 
 export default class AjouterPoubelle extends Component {
 
     state = {
         listTypes : null,
+        mapSelected : null,
     }
 
     async componentDidMount(){
@@ -32,10 +32,44 @@ export default class AjouterPoubelle extends Component {
                 type: "danger"
             });
         } else {
-            this.setState({
-                listTypes : Object.values(res.type_poubelle),
-                display: true
+            const map = new Map();
+            const allTypes = [];
+            Object.values(res.type_poubelle).forEach(element => {
+                allTypes.push(element.type);
+                map.set(element.type, false);
             });
+
+            this.setState({
+                listTypes : allTypes,
+                mapSelected : map,
+            });
+        }
+    }
+
+    _handleCheckbox(type){
+        var newMap = this.state.mapSelected;
+        newMap.set(type, !newMap.get(type));
+        this.setState({
+            mapSelected : newMap,
+        });
+    }
+
+    _validTypes(){
+        var allTypes = []
+        for(var [key, value] of this.state.mapSelected){
+            if(value){
+                allTypes.push(key);
+            }
+        }
+        if(allTypes.length == 0){
+            Toast.show({
+                text: "Vous devez sélectionner au moins un type !",
+                buttonText: "Okay !",
+                duration : 4000,
+                type: "danger"
+            });
+        } else {
+            console.log(allTypes);
         }
     }
 
@@ -48,8 +82,22 @@ export default class AjouterPoubelle extends Component {
                             <Icon type="EvilIcons" name="trash" style={styles.trash_icon}></Icon>
                         </View>
                         <View style={styles.view_type}>
-                            <PickerType canDelete={false} typeList={this.state.listTypes}/>
-                            <PickerType canDelete={true} typeList={this.state.listTypes}/>
+                            {
+                                this.state.listTypes.map((type) => {
+                                    return(
+                                        <ListItem onPress={() => this._handleCheckbox(type)} key={type}>
+                                            <CheckBox checked={this.state.mapSelected.get(type)} color="#74992e"/>
+                                            <Body>
+                                                <Text>{type}</Text>
+                                            </Body>
+                                        </ListItem>
+                                    );
+                                })
+                            } 
+                            <Button success iconLeft block onPress={() => this._validTypes()}>
+                                <Icon type="Feather" name="check"/>
+                                <Text>Valider</Text>
+                            </Button>
                         </View>
                     </Content>
                 </Container>
@@ -72,5 +120,8 @@ const styles = StyleSheet.create({
     },
     view_type:{
         flex: 1
+    },
+    add_button : {
+        margin: 5,
     }
 });
