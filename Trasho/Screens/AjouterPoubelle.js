@@ -10,6 +10,11 @@ export default class AjouterPoubelle extends Component {
         mapSelected : null,
     }
 
+    /**
+     * Launch the API request to have all types
+     *
+     * @memberof AjouterPoubelle
+     */
     async componentDidMount(){
         await this._loadAllType().then();
     }
@@ -46,6 +51,12 @@ export default class AjouterPoubelle extends Component {
         }
     }
 
+    /**
+     * Handle the click on item checkbox to change the checkbox value
+     *
+     * @param {*} type
+     * @memberof AjouterPoubelle
+     */
     _handleCheckbox(type){
         var newMap = this.state.mapSelected;
         newMap.set(type, !newMap.get(type));
@@ -54,6 +65,11 @@ export default class AjouterPoubelle extends Component {
         });
     }
 
+    /**
+     * 
+     *
+     * @memberof AjouterPoubelle
+     */
     _validTypes(){
         var allTypes = []
         for(var [key, value] of this.state.mapSelected){
