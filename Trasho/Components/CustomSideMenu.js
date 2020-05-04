@@ -62,6 +62,7 @@ export default class CustomSideMenu extends Component {
     }
 
     render() {
+        console.log("connected : " + Globals.connected);
 
         return (
 

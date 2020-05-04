@@ -41,7 +41,7 @@ class Connexion extends Component {
     let emailOk = false;
     let passOk = false;
 
-    if (email || pass) {
+    if (email && pass) {
       emailOk = this.checkEmailButtonTyped();
       passOk = this.checkPasswordButtonTyped();
       if (emailOk && passOk) {
@@ -77,7 +77,6 @@ class Connexion extends Component {
     else {
       return true;
     }
-
   }
 
   _changeIcon() {
@@ -87,13 +86,10 @@ class Connexion extends Component {
     }));
   }
 
-
-
   _storeData = async (res) => {
     try {
       let adm = 'false';
       await AsyncStorage.setItem('EMAIL', this.state.email);
-      console.log(res);
       const admin = res['user'][this.state.email]['flag_admin'];
       if (admin == true) {
         adm = 'true';
@@ -105,22 +101,21 @@ class Connexion extends Component {
     }
   };
 
-
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
     const response = await fetch(url).catch(function (error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
-    const res = await response.json();
-    if (response.status == 400) {
+    if (response.status != 200) {
       alert('Combinaison email et mot de passe invalide');
     }
     else if (response.status == 200) {
+      const res = await response.json();
       await this._storeData(res);
       this.setState({ connected: res.resp });
-      Globals.connexion = true
-      console.log(res);
+      Globals.connected = true
       Globals.admin = res['user'][this.state.email]['flag_admin'];
+      Globals.email = this.state.email;
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }
@@ -128,14 +123,13 @@ class Connexion extends Component {
 
   render() {
     return (
-
       <Container>
         <Image
           source={require('../Images/logo.png')}
           style={styles.logo}
         />
 
-        <Content>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Form>
             <Text style={styles.text}> Adresse email : </Text>
             <Item style={{ borderColor: 'transparent' }}>
@@ -161,7 +155,6 @@ class Connexion extends Component {
               <Text style={styles.submitButtonText}> Connexion </Text>
             </Button>
 
-
             <Button dark rounded block style={[styles.buttonWidth]}
               onPress={
                 () => this.navigatePageInscription()
@@ -170,17 +163,11 @@ class Connexion extends Component {
             </Button>
           </Form>
         </Content>
-
       </Container>
-
-
-
     )
   }
 }
 export default Connexion
-
-
 
 const styles = StyleSheet.create({
   container: {
@@ -223,4 +210,4 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto'
   }
-})
+});

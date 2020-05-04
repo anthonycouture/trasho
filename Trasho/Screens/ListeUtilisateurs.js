@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Container, Header, Content, List, ListItem, Text, Button, Icon } from 'native-base';
+import { Container, Header, Content, List, ListItem, Text, Button, Icon, Input, Item } from 'native-base';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 import GLOBAL from '../Globals';
 
 export default class ListeUtilisateurs extends Component {
 
     constructor(props) {
-        //constructor to set default state
         super(props);
-      }
+    }
 
     state = {
         dialogVisible: false,
-        listeUtilisateurs: []
+        listeUtilisateurs: [],
+        search: ''
     }
 
     async componentDidMount() {
@@ -26,7 +26,6 @@ export default class ListeUtilisateurs extends Component {
         }));
     }
 
-
     async getAllUsers() {
         const url = GLOBAL.BASE_URL + '/api/user/users';
         const response = await fetch(url).catch(function (error) {
@@ -37,59 +36,47 @@ export default class ListeUtilisateurs extends Component {
             alert('Problème de récupération des données');
         }
         else if (response.status == 200) {
-            console.log(res);
-
             const utilisateurs = []
             let utilisateur = res.utilisateur;
 
             for (let key in utilisateur) {
-                utilisateurs.push(utilisateur[key].mail
+                utilisateurs.push(utilisateur[key]
                 )
                 console.log(key);
             }
-            //this.state.listeUtilisateurs = utilisateurs;
             this.setState({ listeUtilisateurs: utilisateurs });
-            console.log(utilisateurs[0]);
         }
     }
 
-    navigatePageUser(email) {
-        console.log("emmmmmmmmmmmmmmmmmmmmmmail : " + email);
-        this.props.navigation.navigate('Utilisateur', {mail: email});
+    navigatePageUser(email, admin) {
+        this.props.navigation.navigate('Utilisateur', { mail: email, admin: admin });
+    }
+
+    handleSearch = (text) => {
+        this.setState({ search: text });
     }
 
     render() {
         return (
             <Container>
                 <Content>
+                    <Item style={{ borderColor: 'dark', marginLeft: 15, marginRight: 15 }}>
+                        <Input placeholder="Email" onChangeText={this.handleSearch} />
+                        <Icon name="refresh" onPress={() => { this.setState({ search: '' }), this.getAllUsers() }} />
+                    </Item>
                     <List>
                         {this.state.listeUtilisateurs.map((item, key) => (
-                            <ListItem key={key}>
+                            (item.mail.includes(this.state.search) || this.state.search == '') && <ListItem key={key}>
                                 <Button transparent
                                     onPress={
-                                        () => this.navigatePageUser(item)
+                                        () => this.navigatePageUser(item.mail, item.flag_admin)
                                     }>
                                     <Icon name={'person'} style={styles.black} />
-                                    <Text style={styles.black}>{item}</Text>
+                                    <Text style={styles.black}>{item.mail}</Text>
                                 </Button>
                             </ListItem>
                         ))}
-
                     </List>
-                    <ConfirmDialog
-                        title="Confirmation"
-                        message="Voulez-vous vraiment vous déconnecter ?"
-                        visible={this.state.dialogVisible}
-                        onTouchOutside={() => this.setState({ dialogVisible: false })}
-                        positiveButton={{
-                            title: "Oui",
-                            onPress: () => { this.changeDialogState() }
-                        }}
-                        negativeButton={{
-                            title: "Non",
-                            onPress: () => { this.changeDialogState() }
-                        }}
-                    />
                 </Content>
             </Container>
         );

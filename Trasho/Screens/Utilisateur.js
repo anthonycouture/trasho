@@ -3,22 +3,22 @@ import { StyleSheet, View, Image, Switch } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
 import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
+import GLOBAL from '../Globals';
 
 export default class Utilisateur extends Component {
-    state = { switchValue: false, dialogVisible: false, email: 'lucas.laloux3011@gmail.com' }
+
+    state = { switchValue: false, dialogVisible: false, email: '', admin: false }
 
     async componentDidMount() {
-        //console.log(useNavigationParam('email'));
-
-        //console.log(this.props.navigation.state.params.mail);
-        console.log("Parametre : "+this.props.navigation.getParam("mail"));
+        this.setState({
+            email: this.props.navigation.getParam("mail"),
+            admin: this.props.navigation.getParam("admin"),
+            switchValue: this.props.navigation.getParam("admin")
+        });
     }
 
     toggleSwitch = (value) => {
-        //onValueChange of the switch this function will be called
-        this.setState({ switchValue: value })
-        //state changes according to switch
-        //which will result in re-render the text
+        this.setState({ switchValue: value });
     }
     changeDialogState() {
         this.setState(prevState => ({
@@ -26,20 +26,66 @@ export default class Utilisateur extends Component {
         }));
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.navigation.getParam("mail") != this.state.email) {
+            this.setState({
+                email: this.props.navigation.getParam("mail"),
+                admin: this.props.navigation.getParam("admin"),
+                switchValue: this.props.navigation.getParam("admin")
+            });
+        }
+    }
+
+    saveModifications() {
+        const url = GLOBAL.BASE_URL + '/api/user/update';
+        const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                alert("Modifications sauvegardées !");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+    deleteUser(mail) {
+        const url = GLOBAL.BASE_URL + '/api/user/delete';
+        const body = 'mail=' + this.state.email;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                this.changeDialogState();
+                alert("Compte supprimé !");
+                this.props.navigation.navigate('ListeUtilisateurs');
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     render() {
-        console.log("Parametre1 : "+this.props.navigation.getParam("mail"));
         return (
             <Container>
-                <Content>
+                <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Image
                         source={require('../Images/logo.png')}
                         style={styles.logo}
                     />
-
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Email</Text>
-                    
-                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.state.email}</Text>
-
+                    <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 15 }}>{this.props.navigation.getParam("mail")}</Text>
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 25, fontSize: 30 }}>Admin</Text>
                     <Switch
                         style={{ marginTop: 15, marginLeft: 'auto', marginRight: 'auto' }}
@@ -54,6 +100,13 @@ export default class Utilisateur extends Component {
                         <Text style={{ marginLeft: 5 }}>2</Text>
                     </Item>
 
+                    <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
+                        onPress={
+                            () => this.saveModifications()
+                        }>
+                        <Text style={styles.submitButtonText}> Sauvegarder modifications </Text>
+                    </Button>
+
                     <Button rounded block style={[styles.deconnexion, styles.buttonWidth]}
                         onPress={
                             () => this.changeDialogState()
@@ -67,17 +120,14 @@ export default class Utilisateur extends Component {
                         onTouchOutside={() => this.setState({ dialogVisible: false })}
                         positiveButton={{
                             title: "Oui",
-                            onPress: () => { this.changeDialogState() }
+                            onPress: () => { this.deleteUser(this.state.email) }
                         }}
                         negativeButton={{
                             title: "Non",
                             onPress: () => { this.changeDialogState() }
                         }}
                     />
-
-
                 </Content>
-
             </Container >
         );
     }
@@ -117,5 +167,12 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         marginLeft: 'auto',
         marginTop: 30
+    },
+    submitButton: {
+        backgroundColor: '#74992e',
+        padding: 10,
+        marginTop: 40,
+        height: 40,
+        marginBottom: 30
     }
 });

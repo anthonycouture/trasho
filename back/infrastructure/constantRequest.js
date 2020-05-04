@@ -13,7 +13,13 @@ const GET_TYPE_POUBELLES_BY_ID_POUBELLE = 'select type from type_poubelle t NATU
 
 const GET_USER_BY_EMAIL = 'select * from utilisateur where mail = $1';
 
-const GET_ALL_USERS = 'select * from utilisateur where flag_admin = false';
+const GET_ALL_USERS = 'select * from utilisateur';
+
+const UPDATE_USER = 'UPDATE utilisateur SET flag_admin = $2 where mail = $1'; 
+
+const DELETE_USER_BY_MAIL = 'DELETE FROM utilisateur where mail = $1';
+
+const UPDATE_PASSWORD = 'UPDATE utilisateur SET password = $2 where mail = $1';
 
 const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1';
 
@@ -27,6 +33,9 @@ module.exports = {
   GET_TYPE_POUBELLES_BY_ID_POUBELLE,
   GET_USER_BY_EMAIL,
   GET_ALL_USERS,
+  UPDATE_USER,
+  DELETE_USER_BY_MAIL,
+  UPDATE_PASSWORD,
 
   GET_URL_POUBELLE,
 

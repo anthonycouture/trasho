@@ -12,6 +12,7 @@ import Map from '../Screens/Map';
 import Inscription from '../Screens/Inscription';
 import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
 import Utilisateur from '../Screens/Utilisateur';
+import Statistiques from '../Screens/Statistiques';
 import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
@@ -35,6 +36,7 @@ class NavigationDrawerStructure extends Component {
         try {
             const admin = await AsyncStorage.getItem('ADMIN');
             const connected = await AsyncStorage.getItem('CONNECTED');
+            const email = await AsyncStorage.getItem('EMAIL');
 
             if (admin !== null) {
                 Globals.admin = admin;
@@ -43,6 +45,11 @@ class NavigationDrawerStructure extends Component {
             if (connected !== null) {
                 Globals.connected = connected;
             }
+
+            if (email !== null) {
+                Globals.email = email;
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -115,7 +122,7 @@ const DrawerNavigator = createDrawerNavigator({
     ListeUtilisateurs: {
         screen: ListeUtilisateurs,
         navigationOptions: {
-            drawerLabel: 'Admin'
+            drawerLabel: 'ListeUtilisateurs'
         }
     },
     Utilisateur: {
@@ -128,6 +135,12 @@ const DrawerNavigator = createDrawerNavigator({
         screen: CGU,
         navigationOptions: {
             drawerLabel: 'CGU'
+        }
+    },
+    Statistiques: {
+        screen: Statistiques,
+        navigationOptions: {
+            drawerLabel: 'Statistiques'
         }
     }
 },
