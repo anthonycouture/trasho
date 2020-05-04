@@ -88,7 +88,9 @@ export default class Map extends React.Component {
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude)
+            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            //this.setOwnPosition(50.636665, 3.069481);
+            //this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 
@@ -219,7 +221,6 @@ export default class Map extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
-                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
                         success
@@ -283,6 +284,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#F194FF",
         borderRadius: 20,
         padding: 10,
+        margin: 10,
         elevation: 2
     },
     textStyle: {
