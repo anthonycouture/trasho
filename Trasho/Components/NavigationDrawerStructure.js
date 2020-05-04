@@ -16,6 +16,7 @@ import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
 import CGU from '../Screens/CGU';
+import AjouterPoubelleMap from '../Screens/AjouterPoubelleMap'
 
 class NavigationDrawerStructure extends Component {
 
@@ -129,7 +130,13 @@ const DrawerNavigator = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'CGU'
         }
-    }
+    },
+    AjouterPoubelleMap:{
+        screen: AjouterPoubelleMap,
+        navigationOptions: {
+            drawerLabel: 'AjouterPoubelleMap'
+        }
+    },
 },
     {
         contentComponent: CustomSideMenu,

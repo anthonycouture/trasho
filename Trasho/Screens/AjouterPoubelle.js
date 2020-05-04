@@ -15,8 +15,9 @@ export default class AjouterPoubelle extends Component {
      *
      * @memberof AjouterPoubelle
      */
-    async componentDidMount(){
-        await this._loadAllType().then();
+    componentDidMount(){
+        this._loadAllType();
+        this.props.navigation.addListener('willFocus', payload => {this._loadAllType()});
     }
 
     /**
@@ -85,7 +86,7 @@ export default class AjouterPoubelle extends Component {
                 type: "danger"
             });
         } else {
-            console.log(allTypes);
+           this.props.navigation.navigate('AjouterPoubelleMap', {types : allTypes});
         }
     }
 
