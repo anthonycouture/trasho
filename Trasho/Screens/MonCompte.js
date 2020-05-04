@@ -134,7 +134,7 @@ export default class MonCompte extends Component {
     render() {
         return (
             <Container>
-                <Content padder>
+                <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black', borderColor: 'black' }}>
                             <Text>Modifier mot de passe</Text>

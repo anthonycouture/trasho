@@ -13,7 +13,7 @@ export default class Admin extends Component {
     render() {
         return (
             <Container>
-                <Content padder>
+                <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent

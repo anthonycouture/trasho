@@ -12,7 +12,7 @@ export default class Statistiques extends Component {
     render() {
         return (
             <Container>
-                <Content padder>
+                <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbPoubelles} nouvelles poubelles</Text>

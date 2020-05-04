@@ -138,7 +138,7 @@ class Connexion extends Component {
           style={styles.logo}
         />
 
-        <Content>
+        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <Form>
             <Text style={styles.text}> Adresse email : </Text>
             <Item style={{ borderColor: 'transparent' }}>

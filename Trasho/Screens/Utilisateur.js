@@ -79,7 +79,7 @@ export default class Utilisateur extends Component {
     render() {
         return (
             <Container>
-                <Content>
+                <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
                     <Image
                         source={require('../Images/logo.png')}
                         style={styles.logo}
