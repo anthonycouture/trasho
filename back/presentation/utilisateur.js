@@ -46,6 +46,9 @@ router.get('/:mail/:password', async (req, res) => {
   }
 });
 
+/**
+ * Récupération de tous les utilisateurs
+ */
 router.get('/users', async (req, res) => {
   let rows = await domain.users();
   res
@@ -53,6 +56,9 @@ router.get('/users', async (req, res) => {
     .json(rows);
 });
 
+/**
+ * Mise à jour de l'utilisateur correspondant au mail
+ */
 router.post('/update', async (req, res) => {
   const { mail, admin } = req.body;
   let rows = await domain.updateUtilisateur(
@@ -64,6 +70,9 @@ router.post('/update', async (req, res) => {
     .json(rows);
 });
 
+/**
+ * Suppression du compte utilisateur correspondant au mail
+ */
 router.post('/delete', async (req, res) => {
   const { mail, admin } = req.body;
   let rows = await domain.deleteUserByMail(
@@ -75,6 +84,9 @@ router.post('/delete', async (req, res) => {
     .json(rows);
 });
 
+/**
+ * Mise à jour du mot de passe de l'utilisateur correspondant au mail
+ */
 router.post('/updatePassword', async (req, res) => {
   const { mail, oldPassword, newPassword } = req.body;
 
