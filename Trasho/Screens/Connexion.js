@@ -114,15 +114,14 @@ class Connexion extends Component {
     const response = await fetch(url).catch(function (error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
-    const res = await response.json();
-    if (response.status == 400) {
+    if (response.status != 200) {
       alert('Combinaison email et mot de passe invalide');
     }
     else if (response.status == 200) {
+      const res = await response.json();
       await this._storeData(res);
       this.setState({ connected: res.resp });
       Globals.connected = true
-      console.log(res);
       Globals.admin = res['user'][this.state.email]['flag_admin'];
       Globals.email = this.state.email;
       alert('Connexion réussie !');

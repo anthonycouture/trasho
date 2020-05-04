@@ -31,11 +31,18 @@ router.get('/:mail/:password', async (req, res) => {
           "user": row['utilisateur']
         });
     }
+    else {
+      console.log("here 1 !");
+      res
+        .status(400)
+        .json()
+    }
   }
   else {
+    console.log("here !");
     res
       .status(400)
-      .json({})
+      .json()
   }
 });
 
