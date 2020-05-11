@@ -17,6 +17,8 @@ import GLOBAL from '../Globals';
 
 export default class AjouterPoubelleMap extends React.Component {
 
+    state = {}
+
     constructor(props) {
         super(props)
         this.state = {
@@ -29,6 +31,11 @@ export default class AjouterPoubelleMap extends React.Component {
             markerPoubelle: null,
             modalVisible: false,
             uuid: undefined,
+            newPoubelleSelected: false,
+            positionNewPoubelle: {
+                lat: null,
+                lng: null,
+            }
         }
         this.idPoubelle = null;
         this._checkProps();
@@ -43,15 +50,12 @@ export default class AjouterPoubelleMap extends React.Component {
       }
 
     _checkProps(){
-        console.log("nav 1 :" + this.props.navigation.getParam("types"));
         if(this.props.navigation.getParam("types") !== undefined){
             this.setState({
                 types : this.props.navigation.getParam("types")
             });
             this.props.navigation.setParams({types : undefined});
         }
-        console.log("state : " + this.state.types);
-        console.log("nav 2  :" + this.props.navigation.getParam("types"));
     }
 
     setModalVisible(visible) {
@@ -153,19 +157,25 @@ export default class AjouterPoubelleMap extends React.Component {
         const newPoubelle = {
             id: newUuid,
             position: { lat: touchLatLng.lat, lng: touchLatLng.lng },
-            icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-oFjoYNw83zLFDKEVEfgqIB1zFp3NWRH3Psa-fmG81D0Zy2hv&usqp=CAU",
+            icon: "🗑️",
             size: [24, 32],
-            /*animation: {
-                 duration: "0.5",
-                 delay: 0,
-                 iterationCount: INFINITE_ANIMATION_ITERATIONS,
-                 type: AnimationType.JUMP
-               }*/
         }
         this.setState(prevState =>({
             markerPoubelle : [...prevState.markerPoubelle, newPoubelle],
-            uuid : newUuid
+            uuid : newUuid,
+            validNewPoubelle : true,
+            positionNewPoubelle: {
+                lat : touchLatLng.lat,
+                lng: touchLatLng.lng,
+            },
         }));
+    }
+
+    validNewPoubelle() {
+        this.props.navigation.navigate('PhotoPoubelle',{
+            position : this.state.positionNewPoubelle,
+            types : this.state.types,
+        });
     }
 
     componentDidMount() {
@@ -253,14 +263,6 @@ export default class AjouterPoubelleMap extends React.Component {
 
                             }
                         }
-                        mapShapes={[
-                            {
-                                shapeType: MapShapeType.CIRCLE,
-                                color: "#123123",
-                                id: "1",
-                                center: this.state.mapCenterPosition,
-                                radius: 2000
-                            }]}
                         zoom={50}
                     />
                 }
@@ -277,6 +279,17 @@ export default class AjouterPoubelleMap extends React.Component {
                     >
                         <Text style={styles.mapButtonEmoji}>🎯</Text>
                     </Button>
+                    {this.state.validNewPoubelle && (
+                        <Button
+                        onPress={() => {
+                            this.validNewPoubelle();
+                        }}
+                        style={styles.mapButton}
+                        success
+                    >
+                        <Text style={styles.mapButtonEmoji}>✔️</Text>
+                        </Button>)
+                    }
                 </View>
             </View >
         );
