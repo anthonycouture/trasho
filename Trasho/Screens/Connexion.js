@@ -102,10 +102,19 @@ class Connexion extends Component {
   };
 
   async connexion() {
-    const url = GLOBAL.BASE_URL + '/api/user/' + this.state.email + '/' + this.state.password;
-    const response = await fetch(url).catch(function (error) {
+    const url = GLOBAL.BASE_URL + '/api/user/connexion';
+    const body = 'mail=' + this.state.email + '&password=' + this.state.password;
+    /*const response = await fetch(url).catch(function (error) {
       console.log('There has been a problem with your fetch operation: ' + error.message);
     });
+    */
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: new Headers({
+        'Content-Type': 'application/x-www-form-urlencoded',
+    }),
+    body: body
+});
     if (response.status != 200) {
       alert('Combinaison email et mot de passe invalide');
     }
