@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Text, StyleSheet, View } from 'react-native';
+import { Image, Text, StyleSheet, View, Button, TouchableHighlight } from 'react-native';
 import base64 from 'react-native-base64'
 import GLOBAL from '../Globals';
 
@@ -48,6 +48,13 @@ export default class ModalInfoPoubelle extends React.Component {
         );
     }
 
+    signalePoubelle() {
+        console.log("SIGNALEMENT");
+    }
+
+    supprimePoubelle(){
+        console.log("SUPPRIME POUBELLE");
+    }
 
     render() {
         return (
@@ -63,6 +70,30 @@ export default class ModalInfoPoubelle extends React.Component {
                         style={{ width: 100, height: 120, alignItems: 'center' }}
                     />
                 </View>
+                {
+                    (GLOBAL.connected && !GLOBAL.admin) &&
+                    <TouchableHighlight
+                        style={styles.openButton}
+                        onPress={() => {
+                            this.signalePoubelle();
+                        }}
+                    >
+                
+                    <Text style={styles.textStyle}>Signaler</Text>
+                    </TouchableHighlight>
+                }
+                {
+                    GLOBAL.admin &&
+                    <TouchableHighlight
+                        style={styles.openButton}
+                        onPress={() => {
+                            this.supprimePoubelle();
+                        }}
+                    >
+                
+                    <Text style={styles.textStyle}>Supprimer</Text>
+                    </TouchableHighlight>
+                }
             </View>
         )
     }
@@ -71,6 +102,18 @@ export default class ModalInfoPoubelle extends React.Component {
 const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
+        textAlign: "center"
+    },
+    openButton: {
+        backgroundColor: "#FF0000",
+        borderRadius: 20,
+        padding: 10,
+        margin: 10,
+        elevation: 2
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
         textAlign: "center"
     }
 });
