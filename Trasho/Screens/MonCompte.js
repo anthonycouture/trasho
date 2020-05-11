@@ -23,7 +23,8 @@ export default class MonCompte extends Component {
         iconOldPassword: "eye-off",
         iconPassword: "eye-off",
         iconConfirmPassword: "eye-off",
-        dialogVisible: false
+        dialogVisible: false,
+        dialogSuppressionVisible: false
     }
 
     async _deconnexion() {
@@ -36,6 +37,12 @@ export default class MonCompte extends Component {
     changeDialogState() {
         this.setState(prevState => ({
             dialogVisible: !prevState.dialogVisible
+        }));
+    }
+
+    changeDialogSuppressionState() {
+        this.setState(prevState => ({
+            dialogSuppressionVisible: !prevState.dialogSuppressionVisible
         }));
     }
 
@@ -131,6 +138,26 @@ export default class MonCompte extends Component {
             });
     }
 
+    deleteUser(mail) {
+        const url = GLOBAL.BASE_URL + '/api/user/delete';
+        const body = 'mail=' + mail;
+        fetch(url, {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+            }),
+            body: body
+        })
+            .then((response) => response.text())
+            .then((responseText) => {
+                alert("Compte supprimé !");
+                this._deconnexion();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     render() {
         return (
             <Container>
@@ -177,7 +204,7 @@ export default class MonCompte extends Component {
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent
                                 onPress={
-                                    () => alert('Suppression du compte')
+                                    () => this.changeDialogSuppressionState()
                                 }>
                                 <Icon name={'person'} style={styles.black} />
                                 <Text style={styles.black}>Supprimer mon compte</Text>
@@ -202,6 +229,20 @@ export default class MonCompte extends Component {
                         negativeButton={{
                             title: "Non",
                             onPress: () => { this.props.navigation.navigate('Map'), this.changeDialogState() }
+                        }}
+                    />
+                    <ConfirmDialog
+                        title="Confirmation"
+                        message="Voulez-vous vraiment supprimer le compte ?"
+                        visible={this.state.dialogSuppressionVisible}
+                        onTouchOutside={() => this.setState({ dialogSuppressionVisible: false })}
+                        positiveButton={{
+                            title: "Oui",
+                            onPress: () => { this.deleteUser(Globals.email), this.changeDialogSuppressionState() }
+                        }}
+                        negativeButton={{
+                            title: "Non",
+                            onPress: () => { this.changeDialogSuppressionState() }
                         }}
                     />
                     <Text style={styles.niveau}> Niveau </Text>
