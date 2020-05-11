@@ -107,8 +107,8 @@ router.get('/email/:mail', async (req, res) => {
 });
 
 
-router.get('/:mail/:password', async (req, res) => {
-  const { mail, password } = req.params;
+router.post('/connexion', async (req, res) => {
+  const { mail, password } = req.body;
   let row = await domain.userByMail(mail);
   let ret = false;
   let taille = Object.keys(row['utilisateur']).length;
