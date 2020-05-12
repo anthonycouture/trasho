@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Image, Dimensions  } from 'react-native';
-import { View, Text, Icon } from 'native-base';
+import { View, Text, Icon, Toast } from 'native-base';
 import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import Dialog from "react-native-dialog";
+import Globals from '../Globals';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 
@@ -20,6 +21,7 @@ export default class PhotoPoubelle extends React.Component{
     
     componentDidMount(){
         this._checkPermission();
+        this.props.navigation.addListener('willFocus', payload => {this._checkProps()});
     }
 
     componentDidUpdate(){
@@ -28,6 +30,19 @@ export default class PhotoPoubelle extends React.Component{
 
     componentWillUnmount(){
         this.state = {}
+    }
+
+    _checkProps(){
+        if(this.props.navigation.getParam("types") !== undefined){
+            this.setState({
+                types : this.props.navigation.getParam("types"),
+                position: this.props.navigation.getParam("position"),
+            });
+            this.props.navigation.setParams({
+                types : undefined,
+                position: undefined,
+            });
+        }
     }
 
     /**
@@ -60,9 +75,9 @@ export default class PhotoPoubelle extends React.Component{
             await this.camera.takePictureAsync({
                 quality : 0.5,
                 base64: true
-            }).then((currentPhoto) => {
+            }).then((currentPhoto) => {                
                 this.setState({
-                    photo: currentPhoto,
+                    photo: currentPhoto.base64,
                     picker: false,
                 });
             });
@@ -90,8 +105,41 @@ export default class PhotoPoubelle extends React.Component{
         }
     }
 
-    _validPhoto(){
-        console.log('c ok');
+    async _validPhoto(){
+        console.log(this.state.types);
+        console.log(this.state.position);
+        const url = Globals.BASE_URL + '/api/trash';
+        await fetch(url,{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                longitude: this.state.position.lng,
+                latitude: this.state.position.lat,
+                url_photo: 'data:image/png;base64,'+this.state.photo
+              }),
+        }).then(async (response) => {
+            if(response.status == 201){
+                await response.json().then(async (json) => {
+                    for(const type of this.state.types){
+                        console.log(type);
+                        const url2 = Globals.BASE_URL + '/api/trash/' + json.id_poubelle + '/' + type;
+                        console.log(url2);
+                        await fetch(url2,{
+                            method: 'POST'
+                        });
+                    }
+                });
+            }
+        }).catch((err) => {
+            Toast.show({
+                text: "Problème lors de l'ajout de poubelle !",
+                duration : 2000,
+                type: "danger"
+            });
+        });
     }
     
     render(){
@@ -150,12 +198,7 @@ export default class PhotoPoubelle extends React.Component{
                 {//photo -> display photo                   
                     this.state.photo && (
                         <View style={{ flex: 1 }}>
-                            {!this.state.picker&&(
-                                <Image style={styles.photo} source={this.state.photo} /> 
-                            )}
-                            {this.state.picker&&(
-                                <Image style={styles.photo} source={{ uri : 'data:image/png;base64,'+this.state.photo}} /> 
-                            )}
+                            <Image style={styles.photo} source={{ uri : 'data:image/png;base64,'+this.state.photo}} /> 
                             <View style={styles.validOrCancelPhoto}>
                                 <TouchableOpacity
                                     style={styles.cameraButtons}
