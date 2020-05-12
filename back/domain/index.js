@@ -62,12 +62,10 @@ module.exports.getUrlPoubelleByIdPoubelle = async (id_poubelle) => {
   return res;
 }
 
-module.exports.insererPoubelle = async (dataPoubelle, dataTypePoubelle) => {
+module.exports.insererPoubelle = async (dataPoubelle) => {
   let res = await transaction(qry.INSERT_POUBELLE,dataPoubelle)
             .then((resp) => {
               let ret = resp.rows[0].id_poubelle;
-              dataTypePoubelle = [ret].concat(dataTypePoubelle);
-              transaction(qry.INSERT_TYPE_POUBELLE,dataTypePoubelle);
               return ret;
             }).catch((err) => {console.error(err); res = "failed"})
   return {id_poubelle : res };
@@ -161,6 +159,15 @@ module.exports.getAllTypes = async () => {
     (rows) => (Type.loadList(rows))
   );
   return res;
+}
+
+module.exports.addTypeForTrash = async(trashAndType) => {
+  await transaction(qry.INSERT_TYPE_POUBELLE, trashAndType).then((resp) => {
+    return resp.rows[0]
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
 }
 
 function transaction(requete,donnees_colonnes) {
