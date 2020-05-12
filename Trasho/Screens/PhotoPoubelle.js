@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity, Image, Dimensions  } from 'react-native';
 import { View, Text, Icon } from 'native-base';
+import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import { ThemeColors } from 'react-navigation';
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 
@@ -11,6 +14,7 @@ export default class PhotoPoubelle extends React.Component{
         hasPermission: null,
         type: Camera.Constants.Type.back,
         photo: null,
+        picker: false
     }
     
     componentDidMount(){
@@ -33,6 +37,12 @@ export default class PhotoPoubelle extends React.Component{
         this.setState({
             hasPermission: (status === 'granted')
         });
+        if (Constants.platform.ios) {
+            const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+            if (status !== 'granted') {
+              alert('Sorry, we need camera roll permissions to make this work!');
+            }
+          }
     }
 
     /**
@@ -52,8 +62,32 @@ export default class PhotoPoubelle extends React.Component{
             }).then((currentPhoto) => {
                 this.setState({
                     photo: currentPhoto,
+                    picker: false,
                 });
             });
+        }
+    }
+
+    async _pickPicture(){
+        try {
+            await ImagePicker.launchImageLibraryAsync({
+                quality: 1,
+                base64: true
+            }).then((result) => {
+                console.log(result.cancelled);
+                if (result.cancelled) {                   
+                    this.setState({ photo: null });
+                } else {
+                    console.log(Object.keys(result));
+                    console.log(result.base64.substring(0,10));
+                    this.setState({ 
+                        photo: result.base64,
+                        picker: true
+                    });
+                }
+            });
+        } catch (E) {
+            console.log(E);
         }
     }
 
@@ -82,6 +116,7 @@ export default class PhotoPoubelle extends React.Component{
                             <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:20}}>
                                 <TouchableOpacity
                                     style={styles.cameraButtons}
+                                    onPress={() => this._pickPicture()}
                                 >
                                     <Icon
                                         type="Ionicons"
@@ -116,7 +151,12 @@ export default class PhotoPoubelle extends React.Component{
                 {//photo -> display photo                   
                     this.state.photo && (
                         <View style={{ flex: 1 }}>
-                            <Image style={styles.photo} source={this.state.photo} /> 
+                            {!this.state.picker&&(
+                                <Image style={styles.photo} source={this.state.photo} /> 
+                            )}
+                            {this.state.picker&&(
+                                <Image style={styles.photo} source={{ uri : 'data:image/png;base64,'+this.state.photo}} /> 
+                            )}
                             <View style={styles.validOrCancelPhoto}>
                                 <TouchableOpacity
                                     style={styles.cameraButtons}
