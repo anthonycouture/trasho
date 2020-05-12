@@ -4,7 +4,7 @@ import { View, Text, Icon } from 'native-base';
 import Constants from 'expo-constants';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
-import { ThemeColors } from 'react-navigation';
+import Dialog from "react-native-dialog";
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 
@@ -14,7 +14,8 @@ export default class PhotoPoubelle extends React.Component{
         hasPermission: null,
         type: Camera.Constants.Type.back,
         photo: null,
-        picker: false
+        picker: false,
+        dialog: false,
     }
     
     componentDidMount(){
@@ -78,8 +79,6 @@ export default class PhotoPoubelle extends React.Component{
                 if (result.cancelled) {                   
                     this.setState({ photo: null });
                 } else {
-                    console.log(Object.keys(result));
-                    console.log(result.base64.substring(0,10));
                     this.setState({ 
                         photo: result.base64,
                         picker: true
@@ -92,7 +91,7 @@ export default class PhotoPoubelle extends React.Component{
     }
 
     _validPhoto(){
-
+        console.log('c ok');
     }
     
     render(){
@@ -174,7 +173,11 @@ export default class PhotoPoubelle extends React.Component{
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.cameraButtons}
-                                    onPress={() => this._validPhoto()}
+                                    onPress={() => {
+                                        this.setState({
+                                            dialog: true
+                                        });
+                                    }}
                                 >
                                     <Icon
                                         type="FontAwesome"
@@ -186,7 +189,14 @@ export default class PhotoPoubelle extends React.Component{
                         </View>
                     )
                 }
-                
+                <Dialog.Container visible={this.state.dialog}>
+                    <Dialog.Title>Valider la nouvelle poubelle</Dialog.Title>
+                    <Dialog.Description>
+                        Êtes vous bien sûr de vouloir ajouter cette nouvelle poubelle ?
+                    </Dialog.Description>
+                    <Dialog.Button label="Annuler" onPress={() => this.setState({dialog : false})} />
+                    <Dialog.Button label="Valider" onPress={() => this._validPhoto()}/>
+                </Dialog.Container>
             </View>
         )
     }
