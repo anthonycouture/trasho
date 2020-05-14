@@ -120,6 +120,10 @@ export default class Map extends React.Component {
     componentDidMount() {
         this.getLocationAsync();
         this.getPoubelleAsync();
+        this.props.navigation.addListener('willFocus', payload => {
+            this.getLocationAsync();
+            this.getPoubelleAsync();
+        });
     }
 
     modalPoubelle() {

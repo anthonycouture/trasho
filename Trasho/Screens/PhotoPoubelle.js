@@ -106,8 +106,6 @@ export default class PhotoPoubelle extends React.Component{
     }
 
     async _validPhoto(){
-        console.log(this.state.types);
-        console.log(this.state.position);
         const url = Globals.BASE_URL + '/api/trash';
         await fetch(url,{
             method: 'POST',
@@ -124,14 +122,19 @@ export default class PhotoPoubelle extends React.Component{
             if(response.status == 201){
                 await response.json().then(async (json) => {
                     for(const type of this.state.types){
-                        console.log(type);
                         const url2 = Globals.BASE_URL + '/api/trash/' + json.id_poubelle + '/' + type;
-                        console.log(url2);
                         await fetch(url2,{
                             method: 'POST'
                         });
                     }
                 });
+                this.setState({ dialog: false });
+                Toast.show({
+                    text: "Poubelle ajoutée !",
+                    duration : 3000,
+                    type: "success"
+                });
+                this.props.navigation.navigate('Map');
             }
         }).catch((err) => {
             Toast.show({
