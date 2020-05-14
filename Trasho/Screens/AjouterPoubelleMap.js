@@ -15,8 +15,9 @@ import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle from './../Components/ModalInfoPoubelle';
 import GLOBAL from '../Globals';
 
+export default class AjouterPoubelleMap extends React.Component {
 
-export default class Map extends React.Component {
+    state = {}
 
     constructor(props) {
         super(props)
@@ -28,20 +29,73 @@ export default class Map extends React.Component {
             ownPosition: null,
             webViewLeafletRef: null,
             markerPoubelle: null,
-            modalVisible: false
+            modalVisible: false,
+            uuid: undefined,
+            newPoubelleSelected: false,
+            positionNewPoubelle: {
+                lat: null,
+                lng: null,
+            }
         }
-
-        this.idPoubelle = null
+        this.idPoubelle = null;
+        this._checkProps();
+        this.props.navigation.addListener('willFocus', payload => {this._checkProps()});
+    }
+    
+    /**
+     * Create a UUID V4
+     *
+     * @returns the UUID V4
+     * @memberof AjouterPoubelleMap
+     */
+    uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
     }
 
+    /**
+     * Check and get parameters from navigation
+     *
+     * @memberof AjouterPoubelleMap
+     */
+    _checkProps(){
+        if(this.props.navigation.getParam("types") !== undefined){
+            this.setState({
+                types : this.props.navigation.getParam("types")
+            });
+            this.props.navigation.setParams({types : undefined});
+        }
+    }
+
+    /**
+     * Display or hide modal
+     *
+     * @param {*} visible
+     * @memberof AjouterPoubelleMap
+     */
     setModalVisible(visible) {
         this.setState({ modalVisible: visible });
     }
 
+    /**
+     * Set all trash markers
+     *
+     * @param {*} listPoubelle all trash
+     * @memberof AjouterPoubelleMap
+     */
     setMarkerPoubelle(listPoubelle) {
         this.setState({ markerPoubelle: listPoubelle })
     }
 
+    /**
+     * Set the center map
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof AjouterPoubelleMap
+     */
     setMapCenterPosition(lat, lng) {
         this.setState({
             mapCenterPosition: {
@@ -51,6 +105,13 @@ export default class Map extends React.Component {
         })
     }
 
+    /**
+     * Set the user position
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof AjouterPoubelleMap
+     */
     setOwnPosition(lat, lng) {
         this.setState({
             ownPosition: {
@@ -60,25 +121,47 @@ export default class Map extends React.Component {
         })
     }
 
+    /**
+     * Set the map ref
+     *
+     * @param {*} webViewLeafletRef map ref
+     * @memberof AjouterPoubelleMap
+     */
     setWebViewLeafletRef(webViewLeafletRef) {
         this.setState({ webViewLeafletRef: webViewLeafletRef })
     }
 
-    onMessageReceived = (message) => {
+    /**
+     * Handle the map events
+     *
+     * @memberof AjouterPoubelleMap
+     */
+    onMessageReceived = (message) => {        
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
                 if (message.payload.mapMarkerID !== 'OWN_POSTION_MARKER_ID') {
                     this.idPoubelle = message.payload.mapMarkerID
                     this.setModalVisible(true);
+                } else {
+
                 }
                 break;
             case WebViewLeafletEvents.ON_MOVE_END:
                 this.setMapCenterPosition(message.payload.mapCenterPosition.lat,message.payload.mapCenterPosition.lng);
+                break;
+            case WebViewLeafletEvents.ON_MAP_TOUCHED:
+                this.setNewPoubelle(message.payload.touchLatLng)
+                break;
             default:
                 null;//console.log("App received", message);
         }
     }
 
+    /**
+     * Get the user location
+     *
+     * @memberof AjouterPoubelleMap
+     */
     async getLocationAsync() {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== "granted") {
@@ -88,12 +171,15 @@ export default class Map extends React.Component {
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
-            //this.setMapCenterPosition(50.636665, 3.069481);
+            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude)
         }
     }
 
+    /**
+     * Get trash location
+     *
+     * @memberof AjouterPoubelleMap
+     */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash'
         const response = await fetch(url)
@@ -119,6 +205,48 @@ export default class Map extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
+    /**
+     * Set a new trash
+     *
+     * @param {*} touchLatLng
+     * @memberof AjouterPoubelleMap
+     */
+    setNewPoubelle(touchLatLng){
+        if(this.state.uuid !== undefined){
+            this.setState(prevState => ({
+                markerPoubelle: prevState.markerPoubelle.filter(trash => trash.id != this.state.uuid)
+              }));
+        }
+        const newUuid = this.uuidv4();
+        const newPoubelle = {
+            id: newUuid,
+            position: { lat: touchLatLng.lat, lng: touchLatLng.lng },
+            icon: "🗑️",
+            size: [24, 32],
+        }
+        this.setState(prevState =>({
+            markerPoubelle : [...prevState.markerPoubelle, newPoubelle],
+            uuid : newUuid,
+            validNewPoubelle : true,
+            positionNewPoubelle: {
+                lat : touchLatLng.lat,
+                lng: touchLatLng.lng,
+            },
+        }));
+    }
+
+    /**
+     * Valid the new trash
+     *
+     * @memberof AjouterPoubelleMap
+     */
+    validNewPoubelle() {
+        this.props.navigation.navigate('PhotoPoubelle',{
+            position : this.state.positionNewPoubelle,
+            types : this.state.types,
+        });
+    }
+
     componentDidMount() {
         this.getLocationAsync();
         this.getPoubelleAsync();
@@ -128,6 +256,12 @@ export default class Map extends React.Component {
         });
     }
 
+    /**
+     * The model with all trash informations
+     *
+     * @returns
+     * @memberof AjouterPoubelleMap
+     */
     modalPoubelle() {
         return (
             <Modal
@@ -208,14 +342,6 @@ export default class Map extends React.Component {
 
                             }
                         }
-                        mapShapes={[
-                            {
-                                shapeType: MapShapeType.CIRCLE,
-                                color: "#123123",
-                                id: "1",
-                                center: this.state.mapCenterPosition,
-                                radius: 2000
-                            }]}
                         zoom={50}
                     />
                 }
@@ -225,12 +351,24 @@ export default class Map extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
+                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
                         success
                     >
                         <Text style={styles.mapButtonEmoji}>🎯</Text>
                     </Button>
+                    {this.state.validNewPoubelle && (
+                        <Button
+                        onPress={() => {
+                            this.validNewPoubelle();
+                        }}
+                        style={styles.mapButton}
+                        success
+                    >
+                        <Text style={styles.mapButtonEmoji}>✔️</Text>
+                        </Button>)
+                    }
                 </View>
             </View >
         );
@@ -288,7 +426,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#F194FF",
         borderRadius: 20,
         padding: 10,
-        margin: 10,
         elevation: 2
     },
     textStyle: {

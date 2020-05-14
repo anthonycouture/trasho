@@ -18,6 +18,7 @@ module.exports = {
   routePoubelle : () => require('./presentation/poubelle'),
   routeSignalement : () => require('./presentation/signalement'),
   routeUtilisateur : () => require('./presentation/utilisateur'),
+  routeType : () => require('./presentation/type'),
 
   db  : () => require('./infrastructure'),
   qry : () => require('./infrastructure/constantRequest'),
@@ -26,5 +27,6 @@ module.exports = {
   poubelle : () => require('./domain/poubelle'),
   utilisateur : () => require('./domain/utilisateur'),
   signalement : () => require('./domain/signalement'),
+  type : () => require('./domain/type'),
   jsonable : () => require('./domain/JSONable'),
 }

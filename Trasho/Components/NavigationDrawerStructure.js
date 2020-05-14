@@ -17,6 +17,8 @@ import CustomSideMenu from './CustomSideMenu';
 import { Icon } from 'native-base';
 import Globals from '../Globals';
 import CGU from '../Screens/CGU';
+import AjouterPoubelleMap from '../Screens/AjouterPoubelleMap'
+import PhotoPoubelle from '../Screens/PhotoPoubelle';
 
 class NavigationDrawerStructure extends Component {
 
@@ -142,6 +144,18 @@ const DrawerNavigator = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Statistiques'
         }
+    },
+    AjouterPoubelleMap:{
+        screen: AjouterPoubelleMap,
+        navigationOptions: {
+            drawerLabel: 'AjouterPoubelleMap'
+        }
+    },
+    PhotoPoubelle:{
+        screen: PhotoPoubelle,
+        navigationOptions: {
+            drawerLabel: 'PhotoPoubelle'
+        }
     }
 },
     {
@@ -156,7 +170,7 @@ const StackNavigator = createStackNavigator({
     DrawerNavigator:{
         screen: DrawerNavigator,
         navigationOptions: ({ navigation }) => ({
-            title: 'Map',
+            title: 'Trasho',
             headerLeft: <NavigationDrawerStructure navigationProps={navigation} />,
             headerStyle: {
                 backgroundColor: '#74992e',

@@ -61,20 +61,29 @@ router.get('/url/:id', async (req,res) => {
     .json(rows.poubelle._undefined.url_photo);
 })
 
-router.post('/create',async (req,res)=>{
+router.post('/',async (req,res)=>{
   /*
   body = {longitude:XX,
   latitude:XX,
   url_photo:XX,
   type:XX}
   */
-  const {longitude, latitude,url_photo,type} = req.body;
+  const {longitude, latitude,url_photo} = req.body;
   let rows = await domain.insererPoubelle(
-    [longitude,latitude, url_photo],
-    [type]
+    [longitude,latitude, url_photo]
   );
   
   res
     .status(201)
     .json(rows);
+});
+
+router.post('/:id/:type', async (req,res) => {
+  const {id, type} = req.params;
+  await domain.addTypeForTrash([id, type]).then((response) => {
+    res.status(201).json(response)
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
 });

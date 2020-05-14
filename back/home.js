@@ -13,8 +13,8 @@ const PORT = property.server_port;
 const BASE_URL = property.url_base;
 /* Launch the engine*/
 var app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+app.use(bodyParser.json({limit: '50mb', extended: true}));
 app.use(cors())
 
 // Configure ejs
