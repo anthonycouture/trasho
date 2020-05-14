@@ -11,6 +11,7 @@
   "url_poubelle" : "/api/trash",
   "url_signalement" : "/api/report",
   "url_utilisateur" : "/api/user",
+  "url_type" : "/api/type",
 
   "log_mode":"info",
 
