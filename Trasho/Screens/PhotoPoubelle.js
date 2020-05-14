@@ -32,6 +32,11 @@ export default class PhotoPoubelle extends React.Component{
         this.state = {}
     }
 
+    /**
+     * Check and get parameters from navigation
+     *
+     * @memberof PhotoPoubelle
+     */
     _checkProps(){
         if(this.props.navigation.getParam("types") !== undefined){
             this.setState({
@@ -70,6 +75,11 @@ export default class PhotoPoubelle extends React.Component{
             : this.setState({ type : Camera.Constants.Type.back })
     }
 
+    /**
+     * Take a picture
+     *
+     * @memberof PhotoPoubelle
+     */
     async _takePicture(){
         if (this.camera) {
             await this.camera.takePictureAsync({
@@ -84,6 +94,11 @@ export default class PhotoPoubelle extends React.Component{
         }
     }
 
+    /**
+     * Pick a picture from gallery
+     *
+     * @memberof PhotoPoubelle
+     */
     async _pickPicture(){
         try {
             await ImagePicker.launchImageLibraryAsync({
@@ -105,6 +120,12 @@ export default class PhotoPoubelle extends React.Component{
         }
     }
 
+    /**
+     * Valid and add a new trash
+     * Navigate to the map
+     *
+     * @memberof PhotoPoubelle
+     */
     async _validPhoto(){
         const url = Globals.BASE_URL + '/api/trash';
         await fetch(url,{

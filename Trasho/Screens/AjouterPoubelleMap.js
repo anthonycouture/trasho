@@ -41,14 +41,25 @@ export default class AjouterPoubelleMap extends React.Component {
         this._checkProps();
         this.props.navigation.addListener('willFocus', payload => {this._checkProps()});
     }
-
+    
+    /**
+     * Create a UUID V4
+     *
+     * @returns the UUID V4
+     * @memberof AjouterPoubelleMap
+     */
     uuidv4() {
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
           var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
           return v.toString(16);
         });
-      }
+    }
 
+    /**
+     * Check and get parameters from navigation
+     *
+     * @memberof AjouterPoubelleMap
+     */
     _checkProps(){
         if(this.props.navigation.getParam("types") !== undefined){
             this.setState({
@@ -58,14 +69,33 @@ export default class AjouterPoubelleMap extends React.Component {
         }
     }
 
+    /**
+     * Display or hide modal
+     *
+     * @param {*} visible
+     * @memberof AjouterPoubelleMap
+     */
     setModalVisible(visible) {
         this.setState({ modalVisible: visible });
     }
 
+    /**
+     * Set all trash markers
+     *
+     * @param {*} listPoubelle all trash
+     * @memberof AjouterPoubelleMap
+     */
     setMarkerPoubelle(listPoubelle) {
         this.setState({ markerPoubelle: listPoubelle })
     }
 
+    /**
+     * Set the center map
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof AjouterPoubelleMap
+     */
     setMapCenterPosition(lat, lng) {
         this.setState({
             mapCenterPosition: {
@@ -75,6 +105,13 @@ export default class AjouterPoubelleMap extends React.Component {
         })
     }
 
+    /**
+     * Set the user position
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof AjouterPoubelleMap
+     */
     setOwnPosition(lat, lng) {
         this.setState({
             ownPosition: {
@@ -84,10 +121,21 @@ export default class AjouterPoubelleMap extends React.Component {
         })
     }
 
+    /**
+     * Set the map ref
+     *
+     * @param {*} webViewLeafletRef map ref
+     * @memberof AjouterPoubelleMap
+     */
     setWebViewLeafletRef(webViewLeafletRef) {
         this.setState({ webViewLeafletRef: webViewLeafletRef })
     }
 
+    /**
+     * Handle the map events
+     *
+     * @memberof AjouterPoubelleMap
+     */
     onMessageReceived = (message) => {        
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
@@ -109,6 +157,11 @@ export default class AjouterPoubelleMap extends React.Component {
         }
     }
 
+    /**
+     * Get the user location
+     *
+     * @memberof AjouterPoubelleMap
+     */
     async getLocationAsync() {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== "granted") {
@@ -122,6 +175,11 @@ export default class AjouterPoubelleMap extends React.Component {
         }
     }
 
+    /**
+     * Get trash location
+     *
+     * @memberof AjouterPoubelleMap
+     */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash'
         const response = await fetch(url)
@@ -147,6 +205,12 @@ export default class AjouterPoubelleMap extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
+    /**
+     * Set a new trash
+     *
+     * @param {*} touchLatLng
+     * @memberof AjouterPoubelleMap
+     */
     setNewPoubelle(touchLatLng){
         if(this.state.uuid !== undefined){
             this.setState(prevState => ({
@@ -171,6 +235,11 @@ export default class AjouterPoubelleMap extends React.Component {
         }));
     }
 
+    /**
+     * Valid the new trash
+     *
+     * @memberof AjouterPoubelleMap
+     */
     validNewPoubelle() {
         this.props.navigation.navigate('PhotoPoubelle',{
             position : this.state.positionNewPoubelle,
@@ -187,6 +256,12 @@ export default class AjouterPoubelleMap extends React.Component {
         });
     }
 
+    /**
+     * The model with all trash informations
+     *
+     * @returns
+     * @memberof AjouterPoubelleMap
+     */
     modalPoubelle() {
         return (
             <Modal
