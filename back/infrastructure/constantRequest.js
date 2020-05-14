@@ -23,6 +23,8 @@ const UPDATE_PASSWORD = 'UPDATE utilisateur SET password = $2 where mail = $1';
 
 const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1';
 
+const INSERT_SIGNALEMENT_DELETE = 'insert into signalement (mail, id_poubelle, id_type_signalement, date_signalement) VALUES $1, $2, (select id_type_signalement from type_signalement where type = \'Suppression\'), now())';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -38,6 +40,8 @@ module.exports = {
   UPDATE_PASSWORD,
 
   GET_URL_POUBELLE,
+
+  INSERT_SIGNALEMENT_DELETE,
 
   INSERT_POUBELLE : ' INSERT INTO poubelle(longitude, latitude, url_photo) VALUES ($1, $2, $3) returning id_poubelle',
   INSERT_TYPE_POUBELLE : ' INSERT INTO poubelle_type_poubelle(id_poubelle, id_type_poubelle) '+

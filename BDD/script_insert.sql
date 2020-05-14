@@ -15,3 +15,5 @@ VALUES ((select id_poubelle from poubelle p where p.latitude=50.636752 and p.lon
 INSERT INTO public.poubelle_type_poubelle(id_poubelle, id_type_poubelle) 
 VALUES ((select id_poubelle from poubelle p where p.latitude=50.636198 and p.longitude=3.068494), 
 		(select id_type_poubelle from type_poubelle t where t.type='Tout déchet'));
+		
+INSERT INTO type_signalement (type) VALUES ('Suppression');
