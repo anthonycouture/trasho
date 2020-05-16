@@ -2,6 +2,7 @@ import React from 'react';
 import { Image, Text, StyleSheet, View, Button, TouchableHighlight } from 'react-native';
 import base64 from 'react-native-base64'
 import GLOBAL from '../Globals';
+import Globals from '../Globals';
 
 export default class ModalInfoPoubelle extends React.Component {
     constructor(props) {
@@ -50,9 +51,29 @@ export default class ModalInfoPoubelle extends React.Component {
 
     signalePoubelle() {
         console.log("SIGNALEMENT");
+        const url = GLOBAL.BASE_URL + '/api/report/addSignalementDelete'
+        const body = 'idPoubelle=' + this.state.idPoubelle + '&mail=' + Globals.email;
+        fetch(url,
+            {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }),
+                body: body
+            }
+        ).then((response) => {
+            if (response.status !== 200) {
+                alert("Un problème est survenu")
+            }else{
+                alert("Le signalement a été pris en compte !")
+            }
+        }).catch((error) => {
+            console.error(error);
+            alert("Une erreur est survenu")
+        });
     }
 
-    supprimePoubelle(){
+    supprimePoubelle() {
         console.log("SUPPRIME POUBELLE");
     }
 
@@ -78,8 +99,8 @@ export default class ModalInfoPoubelle extends React.Component {
                             this.signalePoubelle();
                         }}
                     >
-                
-                    <Text style={styles.textStyle}>Signaler</Text>
+
+                        <Text style={styles.textStyle}>Signaler</Text>
                     </TouchableHighlight>
                 }
                 {
@@ -90,8 +111,8 @@ export default class ModalInfoPoubelle extends React.Component {
                             this.supprimePoubelle();
                         }}
                     >
-                
-                    <Text style={styles.textStyle}>Supprimer</Text>
+
+                        <Text style={styles.textStyle}>Supprimer</Text>
                     </TouchableHighlight>
                 }
             </View>

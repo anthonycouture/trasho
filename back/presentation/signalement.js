@@ -15,3 +15,12 @@ router.get('/',async (req,res) => {
     .status(200)
     .json(rows);
 });
+
+router.post('/addSignalementDelete',async(req, res) => {
+  const {idPoubelle, mail } = req.body;
+  let retour = await domain.insertSignalementDelete([mail, idPoubelle])
+  if(retour)
+    res.status(200).json();
+  else
+    res.status(409).json();
+});
