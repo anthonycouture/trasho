@@ -193,7 +193,7 @@ export default class MonCompte extends Component {
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent
                                 onPress={
-                                    () => alert('Récupération des données')
+                                    () => console.log('niveau : ' + Globals.niveau)
                                 }>
                                 <Icon name={'settings'} style={styles.black} />
                                 <Text style={styles.black}>Récupérer mes données</Text>
@@ -247,9 +247,9 @@ export default class MonCompte extends Component {
                     />
                     <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
-                        <Text style={{ marginRight: 5 }}>1</Text>
-                        <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
-                        <Text style={{ marginLeft: 5 }}>2</Text>
+                        <Text style={{ marginRight: 5 }}>{Globals.niveau}</Text>
+                        <Progress.Bar progress={Globals.experience/100} width={300} borderColor={'#74992e'} color={'#74992e'} />
+                        <Text style={{ marginLeft: 5 }}>{Globals.niveau + 1}</Text>
                     </Item>
                 </Content>
             </Container>
