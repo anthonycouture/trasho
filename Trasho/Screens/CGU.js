@@ -29,7 +29,7 @@ export default class CGU extends Component{
             duration: 3000,
             type: "danger"
         });
-        this.props.navigation.navigate("Map");
+        this.props.navigation.navigate("MapPage");
     }
 
     /**

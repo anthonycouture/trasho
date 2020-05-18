@@ -78,19 +78,11 @@ router.post('/',async (req,res)=>{
     .json(rows);
 });
 
-router.post('/:id/:type', async (req,res) => {
-  const {id, type} = req.params;
-  await domain.addTypeForTrash([id, type]).then((response) => {
-    res.status(201).json(response)
-  }).catch((err) => {
-    console.error(err);
-    return "failed";
-  })
-});
 
 /* Get trash by type */
-router.get('/byType/name', async (req, res) => {
+router.post('/byType/name', async (req, res) => {
   const {type} = req.body;
+  console.log(type);
   const list = type.map(function(aType){
     return "'" + aType + "'";
   }).join(',');
@@ -100,4 +92,14 @@ router.get('/byType/name', async (req, res) => {
     console.error(err);
     return "failed";
   });
-})
+});
+
+router.post('/:id/:type', async (req,res) => {
+  const {id, type} = req.params;
+  await domain.addTypeForTrash([id, type]).then((response) => {
+    res.status(201).json(response)
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
+});
