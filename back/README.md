@@ -9,6 +9,24 @@
 # Attention
 ## ne pas modifier le fichier db.json au cas où
 
+# Nouveautés 18 Mai 2020
+
+- utils/security.js :
+	+ Permet de gérer les fonctions de sécurité :
+		+ tokenApplication => permet de gérer le token applicative, token_api, permet l'accès et l'utilisation de l'entierté du serveur.
+		+ administrateur => permet de gérer le token utilisateur, token_user,
+		permet l'accès et l'utilisation des modules d'administration du serveur.
+- domain/security.js :
+  + Permet de séparer les requetes utilisé que pour la securité
+
+- conf.json :
+	+ url_base_admin => permet de modulé l'url base pour la fonction utils.security.administrateur();
+	+ token_api => permet de changer le token api de l'appli ( pourrait être géré dans une bdd à voir si on fait ça, ça jouterai de la securité avec une date d'expiration )
+
+- JSONable :
+	+ loadUnic : permet de récupérer un seul objet de la classe demandé ssi il n'y a qu'un résultat pour la requete.
+
+
 # Nouveautés 4 Avril  2020
 
 - Infrastructure :

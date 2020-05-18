@@ -25,4 +25,9 @@ module.exports = {
   utilisateur : () => require('./domain/utilisateur'),
   signalement : () => require('./domain/signalement'),
   jsonable : () => require('./domain/JSONable'),
+  domainSecurity : () => require('./domain/security.js'),
+
+  security : () => require('./utils/security.js'),
+
+  serverError: () => require('./error/CustomServerError.js'),
 }

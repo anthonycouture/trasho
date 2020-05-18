@@ -22,5 +22,6 @@ module.exports = {
   '(select id_type_poubelle from type_poubelle t where t.type=$2)'+
   ');',
   DELETE_POUBELLE_BY_ID : 'DELETE FROM poubelle WHERE id_poubelle = $1',
+  GET_USER_BY_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1',
 
 };

@@ -12,8 +12,11 @@
   "url_signalement" : "/api/report",
   "url_utilisateur" : "/api/user",
 
+  "url_base_admin" : "admin",
+
   "log_mode":"info",
 
+  "token_api":"eef0c396c1a2c19d3119217a759fad0d6ab57465cb9241e80277378bfd970236",
 
   "fin":"ne pas ajouter de ligne en dessous"
 }

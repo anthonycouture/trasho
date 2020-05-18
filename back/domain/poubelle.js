@@ -38,7 +38,7 @@ class Poubelle extends JSONable{
   }
 
   static tablename(){ return 'poubelle';}
-  identifiant() { 
+  identifiant() {
     return this.type+'_'+this.#id_poubelle;
   }
   content() {
@@ -56,8 +56,6 @@ class Poubelle extends JSONable{
       this.#id_poubelle = id_poubelle;
     return this.#id_poubelle;
   }
-
-
 }
 
 module.exports = Poubelle;

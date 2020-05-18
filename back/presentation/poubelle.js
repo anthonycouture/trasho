@@ -3,6 +3,7 @@ const imp = require('../import.js');
 
 const Router = imp.router();
 const domain = imp.domain();
+const security = imp.security();
 
 const router = new Router();
 
@@ -10,17 +11,19 @@ const router = new Router();
 module.exports = router;
 
 router.get('/',async (req,res) => {
-  let rows = await domain.sendAllPoubelles();
-  res
-    .status(200)
-    .json(rows);
+    let rows = await domain.sendAllPoubelles();
+    res
+      .status(200)
+      .json(rows);
+
 });
 
-router.get('/infos',async (req,res) => {
+router.get('/admin/infos',async (req,res) => {
   let rows = await domain.sendAllPoubellesInfo();
   res
     .status(200)
     .json(rows);
+        return true;
 });
 
 
@@ -40,7 +43,7 @@ router.get('/infos/:id',async (req,res) => {
     .json(rows);
 });
 
-router.post('/create',async (req,res)=>{
+router.post('/admin/create',async (req,res)=>{
   /*
   body = {longitude:XX,
   latitude:XX,
@@ -52,7 +55,7 @@ router.post('/create',async (req,res)=>{
     [longitude,latitude, url_photo],
     [type]
   );
-  
+
   res
     .status(201)
     .json(rows);
