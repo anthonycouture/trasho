@@ -2,22 +2,19 @@
 
 CREATE FUNCTION func_maj_niveau() RETURNS TRIGGER AS $maj_niveau$
 	BEGIN
-		IF((OLD.experience + NEW.experience) >= 100) THEN
-			UPDATE utilisateur
-			SET niveau = OLD.niveau + 1
-			WHERE mail = OLD.mail;
-			
-			UPDATE utilisateur
-			SET experience = NEW.experience - 100
-			WHERE mail = OLD.mail;
+		IF((OLD.experience + NEW.experience >= 100)) THEN
+			NEW.niveau = OLD.niveau + 1;
+			NEW.experience = OLD.experience + NEW.experience - 100;
+		ELSE
+			NEW.experience = OLD.experience + OLD.experience;
 		END IF;
-		return null;
+		return NEW;
 	END;
 $maj_niveau$ LANGUAGE plpgsql;
 
 
 CREATE TRIGGER maj_niveau
-AFTER UPDATE of experience ON utilisateur
+BEFORE UPDATE of experience ON utilisateur
 FOR EACH ROW
 EXECUTE FUNCTION func_maj_niveau();
 

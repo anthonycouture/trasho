@@ -35,7 +35,8 @@ create table utilisateur (
   token varchar,
   date_expire date,
   experience integer not null,
-  actif boolean not null
+  actif boolean not null,
+  niveau integer not null
 );
 
 create table signalement(
