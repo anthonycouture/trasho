@@ -204,6 +204,7 @@ module.exports.getAllTypes = async () => {
   return res;
 }
 
+/* Add type for trash */
 module.exports.addTypeForTrash = async(trashAndType) => {
   await transaction(qry.INSERT_TYPE_POUBELLE, trashAndType).then((resp) => {
     return resp.rows[0]
@@ -211,6 +212,16 @@ module.exports.addTypeForTrash = async(trashAndType) => {
     console.error(err);
     return "failed";
   })
+}
+
+/* Get trash by type */
+module.exports.getTrashFromTypes = async (type) => {
+  let res = await con.select(
+    qry.GET_ALL_POUBELLES_BY_TYPE,
+    (rows) => (Poubelle.loadList(rows)),
+    [type]
+  );
+  return res;
 }
 
 function transaction(requete, donnees_colonnes) {
