@@ -36,7 +36,7 @@ module.exports = {
   UPDATE_USER,
   DELETE_USER_BY_MAIL,
   UPDATE_PASSWORD,
-  GET_ALL_POUBELLES_BY_TYPE: 'select p.* from poubelle p NATURAL JOIN poubelle_type_poubelle pt where pt.id_type_poubelle = (select id_type_poubelle from type_poubelle t where t.type=$1)',
+  GET_ALL_POUBELLES_BY_TYPE: 'select distinct p.* from poubelle p NATURAL JOIN poubelle_type_poubelle pt NATURAL JOIN type_poubelle t where t.type in ',
 
   GET_URL_POUBELLE,
 

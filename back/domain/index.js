@@ -217,9 +217,8 @@ module.exports.addTypeForTrash = async(trashAndType) => {
 /* Get trash by type */
 module.exports.getTrashFromTypes = async (type) => {
   let res = await con.select(
-    qry.GET_ALL_POUBELLES_BY_TYPE,
+    qry.GET_ALL_POUBELLES_BY_TYPE + type,
     (rows) => (Poubelle.loadList(rows)),
-    [type]
   );
   return res;
 }
