@@ -18,9 +18,6 @@ router.get('/',async (req,res) => {
 
 router.post('/addSignalementDelete',async(req, res) => {
   const {idPoubelle, mail } = req.body;
-  let retour = await domain.insertSignalementDelete([mail, idPoubelle])
-  if(retour)
-    res.status(200).json();
-  else
-    res.status(409).json();
+  await domain.insertSignalementDelete([mail, idPoubelle])
+  res.status(200).json();
 });

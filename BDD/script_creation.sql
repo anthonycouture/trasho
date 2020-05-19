@@ -18,8 +18,8 @@ create table poubelle (
 );
 
 create table poubelle_type_poubelle (
-  id_poubelle integer references poubelle,
-  id_type_poubelle integer references type_poubelle,
+  id_poubelle integer references poubelle ON DELETE CASCADE,
+  id_type_poubelle integer references type_poubelle ON DELETE CASCADE,
   CONSTRAINT pk_poubelle_type primary key (id_poubelle,id_type_poubelle)
 );
 
@@ -40,8 +40,8 @@ create table utilisateur (
 
 create table signalement(
   id_signalement serial primary key,
-  mail varchar not null references utilisateur,
-  id_poubelle integer not null references poubelle,
+  mail varchar not null references utilisateur ON DELETE CASCADE,
+  id_poubelle integer not null references poubelle ON DELETE CASCADE,
   id_type_signalement integer not null references type_signalement,
   date_signalement date not null,
   UNIQUE (id_poubelle, mail)

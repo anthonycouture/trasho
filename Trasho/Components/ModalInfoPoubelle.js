@@ -50,7 +50,6 @@ export default class ModalInfoPoubelle extends React.Component {
     }
 
     signalePoubelle() {
-        console.log("SIGNALEMENT");
         const url = GLOBAL.BASE_URL + '/api/report/addSignalementDelete'
         const body = 'idPoubelle=' + this.state.idPoubelle + '&mail=' + Globals.email;
         fetch(url,
@@ -74,7 +73,26 @@ export default class ModalInfoPoubelle extends React.Component {
     }
 
     supprimePoubelle() {
-        console.log("SUPPRIME POUBELLE");
+        const url = GLOBAL.BASE_URL + '/api/trash/delete-poubelle'
+        const body = 'id=' + this.state.idPoubelle;
+        fetch(url,
+            {
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }),
+                body: body
+            }
+        ).then((response) => {
+            if (response.status !== 200) {
+                alert("Un problème est survenu")
+            }else{
+                alert("Le signalement a été pris en compte !")
+            }
+        }).catch((error) => {
+            console.error(error);
+            alert("Une erreur est survenu")
+        });
     }
 
     render() {

@@ -66,7 +66,6 @@ module.exports.transaction = async (queryCall, data) => {
   } catch (err) {
     await client.query('ROLLBACK');
     console.error(err);
-    res = false
   } finally {
     client.release();
   }

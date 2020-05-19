@@ -87,3 +87,9 @@ router.post('/:id/:type', async (req,res) => {
     return "failed";
   })
 });
+
+router.post('/delete-poubelle', async(req, res) => {
+  const {id} = req.body;
+  await domain.deletePoubelle([id]);
+  res.status(200).json();
+});

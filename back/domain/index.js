@@ -195,12 +195,14 @@ module.exports.updatePassword = async (data) => {
   return retour;
 }
 
+/* Insert signalement poubelle delete */
 module.exports.insertSignalementDelete = async (data) => {
-  let res = await transaction(qry.INSERT_SIGNALEMENT_DELETE, data)
-  if(res !== false)
-    return true
-  else
-    return false
+  await transaction(qry.INSERT_SIGNALEMENT_DELETE, data)
+}
+
+/* Supprime poubelle admin */
+module.exports.deletePoubelle = async (data) => {
+  await transaction(qry.DELETE_POUBELLE_BY_ID, data);
 }
 
 /* Get all types */
