@@ -137,10 +137,11 @@ module.exports.userByMail = async (mail) => {
   return res;
 }
 
-module.exports.users = async () => {
+module.exports.poubellesAjoutAvantDate = async (date) => {
   let res = await con.select(
-    qry.GET_ALL_USERS,
-    (rows) => (Utilisateur.loadList(rows))
+    qry.GET_POUBELLES_DATE,
+    (rows) => (Poubelle.loadList(rows)),
+    [date]
   );
   return res;
 }
@@ -186,6 +187,16 @@ module.exports.updatePassword = async (data) => {
       }
     });
   return retour;
+}
+
+
+
+module.exports.users = async () => {
+  let res = await con.select(
+    qry.GET_ALL_USERS,
+    (rows) => (Utilisateur.loadList(rows))
+  );
+  return res;
 }
 
 function transaction(requete, donnees_colonnes) {

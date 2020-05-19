@@ -59,7 +59,15 @@ router.get('/url/:id', async (req,res) => {
   res
     .status(200)
     .json(rows.poubelle._undefined.url_photo);
-})
+});
+
+router.get('/recente/:date',async (req,res) => {
+  const { date } = req.params;
+  let rows = await domain.poubellesAjoutAvantDate(date);
+  res
+    .status(200)
+    .json(rows);
+});
 
 router.post('/create',async (req,res)=>{
   /*

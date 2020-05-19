@@ -23,6 +23,8 @@ const UPDATE_PASSWORD = 'UPDATE utilisateur SET password = $2 where mail = $1';
 
 const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1';
 
+const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout <= $1';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -53,5 +55,5 @@ module.exports = {
   GET_USER_BY_UNEXPRIRED_TOKEN : 'SELECT * FROM utilisateur WHERE token = $1 and now() < date_expire',
   NEW_TOKEN : 'UPDATE utilisateur SET token = $1, date_expire = current_date + interval \'1 month\' WHERE token = $2 returning *',
   BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *',
-
+  GET_POUBELLES_DATE,
 };
