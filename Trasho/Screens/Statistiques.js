@@ -1,12 +1,36 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
+import GLOBAL from '../Globals';
 
 export default class Statistiques extends Component {
 
     state = {
         nbPoubelles: 0,
         nbSignalements: 0
+    }
+
+    componentDidMount() {
+        this.getStats();
+    }
+
+    async getStats() {
+        const url = GLOBAL.BASE_URL + '/api/trash/recente/2020-05-19';
+        const response = await fetch(url).catch(function (error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+        });
+        const res = await response.json();
+        if (response.status == 400) {
+            alert('Problème de récupération des données');
+        }
+        else if (response.status == 200) {
+            
+            //let utilisateur = res.utilisateur;
+            let poubelles = res.poubelle;
+            
+            console.log(Object.keys( poubelles ).length);
+            this.setState({nbPoubelles: Object.keys( poubelles ).length});
+        }
     }
 
     render() {
