@@ -43,5 +43,6 @@ create table signalement(
   mail varchar not null references utilisateur,
   id_poubelle integer not null references poubelle,
   id_type_signalement integer not null references type_signalement,
-  date_signalement date not null
+  date_signalement date not null,
+  UNIQUE (id_poubelle, mail)
 );
