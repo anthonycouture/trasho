@@ -7,7 +7,7 @@ import { DrawerNavigator } from 'react-navigation';
 
 import { StackNavigator } from 'react-navigation';
 
-import Map from '../Screens/Map';
+import MapPage from '../Screens/MapPage';
 import Connexion from '../Screens/Connexion';
 import Itineraire from '../Screens/Itineraire';
 import Admin from '../Screens/Admin';
@@ -85,9 +85,9 @@ export default class CustomSideMenu extends Component {
 
                     <View style={[styles.onglet, this.getBackground('Map')]}>
 
-                        <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('Map')]} />
+                        <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('MapPage')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('Map')]} onPress={() => { this.props.navigation.navigate('Map'), this.setState({ currentPage: 'Map' }) }} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('MapPage')]} onPress={() => { this.props.navigation.navigate('MapPage'), this.setState({ currentPage: 'MapPage' }) }} > Map </Text>
 
                     </View>
 

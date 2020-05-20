@@ -8,7 +8,7 @@ import Itineraire from '../Screens/Itineraire';
 import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
-import Map from '../Screens/Map';
+import MapPage from '../Screens/MapPage';
 import Inscription from '../Screens/Inscription';
 import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
 import Utilisateur from '../Screens/Utilisateur';
@@ -79,10 +79,10 @@ class NavigationDrawerStructure extends Component {
 }
 
 const DrawerNavigator = createDrawerNavigator({
-    Map: {
-        screen: Map,
+    MapPage: {
+        screen: MapPage,
         navigationOptions: {
-            drawerLabel: 'Map',
+            drawerLabel: 'MapPage',
         },
     },
     Connexion: {

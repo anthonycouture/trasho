@@ -78,6 +78,22 @@ router.post('/',async (req,res)=>{
     .json(rows);
 });
 
+
+/* Get trash by type */
+router.post('/byType/name', async (req, res) => {
+  const {type} = req.body;
+  console.log(type);
+  const list = type.map(function(aType){
+    return "'" + aType + "'";
+  }).join(',');
+  await domain.getTrashFromTypes('(' + list + ')').then((response) => {
+    res.status(200).json(response);
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  });
+});
+
 router.post('/:id/:type', async (req,res) => {
   const {id, type} = req.params;
   await domain.addTypeForTrash([id, type]).then((response) => {

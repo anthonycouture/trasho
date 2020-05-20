@@ -8,15 +8,15 @@ import {
     WebViewLeafletEvents
 
 } from "react-native-webview-leaflet";
-import { Button } from "native-base";
-import { StyleSheet, Text, View, Image, TouchableHighlight, Modal } from 'react-native';
+import { Button, Icon, ListItem, CheckBox, Body } from "native-base";
+import { StyleSheet, View, Image, TouchableHighlight, Modal, Text } from 'react-native';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import ModalInfoPoubelle from './../Components/ModalInfoPoubelle';
+import ModalInfoPoubelle from '../Components/ModalInfoPoubelle';
 import GLOBAL from '../Globals';
 
 
-export default class Map extends React.Component {
+export default class MapPage extends React.Component {
 
     constructor(props) {
         super(props)
@@ -28,7 +28,9 @@ export default class Map extends React.Component {
             ownPosition: null,
             webViewLeafletRef: null,
             markerPoubelle: null,
-            modalVisible: false
+            modalVisible: false,
+            modalTypeVisible: false,
+            listTypes: []
         }
 
         this.idPoubelle = null
@@ -94,12 +96,8 @@ export default class Map extends React.Component {
         }
     }
 
-    async getPoubelleAsync() {
-        const url = GLOBAL.BASE_URL + '/api/trash'
-        const response = await fetch(url)
-        const json = await response.json()
+    addMarkerPoubelle(poubelle){
         const poubelles = []
-        let poubelle = json.poubelle;
         for (let key in poubelle) {
             poubelles.push(
                 {
@@ -119,12 +117,98 @@ export default class Map extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
+    async getPoubelleAsync() {
+        const url = GLOBAL.BASE_URL + '/api/trash'
+        const response = await fetch(url)
+        const json = await response.json()
+        this.addMarkerPoubelle(json.poubelle)
+    }
+
+    /**
+     * Load all types of database
+     *
+     * @memberof Map
+     */
+    async _loadAllType(){        
+        const url =  GLOBAL.BASE_URL + '/api/type';               
+        const response = await fetch(url).catch((err) => {
+            console.error(err);
+        });
+        const res = await response.json();
+        if (response.status != 200){
+            Toast.show({
+                text: "Problème de communication !",
+                duration : 2000,
+                type: "danger"
+            });
+        } else {            
+            const mapType = new Map();
+            const allTypes = [];
+            Object.values(res.type_poubelle).forEach(element => {
+                allTypes.push(element.type);
+                mapType.set(element.type, false);
+            });
+
+            this.setState({
+                listTypes : allTypes,
+                mapSelected : mapType,
+            });
+        }
+    }
+
+    /**
+     * Handle the click on item checkbox to change the checkbox value
+     *
+     * @param {*} type
+     * @memberof Map
+     */
+    _handleCheckbox(type){
+        var newMap = this.state.mapSelected;
+        newMap.set(type, !newMap.get(type));
+        this.setState({
+            mapSelected : newMap,
+        });
+    }
+
+    /**
+     * Filter trash types
+     */
+    async filterTrash(){
+        var allTypes = []
+        for(var [key, value] of this.state.mapSelected){
+            if(value){
+                allTypes.push(key);
+            }
+        }
+        if(allTypes.length == 0){
+            this.setState({modalTypeVisible: false})
+            return this.getPoubelleAsync();
+        }        
+        const url =  GLOBAL.BASE_URL + '/api/trash/byType/name';
+        const response = await fetch(url,{
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                type: allTypes
+            })
+        });
+        const json = await response.json();
+        this.setState({modalTypeVisible: false});
+        this.addMarkerPoubelle(json.poubelle);
+        
+    }
+
     componentDidMount() {
         this.getLocationAsync();
         this.getPoubelleAsync();
+        this._loadAllType();
         this.props.navigation.addListener('willFocus', payload => {
             this.getLocationAsync();
             this.getPoubelleAsync();
+            this._loadAllType();
         });
     }
 
@@ -152,11 +236,41 @@ export default class Map extends React.Component {
         )
     }
 
+    modalType(){
+        return(
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalTypeVisible}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text>Type sélectionné :</Text>
+                        {
+                            this.state.listTypes.map((type) => {                               
+                                return(
+                                    <ListItem onPress={() => this._handleCheckbox(type)} key={type}>
+                                        <CheckBox checked={this.state.mapSelected.get(type)} color="#74992e"/>
+                                        <Text>      {type}</Text>
+                                    </ListItem>
+                                );
+                            })
+                        }
+                        <Button block success onPress={() => this.filterTrash()}>
+                            <Text>Valider</Text>
+                        </Button> 
+                    </View>
+                </View>
+            </Modal>
+        )
+    }
+
     render() {
         return (
             <View style={styles.container}>
 
                 {this.modalPoubelle()}
+                {this.modalType()}
 
                 {
                     <WebViewLeaflet
@@ -208,14 +322,6 @@ export default class Map extends React.Component {
 
                             }
                         }
-                        mapShapes={[
-                            {
-                                shapeType: MapShapeType.CIRCLE,
-                                color: "#123123",
-                                id: "1",
-                                center: this.state.mapCenterPosition,
-                                radius: 2000
-                            }]}
                         zoom={50}
                     />
                 }
@@ -230,6 +336,15 @@ export default class Map extends React.Component {
                         success
                     >
                         <Text style={styles.mapButtonEmoji}>🎯</Text>
+                    </Button>
+                    <Button
+                        onPress={() => {
+                            this.setState({modalTypeVisible: true});
+                        }}
+                        style={styles.mapButton}
+                        success
+                    >
+                        <Icon type="FontAwesome" name="filter"/>
                     </Button>
                 </View>
             </View >
@@ -256,9 +371,9 @@ const styles = StyleSheet.create({
     },
     mapButton: {
         alignItems: "center",
-        height: 42,
+        height: 50,
         justifyContent: "center",
-        width: 42
+        width: 50
     },
     mapButtonEmoji: {
         fontSize: 28

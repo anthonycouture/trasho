@@ -155,7 +155,7 @@ export default class PhotoPoubelle extends React.Component{
                     duration : 3000,
                     type: "success"
                 });
-                this.props.navigation.navigate('Map');
+                this.props.navigation.navigate('MapPage');
             }
         }).catch((err) => {
             Toast.show({

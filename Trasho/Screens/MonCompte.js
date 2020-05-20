@@ -228,7 +228,7 @@ export default class MonCompte extends Component {
                         }}
                         negativeButton={{
                             title: "Non",
-                            onPress: () => { this.props.navigation.navigate('Map'), this.changeDialogState() }
+                            onPress: () => { this.props.navigation.navigate('MapPage'), this.changeDialogState() }
                         }}
                     />
                     <ConfirmDialog
