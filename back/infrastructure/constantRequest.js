@@ -56,4 +56,6 @@ module.exports = {
   BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *',
 
   GET_ALL_TYPES : 'SELECT * FROM type_poubelle',
+
+  ADD_REPORT_NEW_TRASH: 'insert into signalement (mail, id_poubelle, id_type_signalement, date_signalement) VALUES ($1, $2, (select id_type_signalement from type_signalement where type = \'Ajout\'), now()) returning *',
 };

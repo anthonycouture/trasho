@@ -82,7 +82,6 @@ router.post('/',async (req,res)=>{
 /* Get trash by type */
 router.post('/byType/name', async (req, res) => {
   const {type} = req.body;
-  console.log(type);
   const list = type.map(function(aType){
     return "'" + aType + "'";
   }).join(',');

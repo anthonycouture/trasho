@@ -15,3 +15,11 @@ router.get('/',async (req,res) => {
     .status(200)
     .json(rows);
 });
+
+/* Add report f */
+router.post('/newTrash', async (req, res) => {
+  const {mail, id_poubelle} = req.body;
+  await domain.addReportNewTrash([mail, id_poubelle]).then((rows) => {
+    res.status(201).send(true);
+  });  
+})
