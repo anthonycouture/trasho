@@ -94,9 +94,8 @@ export default class MapPage extends React.Component {
                 });
                 let newListeMarker = this.state.markerPoubelle;
                 newListeMarker.splice(newListeMarker.indexOf(poubelleDelete), 1);
-                console.log(newListeMarker)
                 this.setMarkerPoubelle(newListeMarker);
-                console.log(this.state.markerPoubelle);*/
+                this.addMarkerPoubelle(newListeMarker);*/
                 this.getPoubelleAsync();
                 break;
             default:

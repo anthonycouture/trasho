@@ -91,7 +91,7 @@ export default class ModalInfoPoubelle extends React.Component {
             if (response.status !== 200) {
                 alert("Un problème est survenu")
             } else {
-                alert("La poubelle est suppimer !")
+                alert("La poubelle est supprimée !")
                 this.props.messageModal(MessageModal.SUPPRESSION_POUBELLE, this.props.idPoubelle);
                 this.props.affichemodal(false);
             }
