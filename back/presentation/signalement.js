@@ -16,6 +16,7 @@ router.get('/',async (req,res) => {
     .json(rows);
 });
 
+
 /* Add report f */
 router.post('/newTrash', async (req, res) => {
   const {mail, id_poubelle} = req.body;
@@ -23,3 +24,9 @@ router.post('/newTrash', async (req, res) => {
     res.status(201).send(true);
   });  
 })
+
+router.post('/addSignalementDelete',async(req, res) => {
+  const {idPoubelle, mail } = req.body;
+  await domain.insertSignalementDelete([mail, idPoubelle])
+  res.status(200).json();
+});

@@ -1,18 +1,15 @@
 import React from 'react';
 import {
-
-    INFINITE_ANIMATION_ITERATIONS,
     WebViewLeaflet,
-    AnimationType,
     MapShapeType,
     WebViewLeafletEvents
-
 } from "react-native-webview-leaflet";
-import { Button, Icon, ListItem, CheckBox, Body } from "native-base";
-import { StyleSheet, View, Image, TouchableHighlight, Modal, Text } from 'react-native';
+import { Button, Icon, ListItem, CheckBox } from "native-base";
+import { StyleSheet, View, TouchableHighlight, Modal, Text } from 'react-native';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import ModalInfoPoubelle from '../Components/ModalInfoPoubelle';
+import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
+
 import GLOBAL from '../Globals';
 
 
@@ -28,16 +25,19 @@ export default class MapPage extends React.Component {
             ownPosition: null,
             webViewLeafletRef: null,
             markerPoubelle: null,
-            modalVisible: false,
             modalTypeVisible: false,
-            listTypes: []
+            listTypes: [],
+            idPoubelle: null,
+            modal: false
         }
-
-        this.idPoubelle = null
     }
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+    setModal = (visible) => {
+        this.setState({ modal: visible })
+    }
+
+    setIdPoubelle(idPoubelle) {
+        this.setState({ idPoubelle: idPoubelle })
     }
 
     setMarkerPoubelle(listPoubelle) {
@@ -70,14 +70,37 @@ export default class MapPage extends React.Component {
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
                 if (message.payload.mapMarkerID !== 'OWN_POSTION_MARKER_ID') {
-                    this.idPoubelle = message.payload.mapMarkerID
-                    this.setModalVisible(true);
+                    this.setIdPoubelle(message.payload.mapMarkerID);
+                    this.setModal(true);
                 }
                 break;
             case WebViewLeafletEvents.ON_MOVE_END:
-                this.setMapCenterPosition(message.payload.mapCenterPosition.lat,message.payload.mapCenterPosition.lng);
+                this.setMapCenterPosition(message.payload.mapCenterPosition.lat, message.payload.mapCenterPosition.lng);
             default:
                 null;//console.log("App received", message);
+        }
+    }
+
+    messageModal = (message, idPoubelle) => {
+        switch (message) {
+            case MessageModal.SUPPRESSION_POUBELLE:
+                // Je l'améliorerais plus tard
+                /*let poubelleDelete;
+                this.state.markerPoubelle.forEach(function (item) {
+                    if (item.id === idPoubelle) {
+                        poubelleDelete = item;
+                        return;
+                    }
+                });
+                let newListeMarker = this.state.markerPoubelle;
+                newListeMarker.splice(newListeMarker.indexOf(poubelleDelete), 1);
+                console.log(newListeMarker)
+                this.setMarkerPoubelle(newListeMarker);
+                console.log(this.state.markerPoubelle);*/
+                this.getPoubelleAsync();
+                break;
+            default:
+                null;
         }
     }
 
@@ -89,10 +112,10 @@ export default class MapPage extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
-            this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
-            //this.setMapCenterPosition(50.636665, 3.069481);
+            //this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            this.setOwnPosition(50.636665, 3.069481);
+            this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 
@@ -211,30 +234,6 @@ export default class MapPage extends React.Component {
         });
     }
 
-    modalPoubelle() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.state.modalVisible}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <ModalInfoPoubelle idPoubelle={this.idPoubelle} />
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={() => {
-                                this.setModalVisible(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>Close</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </Modal>
-        )
-    }
-
     modalType(){
         return(
             <Modal
@@ -267,9 +266,13 @@ export default class MapPage extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-
-                {this.modalPoubelle()}
                 {this.modalType()}
+                {<ModalInfoPoubelle
+                    idPoubelle={this.state.idPoubelle}
+                    visible={this.state.modal}
+                    affichemodal={this.setModal}
+                    messageModal={this.messageModal}
+                />}
 
                 {
                     <WebViewLeaflet
@@ -382,21 +385,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
     },
     openButton: {
         backgroundColor: "#F194FF",

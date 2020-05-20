@@ -63,39 +63,39 @@ module.exports.getUrlPoubelleByIdPoubelle = async (id_poubelle) => {
 }
 
 module.exports.insererPoubelle = async (dataPoubelle) => {
-  let res = await transaction(qry.INSERT_POUBELLE,dataPoubelle)
-            .then((resp) => {
-              let ret = resp.rows[0].id_poubelle;
-              return ret;
-            }).catch((err) => {console.error(err); res = "failed"})
-  return {id_poubelle : res };
+  let res = await transaction(qry.INSERT_POUBELLE, dataPoubelle)
+    .then((resp) => {
+      let ret = resp.rows[0].id_poubelle;
+      return ret;
+    }).catch((err) => { console.error(err); res = "failed" })
+  return { id_poubelle: res };
 }
 
 module.exports.sendAllUsers = async () => {
   let res = await con.select(
-      qry.GET_ALL_USERS,
-      (rows)=>(Utilisateur.loadList(rows))
-    );
-    return res;
+    qry.GET_ALL_USERS,
+    (rows) => (Utilisateur.loadList(rows))
+  );
+  return res;
 }
 
 /* Insert a new user */
-module.exports.insertUser = async (dataUser) =>{
+module.exports.insertUser = async (dataUser) => {
   let res = await transaction(qry.INSERT_USER, dataUser).then((resp) => {
     let ret = resp.rows[0];
     return ret;
-  }). catch((err) => {
+  }).catch((err) => {
     console.error(err);
     res = "failed";
   });
-  return {user : res};
+  return { user: res };
 }
 
 /* Return the user by token */
 module.exports.findUserByToken = async (token) => {
   let res = await con.select(
     qry.GET_USER_BY_TOKEN,
-    (rows)=>(Utilisateur.loadList(rows)),
+    (rows) => (Utilisateur.loadList(rows)),
     [token]
   );
   return res.utilisateur;
@@ -105,7 +105,7 @@ module.exports.findUserByToken = async (token) => {
 module.exports.checkExpiredToken = async (token) => {
   let res = await con.select(
     qry.GET_USER_BY_UNEXPRIRED_TOKEN,
-    (rows)=>(Utilisateur.loadList(rows)),
+    (rows) => (Utilisateur.loadList(rows)),
     [token]
   );
   return res.utilisateur;
@@ -115,7 +115,7 @@ module.exports.checkExpiredToken = async (token) => {
 module.exports.becomeActif = async (token) => {
   let res = await transaction(qry.BECOME_ACTIF, [token]).then((resp) => {
     return resp.rows[0];
-  }).catch((err) =>{
+  }).catch((err) => {
     console.error(err);
     res = "failed";
   });
@@ -123,10 +123,10 @@ module.exports.becomeActif = async (token) => {
 }
 
 /* Generate a new token */
-module.exports.generateNewToken = async(dataNewToken) => {
+module.exports.generateNewToken = async (dataNewToken) => {
   let res = await transaction(qry.NEW_TOKEN, dataNewToken).then((resp) => {
     return resp.rows[0];
-  }).catch((err) =>{
+  }).catch((err) => {
     console.error(err);
     res = "failed";
   });
@@ -193,6 +193,16 @@ module.exports.updatePassword = async (data) => {
       }
     });
   return retour;
+}
+
+/* Insert signalement poubelle delete */
+module.exports.insertSignalementDelete = async (data) => {
+  await transaction(qry.INSERT_SIGNALEMENT_DELETE, data)
+}
+
+/* Supprime poubelle admin */
+module.exports.deletePoubelle = async (data) => {
+  await transaction(qry.DELETE_POUBELLE_BY_ID, data);
 }
 
 /* Get all types */
