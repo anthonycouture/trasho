@@ -28,14 +28,17 @@ export default class Map extends React.Component {
             ownPosition: null,
             webViewLeafletRef: null,
             markerPoubelle: null,
-            modalVisible: false
+            idPoubelle : null,
+            modal : false
         }
-
-        this.idPoubelle = null
     }
 
-    setModalVisible(visible) {
-        this.setState({ modalVisible: visible });
+    setModal = (visible) => {
+        this.setState({ modal: visible })
+    }
+
+    setIdPoubelle(idPoubelle) {
+        this.setState({ idPoubelle: idPoubelle })
     }
 
     setMarkerPoubelle(listPoubelle) {
@@ -68,12 +71,12 @@ export default class Map extends React.Component {
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
                 if (message.payload.mapMarkerID !== 'OWN_POSTION_MARKER_ID') {
-                    this.idPoubelle = message.payload.mapMarkerID
-                    this.setModalVisible(true);
+                    this.setIdPoubelle(message.payload.mapMarkerID);
+                    this.setModal(true);
                 }
                 break;
             case WebViewLeafletEvents.ON_MOVE_END:
-                this.setMapCenterPosition(message.payload.mapCenterPosition.lat,message.payload.mapCenterPosition.lng);
+                this.setMapCenterPosition(message.payload.mapCenterPosition.lat, message.payload.mapCenterPosition.lng);
             default:
                 null;//console.log("App received", message);
         }
@@ -128,35 +131,15 @@ export default class Map extends React.Component {
         });
     }
 
-    modalPoubelle() {
-        return (
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={this.state.modalVisible}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <ModalInfoPoubelle idPoubelle={this.idPoubelle} />
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={() => {
-                                this.setModalVisible(false);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>Close</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View>
-            </Modal>
-        )
-    }
-
     render() {
         return (
             <View style={styles.container}>
 
-                {this.modalPoubelle()}
+                {<ModalInfoPoubelle 
+                    idPoubelle={this.state.idPoubelle} 
+                    visible={this.state.modal} 
+                    affichemodal={this.setModal}
+                />}
 
                 {
                     <WebViewLeaflet
@@ -268,21 +251,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 22
-    },
-    modalView: {
-        margin: 20,
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5
     },
     openButton: {
         backgroundColor: "#F194FF",
