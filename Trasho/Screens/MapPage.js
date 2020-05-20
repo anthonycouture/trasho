@@ -163,8 +163,6 @@ export default class MapPage extends React.Component {
      * @memberof Map
      */
     _handleCheckbox(type){
-        console.log(type);
-        
         var newMap = this.state.mapSelected;
         newMap.set(type, !newMap.get(type));
         this.setState({
@@ -172,6 +170,9 @@ export default class MapPage extends React.Component {
         });
     }
 
+    /**
+     * Filter trash types
+     */
     async filterTrash(){
         var allTypes = []
         for(var [key, value] of this.state.mapSelected){
@@ -179,9 +180,10 @@ export default class MapPage extends React.Component {
                 allTypes.push(key);
             }
         }
-
-        console.log(allTypes.toString());
-        
+        if(allTypes.length == 0){
+            this.setState({modalTypeVisible: false})
+            return this.getPoubelleAsync();
+        }        
         const url =  GLOBAL.BASE_URL + '/api/trash/byType/name';
         const response = await fetch(url,{
             method: 'POST',
@@ -194,7 +196,7 @@ export default class MapPage extends React.Component {
             })
         });
         const json = await response.json();
-        this.setState({modalTypeVisible: false})
+        this.setState({modalTypeVisible: false});
         this.addMarkerPoubelle(json.poubelle);
         
     }
