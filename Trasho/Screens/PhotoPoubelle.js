@@ -146,16 +146,34 @@ export default class PhotoPoubelle extends React.Component{
                         const url2 = Globals.BASE_URL + '/api/trash/' + json.id_poubelle + '/' + type;
                         await fetch(url2,{
                             method: 'POST'
+                        }).then(async () => {
+                            const urlToReport = Globals.BASE_URL + '/api/report/newTrash';
+                            await fetch(urlToReport,{
+                                method: 'POST',
+                                headers: {
+                                    Accept: 'application/json',
+                                    'Content-Type': 'application/json',
+                                  },
+                                  body: JSON.stringify({
+                                    mail: Globals.email,
+                                    id_poubelle: json.id_poubelle
+                                  }),
+                            }).then((responseReport) => {
+                                if(responseReport.status == 201){
+                                    this.setState({ dialog: false });
+                                    Toast.show({
+                                        text: "Poubelle ajoutée !",
+                                        duration : 3000,
+                                        type: "success"
+                                    });
+                                    this.props.navigation.navigate('MapPage');
+                                }
+                            });
                         });
+
                     }
                 });
-                this.setState({ dialog: false });
-                Toast.show({
-                    text: "Poubelle ajoutée !",
-                    duration : 3000,
-                    type: "success"
-                });
-                this.props.navigation.navigate('MapPage');
+                
             }
         }).catch((err) => {
             Toast.show({

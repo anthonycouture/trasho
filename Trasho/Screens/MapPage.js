@@ -198,7 +198,6 @@ export default class MapPage extends React.Component {
         const json = await response.json();
         this.setState({modalTypeVisible: false});
         this.addMarkerPoubelle(json.poubelle);
-        
     }
 
     componentDidMount() {

@@ -91,7 +91,7 @@ export default class CustomSideMenu extends Component {
 
                     </View>
 
-                    {!Globals.connected && <View style={[styles.onglet, this.getBackground('AjouterPoubelle')]}>
+                    {Globals.connected && <View style={[styles.onglet, this.getBackground('AjouterPoubelle')]}>
 
                         <Icon type="AntDesign" name='plus' style={[styles.sideMenuIcon, this.getStylePage('AjouterPoubelle')]} />
 

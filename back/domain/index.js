@@ -223,6 +223,16 @@ module.exports.getTrashFromTypes = async (type) => {
   return res;
 }
 
+/* Add new report for new trash */
+module.exports.addReportNewTrash = async(mailAndIdPoubelle) => {
+  await transaction(qry.ADD_REPORT_NEW_TRASH, mailAndIdPoubelle).then((resp) => {
+    return resp.rows[0];
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
+}
+
 function transaction(requete, donnees_colonnes) {
   let retour = true;
   try {
