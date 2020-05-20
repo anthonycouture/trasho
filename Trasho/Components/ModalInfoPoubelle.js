@@ -1,10 +1,13 @@
 import React from 'react';
-import { Image, Text, StyleSheet, View, Button, TouchableHighlight, Modal } from 'react-native';
-import base64 from 'react-native-base64'
+import { Image, Text, StyleSheet, View, TouchableHighlight, Modal } from 'react-native';
 import GLOBAL from '../Globals';
-import Globals from '../Globals';
+
+export const MessageModal = {
+    SUPPRESSION_POUBELLE: "SUPPRESSION_POUBELLE"
+};
 
 export default class ModalInfoPoubelle extends React.Component {
+
     constructor(props) {
         super(props)
         this.state = {
@@ -52,7 +55,7 @@ export default class ModalInfoPoubelle extends React.Component {
 
     signalePoubelle() {
         const url = GLOBAL.BASE_URL + '/api/report/addSignalementDelete'
-        const body = 'idPoubelle=' + this.props.idPoubelle + '&mail=' + Globals.email;
+        const body = 'idPoubelle=' + this.props.idPoubelle + '&mail=' + GLOBAL.email;
         fetch(url,
             {
                 method: 'POST',
@@ -89,6 +92,8 @@ export default class ModalInfoPoubelle extends React.Component {
                 alert("Un problème est survenu")
             } else {
                 alert("La poubelle est suppimer !")
+                this.props.messageModal(MessageModal.SUPPRESSION_POUBELLE, this.props.idPoubelle);
+                this.props.affichemodal(false);
             }
         }).catch((error) => {
             console.error(error);

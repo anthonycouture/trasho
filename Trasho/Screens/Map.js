@@ -1,18 +1,14 @@
 import React from 'react';
 import {
-
-    INFINITE_ANIMATION_ITERATIONS,
     WebViewLeaflet,
-    AnimationType,
     MapShapeType,
     WebViewLeafletEvents
-
 } from "react-native-webview-leaflet";
 import { Button } from "native-base";
-import { StyleSheet, Text, View, Image, TouchableHighlight, Modal } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import ModalInfoPoubelle from './../Components/ModalInfoPoubelle';
+import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
 import GLOBAL from '../Globals';
 
 
@@ -28,8 +24,8 @@ export default class Map extends React.Component {
             ownPosition: null,
             webViewLeafletRef: null,
             markerPoubelle: null,
-            idPoubelle : null,
-            modal : false
+            idPoubelle: null,
+            modal: false
         }
     }
 
@@ -82,6 +78,29 @@ export default class Map extends React.Component {
         }
     }
 
+    messageModal = (message, idPoubelle) => {
+        switch (message) {
+            case MessageModal.SUPPRESSION_POUBELLE:
+                // Je l'améliorerais plus tard
+                /*let poubelleDelete;
+                this.state.markerPoubelle.forEach(function (item) {
+                    if (item.id === idPoubelle) {
+                        poubelleDelete = item;
+                        return;
+                    }
+                });
+                let newListeMarker = this.state.markerPoubelle;
+                newListeMarker.splice(newListeMarker.indexOf(poubelleDelete), 1);
+                console.log(newListeMarker)
+                this.setMarkerPoubelle(newListeMarker);
+                console.log(this.state.markerPoubelle);*/
+                this.getPoubelleAsync();
+                break;
+            default:
+                null;
+        }
+    }
+
     async getLocationAsync() {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== "granted") {
@@ -90,10 +109,10 @@ export default class Map extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
-            this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
-            //this.setMapCenterPosition(50.636665, 3.069481);
+            //this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            this.setOwnPosition(50.636665, 3.069481);
+            this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 
@@ -135,10 +154,11 @@ export default class Map extends React.Component {
         return (
             <View style={styles.container}>
 
-                {<ModalInfoPoubelle 
-                    idPoubelle={this.state.idPoubelle} 
-                    visible={this.state.modal} 
+                {<ModalInfoPoubelle
+                    idPoubelle={this.state.idPoubelle}
+                    visible={this.state.modal}
                     affichemodal={this.setModal}
+                    messageModal={this.messageModal}
                 />}
 
                 {
