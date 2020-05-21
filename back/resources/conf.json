@@ -15,6 +15,9 @@
 
   "log_mode":"info",
 
+  "cron_purge":"*/1 * * * *",
+  "time_before_delete_signalement":90,
+
 
   "fin":"ne pas ajouter de ligne en dessous"
 }

@@ -5,6 +5,7 @@ const qry = imp.qry();
 const Poubelle = imp.poubelle();
 const Utilisateur = imp.utilisateur();
 const Type = imp.type();
+const property = imp.prop();
 
 /*
 DOMAIN :  terme metiers : comprehensible
@@ -256,3 +257,10 @@ function transaction(requete, donnees_colonnes) {
   }
   return retour;
 }
+
+
+var schedule = require('node-schedule');
+schedule.scheduleJob(property.cron_purge, function(){
+  console.log('Purge des signalements');
+  transaction(qry.PURGE_SIGNALEMENT, []);
+});
