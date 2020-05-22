@@ -4,6 +4,7 @@ const imp = require('../import.js');
 const Router = imp.router();
 const domain = imp.domain();
 const security = imp.security();
+const property = imp.prop();
 
 const router = new Router();
 
@@ -18,7 +19,7 @@ router.get('/',async (req,res) => {
 
 });
 
-router.get('/admin/infos',async (req,res) => {
+router.get('/'+property.url_base_admin+'/infos',async (req,res) => {
   let rows = await domain.sendAllPoubellesInfo();
   res
     .status(200)
@@ -97,7 +98,7 @@ router.post('/byType/name', async (req, res) => {
   });
 });
 
-router.post('/:id/:type', async (req,res) => {
+router.post('/add-type/:id/:type', async (req,res) => {
   const {id, type} = req.params;
   await domain.addTypeForTrash([id, type]).then((response) => {
     res.status(201).json(response)
@@ -107,8 +108,8 @@ router.post('/:id/:type', async (req,res) => {
   })
 });
 
-router.post('/delete-poubelle', async(req, res) => {
+router.post('/'+property.url_base_admin+'/delete-poubelle', async(req, res) => {
   const {id} = req.body;
-  await domain.deletePoubelle([id]);
-  res.status(200).json();
+  let result = await domain.deletePoubelle([id]);
+  res.status(200).json(result.rowCount);
 });

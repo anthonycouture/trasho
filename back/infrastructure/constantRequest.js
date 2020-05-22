@@ -53,7 +53,7 @@ module.exports = {
     'VALUES ($1,' +
     '(select id_type_poubelle from type_poubelle t where t.type=$2)' +
     ');',
-  DELETE_POUBELLE_BY_ID: 'DELETE FROM poubelle WHERE id_poubelle = $1',
+  DELETE_POUBELLE_BY_ID: 'DELETE FROM poubelle WHERE id_poubelle = $1 RETURNING id_poubelle',
 
   GET_ALL_USERS: 'SELECT * FROM utilisateur',
   INSERT_USER: 'INSERT INTO utilisateur(mail, password, flag_admin, token, date_expire, experience, actif) ' +

@@ -203,7 +203,8 @@ module.exports.insertSignalementDelete = async (data) => {
 
 /* Supprime poubelle admin */
 module.exports.deletePoubelle = async (data) => {
-  await transaction(qry.DELETE_POUBELLE_BY_ID, data);
+  let res = await transaction(qry.DELETE_POUBELLE_BY_ID, data);
+  return res
 }
 
 /* Get all types */
@@ -252,8 +253,7 @@ function transaction(requete, donnees_colonnes) {
       donnees_colonnes
     );
   } catch (err) {
-    console.error(err);
-    retour = false;
+    throw err;
   }
   return retour;
 }
