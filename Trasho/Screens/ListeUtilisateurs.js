@@ -27,11 +27,12 @@ export default class ListeUtilisateurs extends Component {
     }
 
     async getAllUsers() {
-        const url = GLOBAL.BASE_URL + '/api/user/users';
+        const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/users';
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                "token_api": GLOBAL.token_api
+                "token_api": GLOBAL.token_api,
+                "token_user": GLOBAL.token_user
             }
         }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);

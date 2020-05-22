@@ -138,7 +138,7 @@ router.post('/connexion', async (req, res) => {
 /**
  * Récupération de tous les utilisateurs
  */
-router.get('/users', async (req, res) => {
+router.get('/'+property.url_base_admin+'/users', async (req, res) => {
   let rows = await domain.users();
   res
     .status(200)
@@ -148,7 +148,7 @@ router.get('/users', async (req, res) => {
 /**
  * Mise à jour de l'utilisateur correspondant au mail
  */
-router.post('/update', async (req, res) => {
+router.post('/'+property.url_base_admin+'/update', async (req, res) => {
   const { mail, admin } = req.body;
   let rows = await domain.updateUtilisateur(
     [mail, admin]
@@ -162,7 +162,7 @@ router.post('/update', async (req, res) => {
 /**
  * Suppression du compte utilisateur correspondant au mail
  */
-router.post('/delete', async (req, res) => {
+router.post('/'+property.url_base_admin+'/delete', async (req, res) => {
   const { mail, admin } = req.body;
   let rows = await domain.deleteUserByMail(
     [mail]

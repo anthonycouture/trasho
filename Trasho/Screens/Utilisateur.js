@@ -37,11 +37,12 @@ export default class Utilisateur extends Component {
     }
 
     saveModifications() {
-        const url = GLOBAL.BASE_URL + '/api/user/update';
+        const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/update';
         const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
         fetch(url, {
             method: 'POST',
             headers: new Headers({
+                "token_user": GLOBAL.token_user,
                 "token_api": GLOBAL.token_api,
                 'Content-Type': 'application/x-www-form-urlencoded',
             }),
@@ -57,12 +58,13 @@ export default class Utilisateur extends Component {
     }
 
     deleteUser(mail) {
-        const url = GLOBAL.BASE_URL + '/api/user/delete';
+        const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/delete';
         const body = 'mail=' + this.state.email;
         fetch(url, {
             method: 'POST',
             headers: new Headers({
                 "token_api": GLOBAL.token_api,
+                "token_user": GLOBAL.token_user,
                 'Content-Type': 'application/x-www-form-urlencoded',
             }),
             body: body
