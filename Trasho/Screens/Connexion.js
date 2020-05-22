@@ -111,6 +111,7 @@ class Connexion extends Component {
   const response = await fetch(url, {
     method: 'POST',
     headers: new Headers({
+        "token_api": GLOBAL.token_api,
         'Content-Type': 'application/x-www-form-urlencoded',
     }),
     body: body
@@ -125,6 +126,7 @@ class Connexion extends Component {
       Globals.connected = true
       Globals.admin = res['user'][this.state.email]['flag_admin'];
       Globals.email = this.state.email;
+      Globals.token_user = res['user'][this.state.email]['token'];
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }

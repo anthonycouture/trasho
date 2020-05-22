@@ -111,14 +111,14 @@ export default class MapPage extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
-            this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
-            //this.setMapCenterPosition(50.636665, 3.069481);
+            //this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            this.setOwnPosition(50.636665, 3.069481);
+            this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 
-    addMarkerPoubelle(poubelle){
+    addMarkerPoubelle(poubelle) {
         const poubelles = []
         for (let key in poubelle) {
             poubelles.push(
@@ -141,7 +141,12 @@ export default class MapPage extends React.Component {
 
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash'
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        })
         const json = await response.json()
         this.addMarkerPoubelle(json.poubelle)
     }
@@ -151,19 +156,24 @@ export default class MapPage extends React.Component {
      *
      * @memberof Map
      */
-    async _loadAllType(){        
-        const url =  GLOBAL.BASE_URL + '/api/type';               
-        const response = await fetch(url).catch((err) => {
+    async _loadAllType() {
+        const url = GLOBAL.BASE_URL + '/api/type';
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).catch((err) => {
             console.error(err);
         });
         const res = await response.json();
-        if (response.status != 200){
+        if (response.status != 200) {
             Toast.show({
                 text: "Problème de communication !",
-                duration : 2000,
+                duration: 2000,
                 type: "danger"
             });
-        } else {            
+        } else {
             const mapType = new Map();
             const allTypes = [];
             Object.values(res.type_poubelle).forEach(element => {
@@ -172,8 +182,8 @@ export default class MapPage extends React.Component {
             });
 
             this.setState({
-                listTypes : allTypes,
-                mapSelected : mapType,
+                listTypes: allTypes,
+                mapSelected: mapType,
             });
         }
     }
@@ -184,32 +194,33 @@ export default class MapPage extends React.Component {
      * @param {*} type
      * @memberof Map
      */
-    _handleCheckbox(type){
+    _handleCheckbox(type) {
         var newMap = this.state.mapSelected;
         newMap.set(type, !newMap.get(type));
         this.setState({
-            mapSelected : newMap,
+            mapSelected: newMap,
         });
     }
 
     /**
      * Filter trash types
      */
-    async filterTrash(){
+    async filterTrash() {
         var allTypes = []
-        for(var [key, value] of this.state.mapSelected){
-            if(value){
+        for (var [key, value] of this.state.mapSelected) {
+            if (value) {
                 allTypes.push(key);
             }
         }
-        if(allTypes.length == 0){
-            this.setState({modalTypeVisible: false})
+        if (allTypes.length == 0) {
+            this.setState({ modalTypeVisible: false })
             return this.getPoubelleAsync();
-        }        
-        const url =  GLOBAL.BASE_URL + '/api/trash/byType/name';
-        const response = await fetch(url,{
+        }
+        const url = GLOBAL.BASE_URL + '/api/trash/byType/name';
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
+                "token_api": GLOBAL.token_api,
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -218,7 +229,7 @@ export default class MapPage extends React.Component {
             })
         });
         const json = await response.json();
-        this.setState({modalTypeVisible: false});
+        this.setState({ modalTypeVisible: false });
         this.addMarkerPoubelle(json.poubelle);
     }
 
@@ -233,8 +244,8 @@ export default class MapPage extends React.Component {
         });
     }
 
-    modalType(){
-        return(
+    modalType() {
+        return (
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -244,10 +255,10 @@ export default class MapPage extends React.Component {
                     <View style={styles.modalView}>
                         <Text>Type sélectionné :</Text>
                         {
-                            this.state.listTypes.map((type) => {                               
-                                return(
+                            this.state.listTypes.map((type) => {
+                                return (
                                     <ListItem onPress={() => this._handleCheckbox(type)} key={type}>
-                                        <CheckBox checked={this.state.mapSelected.get(type)} color="#74992e"/>
+                                        <CheckBox checked={this.state.mapSelected.get(type)} color="#74992e" />
                                         <Text>      {type}</Text>
                                     </ListItem>
                                 );
@@ -255,7 +266,7 @@ export default class MapPage extends React.Component {
                         }
                         <Button block success onPress={() => this.filterTrash()}>
                             <Text>Valider</Text>
-                        </Button> 
+                        </Button>
                     </View>
                 </View>
             </Modal>
@@ -340,12 +351,12 @@ export default class MapPage extends React.Component {
                     </Button>
                     <Button
                         onPress={() => {
-                            this.setState({modalTypeVisible: true});
+                            this.setState({ modalTypeVisible: true });
                         }}
                         style={styles.mapButton}
                         success
                     >
-                        <Icon type="FontAwesome" name="filter"/>
+                        <Icon type="FontAwesome" name="filter" />
                     </Button>
                 </View>
             </View >

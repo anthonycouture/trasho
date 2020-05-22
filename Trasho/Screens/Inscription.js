@@ -134,7 +134,12 @@ export default class Inscription extends Component {
       && this._checkConfirmPassword() 
     ){
       const url = Globals.BASE_URL + '/api/user/email/' + this.state.email;
-      const response = await fetch(url).catch((err) => {console.log('Problème API')});
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            "token_api": GLOBAL.token_api
+        }
+    }).catch((err) => {console.log('Problème API')});
       if(response.status != 200){
         Toast.show({
           text: "Problème de communication !",

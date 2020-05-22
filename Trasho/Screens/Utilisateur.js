@@ -42,6 +42,7 @@ export default class Utilisateur extends Component {
         fetch(url, {
             method: 'POST',
             headers: new Headers({
+                "token_api": GLOBAL.token_api,
                 'Content-Type': 'application/x-www-form-urlencoded',
             }),
             body: body
@@ -61,6 +62,7 @@ export default class Utilisateur extends Component {
         fetch(url, {
             method: 'POST',
             headers: new Headers({
+                "token_api": GLOBAL.token_api,
                 'Content-Type': 'application/x-www-form-urlencoded',
             }),
             body: body

@@ -131,6 +131,7 @@ export default class PhotoPoubelle extends React.Component{
         await fetch(url,{
             method: 'POST',
             headers: {
+                "token_api": GLOBAL.token_api,
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
               },
@@ -145,12 +146,16 @@ export default class PhotoPoubelle extends React.Component{
                     for(const type of this.state.types){
                         const url2 = Globals.BASE_URL + '/api/trash/' + json.id_poubelle + '/' + type;
                         await fetch(url2,{
-                            method: 'POST'
+                            method: 'POST',
+                            headers: {
+                                "token_api": GLOBAL.token_api
+                            }
                         }).then(async () => {
                             const urlToReport = Globals.BASE_URL + '/api/report/newTrash';
                             await fetch(urlToReport,{
                                 method: 'POST',
                                 headers: {
+                                    "token_api": GLOBAL.token_api,
                                     Accept: 'application/json',
                                     'Content-Type': 'application/json',
                                   },

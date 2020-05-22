@@ -182,7 +182,12 @@ export default class AjouterPoubelleMap extends React.Component {
      */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash'
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        })
         const json = await response.json()
         const poubelles = []
         let poubelle = json.poubelle;

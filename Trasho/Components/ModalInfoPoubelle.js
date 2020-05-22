@@ -34,7 +34,12 @@ export default class ModalInfoPoubelle extends React.Component {
 
     async getTypePoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash/type/' + this.props.idPoubelle
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        })
         const json = await response.json()
         this.setTypePoubelle(
             json.map(item => (
@@ -45,7 +50,12 @@ export default class ModalInfoPoubelle extends React.Component {
 
     async getPhotoPoubelle() {
         const url = GLOBAL.BASE_URL + '/api/trash/url/' + this.props.idPoubelle
-        const response = await fetch(url)
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        })
         const json = await response.json()
         const base64Icon = json;
         this.setPhoto(
@@ -60,6 +70,7 @@ export default class ModalInfoPoubelle extends React.Component {
             {
                 method: 'POST',
                 headers: new Headers({
+                    "token_api": GLOBAL.token_api,
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }),
                 body: body
@@ -77,12 +88,14 @@ export default class ModalInfoPoubelle extends React.Component {
     }
 
     supprimePoubelle() {
-        const url = GLOBAL.BASE_URL + '/api/trash/delete-poubelle'
+        const url = GLOBAL.BASE_URL + '/api/trash/'+GLOBAL.url_base_admin+'/delete-poubelle'
         const body = 'id=' + this.props.idPoubelle;
         fetch(url,
             {
                 method: 'POST',
                 headers: new Headers({
+                    "token_api": GLOBAL.token_api,
+                    "token_user": GLOBAL.token_user,
                     'Content-Type': 'application/x-www-form-urlencoded',
                 }),
                 body: body

@@ -28,7 +28,12 @@ export default class ListeUtilisateurs extends Component {
 
     async getAllUsers() {
         const url = GLOBAL.BASE_URL + '/api/user/users';
-        const response = await fetch(url).catch(function (error) {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
         const res = await response.json();

@@ -27,7 +27,12 @@ export default class AjouterPoubelle extends Component {
      */
     async _loadAllType(){
         const url =  Globals.BASE_URL + '/api/type';
-        const response = await fetch(url).catch((err) => {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).catch((err) => {
             console.error(err);
         });
         const res = await response.json();
