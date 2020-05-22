@@ -288,6 +288,18 @@ export default class MapPage extends React.Component {
                     <WebViewLeaflet
                         onMessageReceived={this.onMessageReceived}
                         eventReceiver={this}
+                        mapShapes={[
+                            {
+                                shapeType: MapShapeType.POLYLINE,
+                                color: "#000000",
+                                id: "1",
+                                positions: [
+                                    { lat: 50.636665, lng: 3.069481 },
+                                    { lat: 51.636665, lng: 3.069481 },
+                                    { lat: 52.636665, lng: 3.069481 }
+                                ]
+                            }
+                        ]}
                         mapLayers={[{
                             attribution:
                                 '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
