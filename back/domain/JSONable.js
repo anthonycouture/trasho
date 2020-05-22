@@ -52,6 +52,17 @@ class JSONable{
     return jsons;
   }
 
+  static loadUnic(list){
+    let json = {};
+    if(list.length > 1)
+      throw new Error("There is more than 1 result");
+
+    for( let key in list ){
+      json = this.fromJSON(list[key]);
+    }
+    return json;
+  }
+
 }
 
 module.exports = JSONable;

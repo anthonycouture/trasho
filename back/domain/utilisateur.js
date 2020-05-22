@@ -65,6 +65,10 @@ class Utilisateur extends JSONable{
     return this.#mail;
   }
 
+  isAdmin(){
+    return this.flag_admin;
+  }
+
 
 }
 
