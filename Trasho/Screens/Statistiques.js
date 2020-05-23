@@ -20,10 +20,62 @@ export default class Statistiques extends Component {
     componentDidMount() {
         this.getStats();
         this.getPercentsTrash();
+        this.calculDate();
+    }
+
+    calculDate() {
+        let currentDate = new Date();
+        let annee = currentDate.getFullYear();
+        let mois = currentDate.getMonth()+1;
+        let jour = currentDate.getDate();
+        console.log("Année : " + annee);
+        console.log("Mois : " + mois);
+        console.log("Jour : " + jour);
+        var date = 'dsds';
+
+        if((jour - 7) > 0 ) {
+            console.log("111111");
+            jour = jour-7;
+            date = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay((jour));
+        }
+        else {
+            console.log("222222");
+            if((mois - 1) > 0) {
+                console.log("333333");
+                jour = jour+31-7;
+                mois = mois-1;
+                date = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay((jour));
+            }
+            else {
+                console.log("44444444");
+                annee = annee-1;
+                jour = jour+31-7;
+                date = annee + '-' + '12' + jour;
+            }
+        }
+        console.log("Date calculée : " + date);
+        return date;
+    }
+
+    refactorMonth(month) {
+        if(month < 10) {
+            month = '0'+month;
+        }
+        return month;
+    }
+
+    refactorDay(day) {
+        if(day < 10) {
+            day = '0'+day;
+        }
+        return day;
     }
 
     async getStats() {
-        const url = GLOBAL.BASE_URL + '/api/trash/recente/2020-05-19';
+        let dateSeptJours = this.calculDate();
+        console.log("dateSeptJours : " + dateSeptJours);
+        const url = GLOBAL.BASE_URL + '/api/trash/recente/' + dateSeptJours;
+        console.log("url : " + url);
         const response = await fetch(url).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });

@@ -23,7 +23,7 @@ const UPDATE_PASSWORD = 'UPDATE utilisateur SET password = $2 where mail = $1';
 
 const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1';
 
-const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout <= $1';
+const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout >= $1';
 
 const GET_POUBELLE_AND_TYPE_BETWEEN_DATE = 'SELECT * FROM poubelle_type_poubelle pt JOIN poubelle p ON pt.id_poubelle = p.id_poubelle WHERE date_ajout BETWEEN $1 AND $2';
 
