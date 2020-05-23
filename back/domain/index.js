@@ -147,9 +147,6 @@ module.exports.poubellesAjoutAvantDate = async (date) => {
 }
 
 module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
-  console.log("2");
-  console.log(date1);
-  console.log(date2);
   let res = await con.select(
     qry.GET_POUBELLE_AND_TYPE_BETWEEN_DATE,
     (rows) => (Poubelle.loadList(rows)),

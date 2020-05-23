@@ -70,13 +70,8 @@ router.get('/recente/:date',async (req,res) => {
 });
 
 router.get('/poubellesDates/:date1/:date2',async (req,res) => {
-  //console.log("req.query.date1");
-  //const date1 = req.query.date1;
-  //const date2 = req.query.date2;
 
   const { date1, date2} = req.params;
-  console.log(date1);
-  console.log(date2);
   let rows = await domain.poubellesAjoutEntreDates(date1, date2);
   res
     .status(200)

@@ -81,7 +81,15 @@ export default class Statistiques extends Component {
     }
 
     async getPercentsTrash() {
-        const url = GLOBAL.BASE_URL + '/api/trash/poubellesDates/2020-05-18/2020-05-23';
+
+        let date1 = this.calculDate();
+        let currentDate = new Date();
+        let annee = currentDate.getFullYear();
+        let mois = currentDate.getMonth()+1;
+        let jour = currentDate.getDate();
+        let date2 = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay(jour);
+
+        const url = GLOBAL.BASE_URL + '/api/trash/poubellesDates/' + date1 + '/' + date2;
         const response = await fetch(url).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
