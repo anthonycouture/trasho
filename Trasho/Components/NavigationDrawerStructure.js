@@ -30,6 +30,7 @@ class NavigationDrawerStructure extends Component {
         });
         await this._retrieveData();
         //await AsyncStorage.clear();
+        console.log("connected 2 : " + Globals.connected);
     }
 
     _retrieveData = async () => {
