@@ -20,7 +20,6 @@ export default class Statistiques extends Component {
     componentDidMount() {
         this.getStats();
         this.getPercentsTrash();
-        this.calculDate();
     }
 
     calculDate() {
@@ -28,32 +27,24 @@ export default class Statistiques extends Component {
         let annee = currentDate.getFullYear();
         let mois = currentDate.getMonth()+1;
         let jour = currentDate.getDate();
-        console.log("Année : " + annee);
-        console.log("Mois : " + mois);
-        console.log("Jour : " + jour);
         var date = 'dsds';
 
         if((jour - 7) > 0 ) {
-            console.log("111111");
             jour = jour-7;
             date = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay((jour));
         }
         else {
-            console.log("222222");
             if((mois - 1) > 0) {
-                console.log("333333");
                 jour = jour+31-7;
                 mois = mois-1;
                 date = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay((jour));
             }
             else {
-                console.log("44444444");
                 annee = annee-1;
                 jour = jour+31-7;
                 date = annee + '-' + '12' + jour;
             }
         }
-        console.log("Date calculée : " + date);
         return date;
     }
 
@@ -73,9 +64,7 @@ export default class Statistiques extends Component {
 
     async getStats() {
         let dateSeptJours = this.calculDate();
-        console.log("dateSeptJours : " + dateSeptJours);
         const url = GLOBAL.BASE_URL + '/api/trash/recente/' + dateSeptJours;
-        console.log("url : " + url);
         const response = await fetch(url).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
@@ -85,10 +74,8 @@ export default class Statistiques extends Component {
         }
         else if (response.status == 200) {
 
-            //let utilisateur = res.utilisateur;
             let poubelles = res.poubelle;
 
-            console.log(Object.keys(poubelles).length);
             this.setState({ nbPoubelles: Object.keys(poubelles).length });
         }
     }
@@ -103,12 +90,7 @@ export default class Statistiques extends Component {
             alert('Problème de récupération des données');
         }
         else {
-
-            //let utilisateur = res.utilisateur;
             let poubelles = res.poubelle;
-
-            console.log(poubelles);
-            
             let nbRecyclable = 0;
             let nbVerre = 0;
             let nbToutDechet = 0;
@@ -133,15 +115,6 @@ export default class Statistiques extends Component {
             this.setState({labelRecyclable: 'Recyclable (' + nbRecyclable + ')'});
             this.setState({labelVerre: 'Verre (' + nbVerre + ')'});
             this.setState({labelToutDechet: 'Tout déchet (' + nbToutDechet + ')'});
-
-            console.log("nbRecy : " + nbRecyclable);
-            console.log("nbVerre : " + nbVerre);
-            console.log("nbTout : " + nbToutDechet);
-            console.log("nbTotal : " + nbTotal);
-
-            console.log("percentRec : " + this.state.percentRecyclable);
-            console.log("percentVerre : " + this.state.percentVerre);
-            console.log("percentTout : " + this.state.percentToutDechet);
         }
     }
 
@@ -165,7 +138,10 @@ export default class Statistiques extends Component {
         return (
             <Container>
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-                    <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
+                    <Item style={{ borderColor: 'white', marginLeft: 15, marginRight: 15, marginTop: 20 }}>
+                        <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
+                        <Icon style={{ marginLeft: 120, marginBottom: 15, fontSize: 30 }} name="refresh" onPress={() => {console.log("clic"), this.getStats(); this.getPercentsTrash(); }} />
+                    </Item>
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbPoubelles} nouvelles poubelles</Text>
                     </Item>
