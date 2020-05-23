@@ -25,6 +25,8 @@ const GET_URL_POUBELLE = 'select url_photo from poubelle where id_poubelle = $1'
 
 const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout <= $1';
 
+const GET_POUBELLE_AND_TYPE_BETWEEN_DATE = 'SELECT * FROM poubelle_type_poubelle pt JOIN poubelle p ON pt.id_poubelle = p.id_poubelle WHERE date_ajout BETWEEN $1 AND $2';
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -56,4 +58,5 @@ module.exports = {
   NEW_TOKEN : 'UPDATE utilisateur SET token = $1, date_expire = current_date + interval \'1 month\' WHERE token = $2 returning *',
   BECOME_ACTIF : 'UPDATE utilisateur SET actif = true, token = null, date_expire = null WHERE token = $1 returning *',
   GET_POUBELLES_DATE,
+  GET_POUBELLE_AND_TYPE_BETWEEN_DATE
 };

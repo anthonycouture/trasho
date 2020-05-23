@@ -8,7 +8,7 @@ class Poubelle extends JSONable{
   latitude;
   url_photo;
   date_ajout;
-  type;
+  id_type_poubelle;
 
   constructor
   (
@@ -17,7 +17,7 @@ class Poubelle extends JSONable{
     latitude    = 'undefined',
     url_photo   = 'undefined',
     date_ajout  = 'undefined',
-    type        = ''
+    id_type_poubelle        = 'undefined'
   ){
     super();
     this.#id_poubelle = id_poubelle;
@@ -25,7 +25,7 @@ class Poubelle extends JSONable{
     this.latitude     = latitude;
     this.url_photo    = url_photo;
     this.date_ajout   = date_ajout
-    this.type         = type;
+    this.id_type_poubelle         = id_type_poubelle;
 
   }
 
@@ -37,7 +37,7 @@ class Poubelle extends JSONable{
                       trash.latitude,
                       trash.url_photo,
                       trash.date_ajout,
-                      trash.type
+                      trash.id_type_poubelle
           );
   }
 
@@ -51,7 +51,7 @@ class Poubelle extends JSONable{
       latitude : this.latitude,
       url_photo : this.url_photo,
       date_ajout : this.date_ajout,
-      type : this.type,
+      type : this.id_type_poubelle,
     }
   }
 
