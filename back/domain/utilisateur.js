@@ -10,6 +10,7 @@ class Utilisateur extends JSONable{
   date_expire;
   experience;
   actif;
+  niveau;
 
   constructor
   (
@@ -20,6 +21,7 @@ class Utilisateur extends JSONable{
     date_expire = 'undefined',
     experience = 'undefined',
     actif = 'undefined',
+    niveau = 'undefined'
   ){
     super();
     this.#mail = mail,
@@ -29,6 +31,7 @@ class Utilisateur extends JSONable{
     this.date_expire = date_expire;
     this.experience = experience;
     this.actif = actif;
+    this.niveau = niveau;
   }
 
   static fromJSON(user){
@@ -40,7 +43,8 @@ class Utilisateur extends JSONable{
       user.token,
       user.date_expire,
       user.experience,
-      user.actif
+      user.actif,
+      user.niveau
     );
   }
 
@@ -54,7 +58,8 @@ class Utilisateur extends JSONable{
       token : this.token,
       date_expire : this.date_expire,
       experience : this.experience,
-      actif : this.actif
+      actif : this.actif,
+      niveau : this.niveau
     }
   }
 

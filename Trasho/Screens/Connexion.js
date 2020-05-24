@@ -96,8 +96,11 @@ class Connexion extends Component {
       }
       await AsyncStorage.setItem('ADMIN', adm);
       await AsyncStorage.setItem('CONNECTED', 'true');
+      await AsyncStorage.setItem('EXPERIENCE', res['user'][this.state.email]['experience'].toString());
+      await AsyncStorage.setItem('NIVEAU', res['user'][this.state.email]['niveau'].toString());
     } catch (error) {
       // Error saving data
+      console.log(error);
     }
   };
 
@@ -127,6 +130,8 @@ class Connexion extends Component {
       Globals.admin = res['user'][this.state.email]['flag_admin'];
       Globals.email = this.state.email;
       Globals.token_user = res['user'][this.state.email]['token'];
+      Globals.niveau = res['user'][this.state.email]['niveau'];
+      Globals.experience = res['user'][this.state.email]['experience'];
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }
