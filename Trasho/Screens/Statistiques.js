@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
 import GLOBAL from '../Globals';
 import PureChart from 'react-native-pure-chart';
+import Globals from '../Globals';
 
 export default class Statistiques extends Component {
 
@@ -64,8 +65,14 @@ export default class Statistiques extends Component {
 
     async getStats() {
         let dateSeptJours = this.calculDate();
-        const url = GLOBAL.BASE_URL + '/api/trash/recente/' + dateSeptJours;
-        const response = await fetch(url).catch(function (error) {
+        const url = GLOBAL.BASE_URL + '/api/trash/'+Globals.url_base_admin+'/recente/' + dateSeptJours;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api,
+                "token_user": GLOBAL.token_user
+            }
+        }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
         const res = await response.json();
@@ -89,8 +96,14 @@ export default class Statistiques extends Component {
         let jour = currentDate.getDate();
         let date2 = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay(jour);
 
-        const url = GLOBAL.BASE_URL + '/api/trash/poubellesDates/' + date1 + '/' + date2;
-        const response = await fetch(url).catch(function (error) {
+        const url = GLOBAL.BASE_URL + '/api/trash/'+Globals.url_base_admin+'/poubellesDates/' + date1 + '/' + date2;
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api,
+                "token_user": GLOBAL.token_user
+            }
+        }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
         const res = await response.json();
