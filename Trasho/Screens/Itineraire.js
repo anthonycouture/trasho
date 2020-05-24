@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
-import {Picker} from '@react-native-community/picker';
 
 export default class Itineraire extends Component {
     render() {
