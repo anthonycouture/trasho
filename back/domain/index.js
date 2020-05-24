@@ -144,11 +144,20 @@ module.exports.userByMail = async (mail) => {
   return res;
 }
 
-/* Get all users */
-module.exports.users = async () => {
+module.exports.poubellesAjoutAvantDate = async (date) => {
   let res = await con.select(
-    qry.GET_ALL_USERS,
-    (rows) => (Utilisateur.loadList(rows))
+    qry.GET_POUBELLES_DATE,
+    (rows) => (Poubelle.loadList(rows)),
+    [date]
+  );
+  return res;
+}
+
+module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
+  let res = await con.select(
+    qry.GET_POUBELLE_AND_TYPE_BETWEEN_DATE,
+    (rows) => (Poubelle.loadList(rows)),
+    [date1, date2]
   );
   return res;
 }
@@ -196,6 +205,7 @@ module.exports.updatePassword = async (data) => {
   return retour;
 }
 
+
 /* Insert signalement poubelle delete */
 module.exports.insertSignalementDelete = async (data) => {
   await transaction(qry.INSERT_SIGNALEMENT_DELETE, data)
@@ -212,6 +222,15 @@ module.exports.getAllTypes = async () => {
   let res = await con.select(
     qry.GET_ALL_TYPES,
     (rows) => (Type.loadList(rows))
+    );
+  return res;
+}
+
+/* Get all users */
+module.exports.users = async () => {
+  let res = await con.select(
+    qry.GET_ALL_USERS,
+    (rows) => (Utilisateur.loadList(rows))
   );
   return res;
 }

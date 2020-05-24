@@ -7,7 +7,8 @@ class Poubelle extends JSONable{
   longitude;
   latitude;
   url_photo;
-  type;
+  date_ajout;
+  id_type_poubelle;
 
   constructor
   (
@@ -15,14 +16,16 @@ class Poubelle extends JSONable{
     longitude   = 'undefined',
     latitude    = 'undefined',
     url_photo   = 'undefined',
-    type        = ''
+    date_ajout  = 'undefined',
+    id_type_poubelle        = 'undefined'
   ){
     super();
     this.#id_poubelle = id_poubelle;
     this.longitude    = longitude;
     this.latitude     = latitude;
     this.url_photo    = url_photo;
-    this.type         = type;
+    this.date_ajout   = date_ajout
+    this.id_type_poubelle         = id_type_poubelle;
 
   }
 
@@ -33,20 +36,22 @@ class Poubelle extends JSONable{
                       trash.longitude,
                       trash.latitude,
                       trash.url_photo,
-                      trash.type
+                      trash.date_ajout,
+                      trash.id_type_poubelle
           );
   }
 
   static tablename(){ return 'poubelle';}
-  identifiant() {
-    return this.type+'_'+this.#id_poubelle;
+  identifiant() { 
+    return this.id_type_poubelle+'_'+this.#id_poubelle;
   }
   content() {
     return {
       longitude : this.longitude,
       latitude : this.latitude,
       url_photo : this.url_photo,
-      type : this.type,
+      date_ajout : this.date_ajout,
+      type : this.id_type_poubelle,
     }
   }
 

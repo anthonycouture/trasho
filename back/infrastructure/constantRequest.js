@@ -29,6 +29,11 @@ const INSERT_SIGNALEMENT_DELETE = 'insert into signalement (mail, id_poubelle, i
 
 const PURGE_SIGNALEMENT = 'delete from signalement where date_signalement < (CURRENT_DATE - ' + property.time_before_delete_signalement + ')';
 
+const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout >= $1';
+
+const GET_POUBELLE_AND_TYPE_BETWEEN_DATE = 'SELECT * FROM poubelle_type_poubelle pt JOIN poubelle p ON pt.id_poubelle = p.id_poubelle WHERE date_ajout BETWEEN $1 AND $2';
+
+
 module.exports = {
   GET_ALL_POUBELLES,
   GET_ALL_POUBELLES_BY_ID,
@@ -58,6 +63,7 @@ module.exports = {
   GET_ALL_USERS: 'SELECT * FROM utilisateur',
   INSERT_USER: 'INSERT INTO utilisateur(mail, password, flag_admin, token, date_expire, experience, actif) ' +
     'VALUES ($1, $2, false, $3, current_date + interval \'1 month\', 0, false) returning *',
+
   GET_USER_BY_TOKEN: 'SELECT * FROM utilisateur WHERE token = $1',
   GET_USER_BY_UNEXPRIRED_TOKEN: 'SELECT * FROM utilisateur WHERE token = $1 and now() < date_expire',
   NEW_TOKEN: 'UPDATE utilisateur SET token = $1, date_expire = current_date + interval \'1 month\' WHERE token = $2 returning *',
@@ -68,4 +74,8 @@ module.exports = {
   ADD_REPORT_NEW_TRASH: 'insert into signalement (mail, id_poubelle, id_type_signalement, date_signalement) VALUES ($1, $2, (select id_type_signalement from type_signalement where type = \'Ajout\'), now()) returning *',
 
   PURGE_SIGNALEMENT,
+
+  GET_POUBELLES_DATE,
+  GET_POUBELLE_AND_TYPE_BETWEEN_DATE
+
 };

@@ -63,7 +63,24 @@ router.get('/url/:id', async (req,res) => {
   res
     .status(200)
     .json(rows.poubelle._undefined.url_photo);
-})
+});
+
+router.get('/recente/:date',async (req,res) => {
+  const { date } = req.params;
+  let rows = await domain.poubellesAjoutAvantDate(date);
+  res
+    .status(200)
+    .json(rows);
+});
+
+router.get('/poubellesDates/:date1/:date2',async (req,res) => {
+
+  const { date1, date2} = req.params;
+  let rows = await domain.poubellesAjoutEntreDates(date1, date2);
+  res
+    .status(200)
+    .json(rows);
+});
 
 router.post('/',async (req,res)=>{
 
