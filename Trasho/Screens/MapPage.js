@@ -74,8 +74,6 @@ export default class MapPage extends React.Component {
                     this.setModal(true);
                 }
                 break;
-            case WebViewLeafletEvents.ON_MOVE_END:
-                this.setMapCenterPosition(message.payload.mapCenterPosition.lat, message.payload.mapCenterPosition.lng);
             default:
                 null;//console.log("App received", message);
         }
