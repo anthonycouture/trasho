@@ -6,6 +6,7 @@ const Poubelle = imp.poubelle();
 const Utilisateur = imp.utilisateur();
 const Type = imp.type();
 const property = imp.prop();
+const arrondi = imp.arrondi();
 
 /*
 DOMAIN :  terme metiers : comprehensible
@@ -156,7 +157,44 @@ module.exports.poubellesAjoutAvantDate = async (date) => {
 module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
   let res = await con.select(
     qry.GET_POUBELLE_AND_TYPE_BETWEEN_DATE,
-    (rows) => (Poubelle.loadList(rows)),
+    (rows) => {
+      console.log(rows);
+
+      let poubelles = rows;
+            let nbRecyclable = 0;
+            let nbVerre = 0;
+            let nbToutDechet = 0;
+            let nbTotal = 0;
+
+      for (let key in poubelles) {
+        console.log("key : " + key);
+        if(poubelles[key].id_type_poubelle == 1) {
+            nbRecyclable += 1;
+        }
+        else if(poubelles[key].id_type_poubelle == 2) {
+            nbVerre += 1;
+        }
+        else if(poubelles[key].id_type_poubelle == 3) {
+            nbToutDechet += 1;
+        }
+        nbTotal += 1;
+    }
+
+    let percentRecyclable = nbRecyclable/nbTotal*100;
+    let percentVerre = nbVerre/nbTotal*100;
+    let percentToutDechet = nbToutDechet/nbTotal*100;
+
+      return {
+        nbRecyclage: nbRecyclable,
+        nbVerre: nbVerre,
+        nbToutDechet: nbToutDechet,
+        percentRecyclable: arrondi.roundDecimal(percentRecyclable, 2),
+        percentVerre: arrondi.roundDecimal(percentVerre, 2),
+        percentToutDechet: arrondi.roundDecimal(percentToutDechet, 2)
+      }
+    }
+      
+    ,
     [date1, date2]
   );
   return res;

@@ -34,4 +34,6 @@ module.exports = {
   security : () => require('./utils/security.js'),
 
   serverError: () => require('./error/CustomServerError.js'),
+
+  arrondi: () => require('./utils/Arrondi.js'),
 }

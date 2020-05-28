@@ -18,6 +18,7 @@ module.exports.tokenApplication = (req) => {
 module.exports.administrateur = async (req) => {
   let { token_user } = req.headers;
   let user = await domainSecurity.sendUserByToken(token_user);
+  console.log(user);
   if(!user.flag_admin){
     throw new CustomServerError("Forbidden Access : Administrator Level",401);
   }
