@@ -21,6 +21,7 @@ export default class Statistiques extends Component {
     componentDidMount() {
         this.getStats();
         this.getPercentsTrash();
+        console.log("eeeeeeeeeeeeeeeee");
     }
 
     calculDate() {
@@ -111,31 +112,7 @@ export default class Statistiques extends Component {
             alert('Problème de récupération des données');
         }
         else {
-            let poubelles = res.poubelle;
-            let nbRecyclable = 0;
-            let nbVerre = 0;
-            let nbToutDechet = 0;
-            let nbTotal = 0;
-
-            for (let key in poubelles) {
-                if(poubelles[key].type == 1) {
-                    nbRecyclable += 1;
-                }
-                else if(poubelles[key].type == 2) {
-                    nbVerre += 1;
-                }
-                else if(poubelles[key].type == 3) {
-                    nbToutDechet += 1;
-                }
-                nbTotal += 1;
-            }
-
-            this.setState({percentRecyclable: nbRecyclable/nbTotal*100});
-            this.setState({percentVerre: nbVerre/nbTotal*100});
-            this.setState({percentToutDechet: nbToutDechet/nbTotal*100});
-            this.setState({labelRecyclable: 'Recyclable (' + nbRecyclable + ')'});
-            this.setState({labelVerre: 'Verre (' + nbVerre + ')'});
-            this.setState({labelToutDechet: 'Tout déchet (' + nbToutDechet + ')'});
+            console.log("eeeeeeeeeeeeeeeee");
         }
     }
 
