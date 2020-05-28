@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, SafeAreaView, ScrollView, Dimensions, AsyncStorage } from 'react-native';
+import { View, Image, TouchableOpacity, AsyncStorage } from 'react-native';
 import { createAppContainer } from 'react-navigation';
-import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import Connexion from '../Screens/Connexion';
 import Itineraire from '../Screens/Itineraire';
@@ -14,7 +14,6 @@ import ListeUtilisateurs from '../Screens/ListeUtilisateurs';
 import Utilisateur from '../Screens/Utilisateur';
 import Statistiques from '../Screens/Statistiques';
 import CustomSideMenu from './CustomSideMenu';
-import { Icon } from 'native-base';
 import Globals from '../Globals';
 import CGU from '../Screens/CGU';
 import AjouterPoubelleMap from '../Screens/AjouterPoubelleMap'

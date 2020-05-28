@@ -9,6 +9,7 @@ import { StyleSheet, View, TouchableHighlight, Modal, Text } from 'react-native'
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
+import { GetItinerary } from './../Components/Itineraire';
 
 import GLOBAL from '../Globals';
 
@@ -87,22 +88,14 @@ export default class MapPage extends React.Component {
     messageModal = (message, idPoubelle) => {
         switch (message) {
             case MessageModal.SUPPRESSION_POUBELLE:
-                // Je l'améliorerais plus tard
-                /*let poubelleDelete;
-                this.state.markerPoubelle.forEach(function (item) {
-                    if (item.id === idPoubelle) {
-                        poubelleDelete = item;
-                        return;
-                    }
-                });
-                let newListeMarker = this.state.markerPoubelle;
-                newListeMarker.splice(newListeMarker.indexOf(poubelleDelete), 1);
-                this.setMarkerPoubelle(newListeMarker);
-                this.addMarkerPoubelle(newListeMarker);*/
                 this.getPoubelleAsync();
+                break;
+            case MessageModal.ITINERAIRE_POUBELLE:
+                this.itineraire(idPoubelle);
                 break;
             default:
                 null;
+                break;
         }
     }
 
@@ -237,7 +230,6 @@ export default class MapPage extends React.Component {
     }
 
     componentDidMount() {
-        this.itineraire();
         this.getLocationAsync();
         this.getPoubelleAsync();
         this._loadAllType();
@@ -277,252 +269,21 @@ export default class MapPage extends React.Component {
         )
     }
 
-    itineraire() {
-        let pos = [
-            [
-                2.507612,
-                50.469193
-            ],
-            [
-                2.514853,
-                50.471134
-            ],
-            [
-                2.516015,
-                50.471451
-            ],
-            [
-                2.518716,
-                50.472633
-            ],
-            [
-                2.518733,
-                50.47303
-            ],
-            [
-                2.52004,
-                50.473648
-            ],
-            [
-                2.533972,
-                50.464725
-            ],
-            [
-                2.543138,
-                50.454483
-            ],
-            [
-                2.544347,
-                50.453278
-            ],
-            [
-                2.544421,
-                50.453148
-            ],
-            [
-                2.544722,
-                50.452946
-            ],
-            [
-                2.551882,
-                50.451164
-            ],
-            [
-                2.57072,
-                50.452465
-            ],
-            [
-                2.610825,
-                50.442486
-            ],
-            [
-                2.634942,
-                50.444347
-            ],
-            [
-                2.670811,
-                50.435616
-            ],
-            [
-                2.711165,
-                50.434448
-            ],
-            [
-                2.775477,
-                50.439964
-            ],
-            [
-                2.797966,
-                50.450272
-            ],
-            [
-                2.814693,
-                50.451839
-            ],
-            [
-                2.834814,
-                50.449158
-            ],
-            [
-                2.845092,
-                50.442287
-            ],
-            [
-                2.851108,
-                50.430172
-            ],
-            [
-                2.873147,
-                50.434528
-            ],
-            [
-                2.888042,
-                50.431381
-            ],
-            [
-                2.944365,
-                50.432407
-            ],
-            [
-                2.969821,
-                50.429787
-            ],
-            [
-                2.976291,
-                50.427872
-            ],
-            [
-                2.98204,
-                50.430172
-            ],
-            [
-                2.976212,
-                50.435989
-            ],
-            [
-                2.971043,
-                50.451488
-            ],
-            [
-                2.983469,
-                50.483524
-            ],
-            [
-                2.992085,
-                50.491138
-            ],
-            [
-                3.034496,
-                50.514633
-            ],
-            [
-                3.063692,
-                50.555656
-            ],
-            [
-                3.102757,
-                50.596104
-            ],
-            [
-                3.101591,
-                50.603596
-            ],
-            [
-                3.086798,
-                50.613663
-            ],
-            [
-                3.080864,
-                50.618771
-            ],
-            [
-                3.082015,
-                50.620945
-            ],
-            [
-                3.082873,
-                50.621685
-            ],
-            [
-                3.082489,
-                50.629269
-            ],
-            [
-                3.082483,
-                50.63361
-            ],
-            [
-                3.075725,
-                50.640724
-            ],
-            [
-                3.074695,
-                50.642323
-            ],
-            [
-                3.073084,
-                50.643322
-            ],
-            [
-                3.072066,
-                50.643391
-            ],
-            [
-                3.070404,
-                50.641552
-            ],
-            [
-                3.070806,
-                50.641239
-            ],
-            [
-                3.065942,
-                50.639034
-            ],
-            [
-                3.065144,
-                50.638145
-            ],
-            [
-                3.065871,
-                50.637878
-            ],
-            [
-                3.065211,
-                50.637146
-            ],
-            [
-                3.064871,
-                50.637016
-            ],
-            [
-                3.064284,
-                50.636745
-            ],
-            [
-                3.063894,
-                50.636768
-            ]
-        ];
-        let addPossition = []
-        pos.forEach(element =>
-            addPossition.push(
-                { lat: element[1], lng: element[0] }
-            )
-        );
-        this.setPositions(addPossition)
+    async itineraire(idPoubelle) {
+        let r = await GetItinerary(idPoubelle, this.state.ownPosition)
+        this.setPositions(r)
     }
 
     render() {
         return (
             <View style={styles.container}>
                 {this.modalType()}
-                {<ModalInfoPoubelle
+                <ModalInfoPoubelle
                     idPoubelle={this.state.idPoubelle}
                     visible={this.state.modal}
                     affichemodal={this.setModal}
                     messageModal={this.messageModal}
-                />}
+                />
 
                 {
                     <WebViewLeaflet
@@ -582,7 +343,7 @@ export default class MapPage extends React.Component {
 
                             }
                         }
-                        zoom={50}
+                        zoom={90}
                     />
                 }
 
