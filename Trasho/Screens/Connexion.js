@@ -123,8 +123,11 @@ class Connexion extends Component {
     }),
     body: body
 });
-    if (response.status != 200) {
+    if (response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
+    }
+    else if (response.status == 403) {
+      alert('Votre compte a été désactivé');
     }
     else if (response.status == 200) {
       const res = await response.json();
