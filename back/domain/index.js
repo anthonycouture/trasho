@@ -165,6 +165,9 @@ module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
             let nbVerre = 0;
             let nbToutDechet = 0;
             let nbTotal = 0;
+            let percentRecyclable = 0;
+            let percentVerre = 0;
+            let percentToutDechet = 0;
 
       for (let key in poubelles) {
         console.log("key : " + key);
@@ -180,9 +183,21 @@ module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
         nbTotal += 1;
     }
 
-    let percentRecyclable = nbRecyclable/nbTotal*100;
-    let percentVerre = nbVerre/nbTotal*100;
-    let percentToutDechet = nbToutDechet/nbTotal*100;
+    if(nbRecyclable > 0) {
+      percentRecyclable = nbRecyclable/nbTotal*100;
+    }
+    
+    if(nbVerre > 0) {
+      percentVerre = nbVerre/nbTotal*100;
+    }
+    
+    if(nbToutDechet > 0) {
+      percentToutDechet = nbToutDechet/nbTotal*100;
+    }
+
+    console.log('percentRecyclable : ' + percentRecyclable);
+    console.log('percentVerre : ' + percentVerre);
+    console.log('percentToutDechet : ' + percentToutDechet);
 
       return {
         nbRecyclage: nbRecyclable,
