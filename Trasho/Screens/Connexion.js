@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Alert, AsyncStorage } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Text, Button, Icon, Toast } from 'native-base';
 import {
   StackNavigator,
 } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
 import GLOBAL from '../Globals';
 import Globals from '../Globals';
@@ -49,7 +48,12 @@ class Connexion extends Component {
       }
     }
     else {
-      Toast.show('Veuillez remplir les champs', Toast.LONG);
+      Toast.show({
+        text: "Veuillez remplir les champs",
+        duration : 3000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
     }
   }
 
