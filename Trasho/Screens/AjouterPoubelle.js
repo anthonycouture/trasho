@@ -30,7 +30,7 @@ export default class AjouterPoubelle extends Component {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                "token_api": GLOBAL.token_api
+                "token_api": Globals.token_api
             }
         }).catch((err) => {
             console.error(err);

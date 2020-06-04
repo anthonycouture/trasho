@@ -5,15 +5,15 @@ const cst = imp.cst();
 const property = imp.prop();
 const mailProperties = JSON.parse(fs.readFileSync(cst.PATH_CONF_MAIL));
 
-async function sendMail(mail, token){
+let transporter = nodemailer.createTransport({
+    service: mailProperties.email_service,
+    auth: {
+        user: mailProperties.email_adress,
+        pass: mailProperties.email_password
+    }
+});
 
-    let transporter = nodemailer.createTransport({
-        service: mailProperties.email_service,
-        auth: {
-            user: mailProperties.email_adress,
-            pass: mailProperties.email_password
-        }
-    });
+async function sendMail(mail, token){
 
     const url_to_confirm = cst.URL + property.url_utilisateur + "/confirmMail/" + token;
 
@@ -31,4 +31,27 @@ async function sendMail(mail, token){
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
-module.exports = {sendMail};
+async function sendMailDataUser(mail, content){
+    
+    let info = await transporter.sendMail({
+        from: '"Trasho" <'+ mailProperties.email_adress+ '>',
+        to: mail,
+        subject: "Trasho - Données utilisateur",
+        text: "Vous trouverez en pièce jointe vos données utilisateurs stockés par Trasho. Bonne journée, Équipe Trasho", // plain text body
+        html: "<p>Vous trouverez en pièce jointe vos données utilisateurs stockés par Trasho.</p><br/>"+
+            "Bonne journée,<br/> Équipe Trasho", // html body
+        attachments: [
+            {   // utf-8 string as an attachment
+                filename: 'user_data_trasho.txt',
+                content: content
+            }
+        ]
+    });
+
+    console.log("Message sent: %s", info.messageId);
+
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+}
+
+module.exports = {sendMail, sendMailDataUser};
