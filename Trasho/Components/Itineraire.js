@@ -18,6 +18,5 @@ export const GetItinerary = async (idPoubelle, positionUser) => {
             { lat: element[1], lng: element[0] }
         )
     );
-    console.log(json)
     return position
 }

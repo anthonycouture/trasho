@@ -238,6 +238,9 @@ export default class MapPage extends React.Component {
             this.getPoubelleAsync();
             this._loadAllType();
         });
+        setInterval(() => {
+            this.getLocationAsync();
+        }, 5000);
     }
 
     modalType() {
