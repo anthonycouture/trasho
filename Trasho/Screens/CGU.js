@@ -44,7 +44,7 @@ export default class CGU extends Component{
         const response = await fetch(url,{
             method: 'POST',
             headers: {
-                "token_api": GLOBAL.token_api,
+                "token_api": Globals.token_api,
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
               },

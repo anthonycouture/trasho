@@ -137,9 +137,9 @@ export default class Inscription extends Component {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-            "token_api": GLOBAL.token_api
+            "token_api": Globals.token_api
         }
-    }).catch((err) => {console.log('Problème API')});
+    }).catch((err) => {console.log('Problème API')});     
       if(response.status != 200){
         Toast.show({
           text: "Problème de communication !",

@@ -135,6 +135,8 @@ router.post('/connexion', async (req, res) => {
   }
 });
 
+
+
 /**
  * Récupération de tous les utilisateurs
  */
@@ -193,4 +195,19 @@ router.post('/updatePassword', async (req, res) => {
       .status(201)
       .json(rows);
   }
+});
+
+/**
+ * Send mail for retrieve user data
+ */
+router.get('/retrieve/:mail', async (req, res) => {
+  const {mail} = req.params
+  await domain.userByMail(mail).then(async (response) => {
+    let user = Object.values(response.utilisateur)[0];
+    user.password = "******"
+    await sendConfirmMail.sendMailDataUser(mail, JSON.stringify(user)) .then(() => {
+      res.status(200).send(true);
+      return;
+    })
+  })
 });
