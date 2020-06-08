@@ -245,6 +245,26 @@ module.exports.addReportNewTrash = async(mailAndIdPoubelle) => {
   })
 }
 
+/* Add XP to user when trash was added */
+module.exports.addNewTrashXP = async(mail) => {
+  await transaction(qry.EXPERIENCE_ADD_TRASH, mail).then((resp) => {
+    return resp.rows[0];
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
+}
+
+/* Add XP to user when trash was reported */
+module.exports.reportTrashXP = async(mail) => {
+  await transaction(qry.EXPERIENCE_REPORT_TRASH, mail).then((resp) => {
+    return resp.rows[0];
+  }).catch((err) => {
+    console.error(err);
+    return "failed";
+  })
+}
+
 function transaction(requete, donnees_colonnes) {
   let retour = true;
   try {
