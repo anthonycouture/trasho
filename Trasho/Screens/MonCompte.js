@@ -260,6 +260,7 @@ export default class MonCompte extends Component {
         return (
             <Container>
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                    <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5 }}>{(Math.trunc(this.state.user.experience/100)) + 1 }</Text>
                         <Progress.Bar progress={(this.state.user.experience/100) % 1} width={300} borderColor={'#74992e'} color={'#74992e'} />
@@ -348,7 +349,6 @@ export default class MonCompte extends Component {
                             onPress: () => { this.changeDialogSuppressionState() }
                         }}
                     />
-                    <Text style={styles.niveau}> Niveau </Text>
                 </Content>
             </Container>
         );
@@ -387,6 +387,5 @@ const styles = StyleSheet.create({
     niveau: {
         marginRight: 'auto',
         marginLeft: 'auto',
-        marginTop: 30
     }
 });
