@@ -34,8 +34,9 @@ create table utilisateur (
   flag_admin boolean not null,
   token varchar,
   date_expire date,
-  experience integer not null,
-  actif boolean not null
+  experience integer not null default 0,
+  actif boolean not null,
+  niveau integer not null default 0
 );
 
 create table signalement(

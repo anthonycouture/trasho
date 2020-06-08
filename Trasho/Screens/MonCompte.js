@@ -23,7 +23,48 @@ export default class MonCompte extends Component {
         iconPassword: "eye-off",
         iconConfirmPassword: "eye-off",
         dialogVisible: false,
-        dialogSuppressionVisible: false
+        dialogSuppressionVisible: false,
+        user: null,
+        loading: false,
+    }
+
+    /**
+     * When the page will appear for first time, this function was called
+     */
+    componentDidMount() {        
+        this.getUserInfo();
+        this.props.navigation.addListener('willFocus', payload => {
+            this.getUserInfo();
+        });
+    }
+
+    /**
+     * Get user information
+     */
+    async getUserInfo(){
+        const url = GLOBAL.BASE_URL + '/api/user/email/' + GLOBAL.email;      
+        await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).then(async (response) => {            
+            if(response.status != 200){
+                Toast.show({
+                    text: "Problème de communication avec l'API",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
+                return;
+            }
+            await response.json().then((json) => {
+                this.setState({ 
+                    user: Object.values(json.utilisateur)[0],
+                    loading: true
+                });
+            })
+        })
     }
 
     async _deconnexion() {
@@ -211,9 +252,20 @@ export default class MonCompte extends Component {
     }
 
     render() {
+        if(!this.state.loading){
+            return(
+                <View><Text>Please wait..</Text></View>
+            )
+        }
         return (
             <Container>
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                    <Text style={styles.niveau}> Niveau </Text>
+                    <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
+                        <Text style={{ marginRight: 5 }}>{this.state.user.niveau}</Text>
+                        <Progress.Bar progress={this.state.user.experience/100} width={300} borderColor={'#74992e'} color={'#74992e'} />
+                        <Text style={{ marginLeft: 5 }}>{this.state.user.niveau+1}</Text>
+                    </Item>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black', borderColor: 'black' }}>
                             <Text>Modifier mot de passe</Text>
@@ -297,12 +349,6 @@ export default class MonCompte extends Component {
                             onPress: () => { this.changeDialogSuppressionState() }
                         }}
                     />
-                    <Text style={styles.niveau}> Niveau </Text>
-                    <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
-                        <Text style={{ marginRight: 5 }}>1</Text>
-                        <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
-                        <Text style={{ marginLeft: 5 }}>2</Text>
-                    </Item>
                 </Content>
             </Container>
         );
@@ -341,6 +387,5 @@ const styles = StyleSheet.create({
     niveau: {
         marginRight: 'auto',
         marginLeft: 'auto',
-        marginTop: 30
     }
 });
