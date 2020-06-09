@@ -70,4 +70,6 @@ module.exports = {
   ADD_REPORT_NEW_TRASH: 'insert into signalement (mail, id_poubelle, id_type_signalement, date_signalement) VALUES ($1, $2, (select id_type_signalement from type_signalement where type = \'Ajout\'), now()) returning *',
 
   PURGE_SIGNALEMENT,
+
+  BATCH_DELETE_POUBELLE : 'call delete_poubelle()',
 };

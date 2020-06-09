@@ -21,6 +21,8 @@
   "cron_purge":"*/1 * * * *",
   "time_before_delete_signalement":90,
 
+  "cron_batch_delete_poubelle":"*/1 * * * *",
+
 
   "token_api":"eef0c396c1a2c19d3119217a759fad0d6ab57465cb9241e80277378bfd970236",
 
