@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, AsyncStorage } from 'react-native';
-import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon } from "native-base";
+import { Container, Content, Input, Card, CardItem, Text, Body, Item, Button, Icon, Toast } from "native-base";
 import * as Progress from 'react-native-progress';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
-import Toast from 'react-native-simple-toast';
 import Globals from '../Globals';
 import GLOBAL from '../Globals';
 
@@ -24,7 +23,48 @@ export default class MonCompte extends Component {
         iconPassword: "eye-off",
         iconConfirmPassword: "eye-off",
         dialogVisible: false,
-        dialogSuppressionVisible: false
+        dialogSuppressionVisible: false,
+        user: null,
+        loading: false,
+    }
+
+    /**
+     * When the page will appear for first time, this function was called
+     */
+    componentDidMount() {        
+        this.getUserInfo();
+        this.props.navigation.addListener('willFocus', payload => {
+            this.getUserInfo();
+        });
+    }
+
+    /**
+     * Get user information
+     */
+    async getUserInfo(){
+        const url = GLOBAL.BASE_URL + '/api/user/email/' + GLOBAL.email;      
+        await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).then(async (response) => {            
+            if(response.status != 200){
+                Toast.show({
+                    text: "Problème de communication avec l'API",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
+                return;
+            }
+            await response.json().then((json) => {
+                this.setState({ 
+                    user: Object.values(json.utilisateur)[0],
+                    loading: true
+                });
+            })
+        })
     }
 
     async _deconnexion() {
@@ -95,20 +135,40 @@ export default class MonCompte extends Component {
     checkChangePassword() {
         if (this.state.oldPassword && this.state.password && this.state.confirmPassword) {
             if (this.state.password == this.state.oldPassword) {
-                Toast.show("Le nouveau mot de passe ne peut être le même que l'ancien", Toast.LONG);
+                Toast.show({
+                    text: "Le nouveau mot de passe ne peut être le même que l'ancien",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
             }
             else if (this.state.password != this.state.confirmPassword) {
-                Toast.show('La confirmation du mot de passe est incorrecte', Toast.LONG);
+                Toast.show({
+                    text: "La confirmation du mot de passe est incorrecte",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
             }
             else if (!this._checkPassword()) {
-                Toast.show('Le mot de passe doit faire entre 6 et 50 caractères et contenir au moin une minuscule, une majuscule et un chiffre', Toast.LONG);
+                Toast.show({
+                    text: "Le mot de passe doit faire entre 6 et 50 caractères et contenir au moins une minuscule, une majuscule et un chiffre",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
             }
             else {
                 this.changePassword();
             }
         }
         else {
-            Toast.show('Veuillez remplir les champs', Toast.LONG);
+            Toast.show({
+                text: "Veuillez remplir les champs",
+                duration : 3000,
+                buttonText: "Okay !",
+                type: "danger"
+            });
         }
     }
 
@@ -160,10 +220,52 @@ export default class MonCompte extends Component {
             });
     }
 
+    async retrieveUserData(){
+        Toast.show({
+            text: "Veuillez patienter s'il vous plaît",
+            duration : 3000,
+            buttonText: "Okay !"
+        });
+        const url = GLOBAL.BASE_URL + '/api/user/retrieve/' + Globals.email;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": Globals.token_api
+            }
+        }).then(async (response) => {            
+            if(response.status == 200){
+                Toast.show({
+                    text: "Un mail vous a été envoyé !",
+                    duration : 5000,
+                    buttonText: "Okay !",
+                    type: "success"
+                });
+            } else {
+                Toast.show({
+                    text: "Un problème est survenu.",
+                    duration : 5000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
+            }
+        })
+    }
+
     render() {
+        if(!this.state.loading){
+            return(
+                <View><Text>Please wait..</Text></View>
+            )
+        }
         return (
             <Container>
                 <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                    <Text style={styles.niveau}> Niveau </Text>
+                    <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
+                        <Text style={{ marginRight: 5 }}>{this.state.user.niveau}</Text>
+                        <Progress.Bar progress={this.state.user.experience/100} width={300} borderColor={'#74992e'} color={'#74992e'} />
+                        <Text style={{ marginLeft: 5 }}>{this.state.user.niveau+1}</Text>
+                    </Item>
                     <Card>
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black', borderColor: 'black' }}>
                             <Text>Modifier mot de passe</Text>
@@ -195,7 +297,7 @@ export default class MonCompte extends Component {
                         <CardItem bordered style={{ justifyContent: 'center', color: 'black' }}>
                             <Button transparent
                                 onPress={
-                                    () => alert('Récupération des données')
+                                    () => this.retrieveUserData()
                                 }>
                                 <Icon name={'settings'} style={styles.black} />
                                 <Text style={styles.black}>Récupérer mes données</Text>
@@ -247,12 +349,6 @@ export default class MonCompte extends Component {
                             onPress: () => { this.changeDialogSuppressionState() }
                         }}
                     />
-                    <Text style={styles.niveau}> Niveau </Text>
-                    <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
-                        <Text style={{ marginRight: 5 }}>1</Text>
-                        <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
-                        <Text style={{ marginLeft: 5 }}>2</Text>
-                    </Item>
                 </Content>
             </Container>
         );
@@ -291,6 +387,5 @@ const styles = StyleSheet.create({
     niveau: {
         marginRight: 'auto',
         marginLeft: 'auto',
-        marginTop: 30
     }
 });

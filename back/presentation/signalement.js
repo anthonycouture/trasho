@@ -17,16 +17,22 @@ router.get('/',async (req,res) => {
 });
 
 
-/* Add report f */
+/* Add report when new trash was added*/
 router.post('/newTrash', async (req, res) => {
   const {mail, id_poubelle} = req.body;
-  await domain.addReportNewTrash([mail, id_poubelle]).then((rows) => {
-    res.status(201).send(true);
+  await domain.addReportNewTrash([mail, id_poubelle]).then(async () => {
+    await domain.addNewTrashXP([mail]).then(() => {
+      res.status(201).send(true);
+    });
   });  
 })
 
+/* Add report when new trash was reported */
 router.post('/addSignalementDelete',async(req, res) => {
   const {idPoubelle, mail } = req.body;
-  await domain.insertSignalementDelete([mail, idPoubelle])
-  res.status(200).json();
+  await domain.insertSignalementDelete([mail, idPoubelle]).then(async () => {
+    await domain.reportTrashXP([mail]).then(() => {
+      res.status(200).json();
+    })
+  })
 });

@@ -135,12 +135,11 @@ class Connexion extends Component {
   render() {
     return (
       <Container>
-        <Image
-          source={require('../Images/logo.png')}
-          style={styles.logo}
-        />
-
         <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <Image
+            source={require('../Images/logo.png')}
+            style={styles.logo}
+          />
           <Form>
             <Text style={styles.text}> Adresse email : </Text>
             <Item style={{ borderColor: 'transparent' }}>
