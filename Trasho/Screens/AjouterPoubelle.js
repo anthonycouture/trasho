@@ -99,7 +99,7 @@ export default class AjouterPoubelle extends Component {
         if(this.state.listTypes !== null){
             return (
                 <Container>
-                    <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                    <Content style={{ flex: 1 }}>
                         <View style={styles.view_trash_icon}>
                             <Icon type="EvilIcons" name="trash" style={styles.trash_icon}></Icon>
                         </View>

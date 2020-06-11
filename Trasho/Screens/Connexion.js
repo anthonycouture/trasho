@@ -135,7 +135,7 @@ class Connexion extends Component {
   render() {
     return (
       <Container>
-        <Content style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+        <Content>
           <Image
             source={require('../Images/logo.png')}
             style={styles.logo}

@@ -259,7 +259,7 @@ export default class MonCompte extends Component {
         }
         return (
             <Container>
-                <Content padder style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+                <Content padder style={{ flex: 1 }}>
                     <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5 }}>{this.state.user.niveau}</Text>
