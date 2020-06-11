@@ -6,6 +6,7 @@ const Poubelle = imp.poubelle();
 const Utilisateur = imp.utilisateur();
 const Type = imp.type();
 const property = imp.prop();
+const arrondi = imp.arrondi();
 
 /*
 DOMAIN :  terme metiers : comprehensible
@@ -144,11 +145,72 @@ module.exports.userByMail = async (mail) => {
   return res;
 }
 
-/* Get all users */
-module.exports.users = async () => {
+module.exports.poubellesAjoutAvantDate = async (date) => {
   let res = await con.select(
-    qry.GET_ALL_USERS,
-    (rows) => (Utilisateur.loadList(rows))
+    qry.GET_POUBELLES_DATE,
+    (rows) => (Poubelle.loadList(rows)),
+    [date]
+  );
+  return res;
+}
+
+module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
+  let res = await con.select(
+    qry.GET_POUBELLE_AND_TYPE_BETWEEN_DATE,
+    (rows) => {
+      console.log(rows);
+
+      let poubelles = rows;
+            let nbRecyclable = 0;
+            let nbVerre = 0;
+            let nbToutDechet = 0;
+            let nbTotal = 0;
+            let percentRecyclable = 0;
+            let percentVerre = 0;
+            let percentToutDechet = 0;
+
+      for (let key in poubelles) {
+        console.log("key : " + key);
+        if(poubelles[key].id_type_poubelle == 1) {
+            nbRecyclable += 1;
+        }
+        else if(poubelles[key].id_type_poubelle == 2) {
+            nbVerre += 1;
+        }
+        else if(poubelles[key].id_type_poubelle == 3) {
+            nbToutDechet += 1;
+        }
+        nbTotal += 1;
+    }
+
+    if(nbRecyclable > 0) {
+      percentRecyclable = nbRecyclable/nbTotal*100;
+    }
+    
+    if(nbVerre > 0) {
+      percentVerre = nbVerre/nbTotal*100;
+    }
+    
+    if(nbToutDechet > 0) {
+      percentToutDechet = nbToutDechet/nbTotal*100;
+    }
+
+    console.log('percentRecyclable : ' + percentRecyclable);
+    console.log('percentVerre : ' + percentVerre);
+    console.log('percentToutDechet : ' + percentToutDechet);
+
+      return {
+        nbRecyclage: nbRecyclable,
+        nbVerre: nbVerre,
+        nbToutDechet: nbToutDechet,
+        percentRecyclable: arrondi.roundDecimal(percentRecyclable, 2),
+        percentVerre: arrondi.roundDecimal(percentVerre, 2),
+        percentToutDechet: arrondi.roundDecimal(percentToutDechet, 2)
+      }
+    }
+      
+    ,
+    [date1, date2]
   );
   return res;
 }
@@ -196,6 +258,7 @@ module.exports.updatePassword = async (data) => {
   return retour;
 }
 
+
 /* Insert signalement poubelle delete */
 module.exports.insertSignalementDelete = async (data) => {
   await transaction(qry.INSERT_SIGNALEMENT_DELETE, data)
@@ -212,6 +275,15 @@ module.exports.getAllTypes = async () => {
   let res = await con.select(
     qry.GET_ALL_TYPES,
     (rows) => (Type.loadList(rows))
+    );
+  return res;
+}
+
+/* Get all users */
+module.exports.users = async () => {
+  let res = await con.select(
+    qry.GET_ALL_USERS,
+    (rows) => (Utilisateur.loadList(rows))
   );
   return res;
 }

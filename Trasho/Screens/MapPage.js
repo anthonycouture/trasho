@@ -138,7 +138,7 @@ export default class MapPage extends React.Component {
     }
 
     async getPoubelleAsync() {
-        const url = GLOBAL.BASE_URL + '/api/trash'
+        const url = GLOBAL.BASE_URL + '/api/trash';
         const response = await fetch(url, {
             method: 'GET',
             headers: {

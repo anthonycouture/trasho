@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Image, Alert, AsyncStorage } from 'react-native';
-import { Container, Header, Content, Form, Item, Input, Text, Button, Icon } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Text, Button, Icon, Toast } from 'native-base';
 import {
   StackNavigator,
 } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import Toast from 'react-native-simple-toast';
 import { Font, AppLoading } from 'expo';
 import GLOBAL from '../Globals';
 import Globals from '../Globals';
@@ -25,7 +24,7 @@ class Connexion extends Component {
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   async componentDidMount() {
-    await AsyncStorage.clear();
+    
   }
 
   handleEmail = (text) => {
@@ -49,7 +48,12 @@ class Connexion extends Component {
       }
     }
     else {
-      Toast.show('Veuillez remplir les champs', Toast.LONG);
+      Toast.show({
+        text: "Veuillez remplir les champs",
+        duration : 3000,
+        buttonText: "Okay !",
+        type: "danger"
+      });
     }
   }
 
@@ -96,8 +100,11 @@ class Connexion extends Component {
       }
       await AsyncStorage.setItem('ADMIN', adm);
       await AsyncStorage.setItem('CONNECTED', 'true');
+      await AsyncStorage.setItem('EXPERIENCE', res['user'][this.state.email]['experience'].toString());
+      await AsyncStorage.setItem('NIVEAU', res['user'][this.state.email]['niveau'].toString());
     } catch (error) {
       // Error saving data
+      console.log(error);
     }
   };
 
@@ -116,8 +123,11 @@ class Connexion extends Component {
     }),
     body: body
 });
-    if (response.status != 200) {
+    if (response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
+    }
+    else if (response.status == 403) {
+      alert('Votre compte a été désactivé');
     }
     else if (response.status == 200) {
       const res = await response.json();
@@ -127,6 +137,8 @@ class Connexion extends Component {
       Globals.admin = res['user'][this.state.email]['flag_admin'];
       Globals.email = this.state.email;
       Globals.token_user = res['user'][this.state.email]['token'];
+      Globals.niveau = res['user'][this.state.email]['niveau'];
+      Globals.experience = res['user'][this.state.email]['experience'];
       alert('Connexion réussie !');
       this.navigatPageMonCompte();
     }

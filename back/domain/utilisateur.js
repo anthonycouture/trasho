@@ -10,6 +10,7 @@ class Utilisateur extends JSONable{
   date_expire;
   experience;
   actif;
+  niveau;
 
   constructor
   (

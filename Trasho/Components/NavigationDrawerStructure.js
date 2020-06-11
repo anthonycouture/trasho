@@ -32,6 +32,7 @@ class NavigationDrawerStructure extends Component {
         });
         await this._retrieveData();
         //await AsyncStorage.clear();
+        console.log("connected 2 : " + Globals.connected);
     }
 
     _retrieveData = async () => {
@@ -39,6 +40,8 @@ class NavigationDrawerStructure extends Component {
             const admin = await AsyncStorage.getItem('ADMIN');
             const connected = await AsyncStorage.getItem('CONNECTED');
             const email = await AsyncStorage.getItem('EMAIL');
+            const experience = await AsyncStorage.getItem('EXPERIENCE');
+            const niveau = await AsyncStorage.getItem('NIVEAU');
 
             if (admin !== null) {
                 Globals.admin = admin;
@@ -50,6 +53,14 @@ class NavigationDrawerStructure extends Component {
 
             if (email !== null) {
                 Globals.email = email;
+            }
+
+            if (experience !== null) {
+                Globals.experience = Number(experience);
+            }
+
+            if (niveau !== null) {
+                Globals.niveau = Number(niveau);
             }
 
         } catch (error) {

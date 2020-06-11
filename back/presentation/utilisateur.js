@@ -113,7 +113,7 @@ router.post('/connexion', async (req, res) => {
   let ret = false;
   let taille = Object.keys(row['utilisateur']).length;
   if (taille > 0) {
-    if (password === row['utilisateur'][mail].password) {
+    if (password === row['utilisateur'][mail].password && row['utilisateur'][mail].actif == true) {
       ret = true;
       res
         .status(200)
@@ -122,9 +122,14 @@ router.post('/connexion', async (req, res) => {
           "user": row['utilisateur']
         });
     }
-    else {
+    else if (password !== row['utilisateur'][mail].password) {
       res
         .status(400)
+        .json()
+    }
+    else if (row['utilisateur'][mail].actif == false) {
+      res
+        .status(403)
         .json()
     }
   }

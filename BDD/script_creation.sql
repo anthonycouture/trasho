@@ -14,7 +14,8 @@ create table poubelle (
   id_poubelle serial primary key,
   longitude float not null,
   latitude float not null,
-  url_photo varchar not null
+  url_photo varchar not null,
+  date_ajout DATE not null DEFAULT CURRENT_DATE
 );
 
 create table poubelle_type_poubelle (

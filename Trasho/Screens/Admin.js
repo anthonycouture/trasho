@@ -7,7 +7,6 @@ export default class Admin extends Component {
 
     async componentDidMount() {
         console.log("componentDidMount");
-        await AsyncStorage.clear();
     }
 
     render() {
