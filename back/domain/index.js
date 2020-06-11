@@ -289,7 +289,7 @@ module.exports.users = async () => {
 }
 
 /* Add type for trash */
-module.exports.addTypeForTrash = async(trashAndType) => {
+module.exports.addTypeForTrash = async (trashAndType) => {
   await transaction(qry.INSERT_TYPE_POUBELLE, trashAndType).then((resp) => {
     return resp.rows[0]
   }).catch((err) => {
@@ -308,7 +308,7 @@ module.exports.getTrashFromTypes = async (type) => {
 }
 
 /* Add new report for new trash */
-module.exports.addReportNewTrash = async(mailAndIdPoubelle) => {
+module.exports.addReportNewTrash = async (mailAndIdPoubelle) => {
   await transaction(qry.ADD_REPORT_NEW_TRASH, mailAndIdPoubelle).then((resp) => {
     return resp.rows[0];
   }).catch((err) => {
@@ -318,7 +318,7 @@ module.exports.addReportNewTrash = async(mailAndIdPoubelle) => {
 }
 
 /* Add XP to user when trash was added */
-module.exports.addNewTrashXP = async(mail) => {
+module.exports.addNewTrashXP = async (mail) => {
   await transaction(qry.EXPERIENCE_ADD_TRASH, mail).then((resp) => {
     return resp.rows[0];
   }).catch((err) => {
@@ -328,7 +328,7 @@ module.exports.addNewTrashXP = async(mail) => {
 }
 
 /* Add XP to user when trash was reported */
-module.exports.reportTrashXP = async(mail) => {
+module.exports.reportTrashXP = async (mail) => {
   await transaction(qry.EXPERIENCE_REPORT_TRASH, mail).then((resp) => {
     return resp.rows[0];
   }).catch((err) => {
@@ -352,7 +352,13 @@ function transaction(requete, donnees_colonnes) {
 
 
 var schedule = require('node-schedule');
-schedule.scheduleJob(property.cron_purge, function(){
+
+schedule.scheduleJob(property.cron_purge, function () {
   console.log('Purge des signalements');
   transaction(qry.PURGE_SIGNALEMENT, []);
+});
+
+schedule.scheduleJob(property.cron_batch_delete_poubelle, function () {
+  console.log('BATCH de suppression des poubelles')
+  transaction(qry.BATCH_DELETE_POUBELLE, []);
 });

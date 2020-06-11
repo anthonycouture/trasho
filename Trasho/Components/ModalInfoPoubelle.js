@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, Text, StyleSheet, View, TouchableHighlight, Modal } from 'react-native';
+import { Image, Text, StyleSheet, View, TouchableHighlight, Modal,Button } from 'react-native';
 import GLOBAL from '../Globals';
 
 export const MessageModal = {
-    SUPPRESSION_POUBELLE: "SUPPRESSION_POUBELLE"
+    SUPPRESSION_POUBELLE: "SUPPRESSION_POUBELLE",
+    ITINERAIRE_POUBELLE: "ITINERAIRE_POUBELLE"
 };
 
 export default class ModalInfoPoubelle extends React.Component {
@@ -88,7 +89,7 @@ export default class ModalInfoPoubelle extends React.Component {
     }
 
     supprimePoubelle() {
-        const url = GLOBAL.BASE_URL + '/api/trash/'+GLOBAL.url_base_admin+'/delete-poubelle'
+        const url = GLOBAL.BASE_URL + '/api/trash/' + GLOBAL.url_base_admin + '/delete-poubelle'
         const body = 'id=' + this.props.idPoubelle;
         fetch(url,
             {
@@ -112,6 +113,11 @@ export default class ModalInfoPoubelle extends React.Component {
             console.error(error);
             alert("Une erreur est survenu")
         });
+    }
+
+    itineraire(){
+        this.props.messageModal(MessageModal.ITINERAIRE_POUBELLE, this.props.idPoubelle);
+        this.props.affichemodal(false);
     }
 
     render() {
@@ -160,6 +166,12 @@ export default class ModalInfoPoubelle extends React.Component {
                                 </TouchableHighlight>
                             }
                         </View>
+                        <Button
+                            onPress={
+                                () => this.itineraire()
+                            }
+                            title="GO !"
+                        />
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                             onPress={() => {
