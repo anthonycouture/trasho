@@ -9,6 +9,7 @@ import { StyleSheet, View, TouchableHighlight, Modal, Text } from 'react-native'
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
+import { GetItinerary } from './../Components/Itineraire';
 
 import GLOBAL from '../Globals';
 
@@ -28,12 +29,22 @@ export default class MapPage extends React.Component {
             modalTypeVisible: false,
             listTypes: [],
             idPoubelle: null,
-            modal: false
+            modal: false,
+            positions: [],
+            itinerairePoubelle: null
         }
     }
 
     setModal = (visible) => {
         this.setState({ modal: visible })
+    }
+
+    setItinerairePoubelle(idPoubelle) {
+        this.setState({ itinerairePoubelle: idPoubelle })
+    }
+
+    setPositions(itineraire) {
+        this.setState({ positions: itineraire })
     }
 
     setIdPoubelle(idPoubelle) {
@@ -82,22 +93,15 @@ export default class MapPage extends React.Component {
     messageModal = (message, idPoubelle) => {
         switch (message) {
             case MessageModal.SUPPRESSION_POUBELLE:
-                // Je l'améliorerais plus tard
-                /*let poubelleDelete;
-                this.state.markerPoubelle.forEach(function (item) {
-                    if (item.id === idPoubelle) {
-                        poubelleDelete = item;
-                        return;
-                    }
-                });
-                let newListeMarker = this.state.markerPoubelle;
-                newListeMarker.splice(newListeMarker.indexOf(poubelleDelete), 1);
-                this.setMarkerPoubelle(newListeMarker);
-                this.addMarkerPoubelle(newListeMarker);*/
                 this.getPoubelleAsync();
+                break;
+            case MessageModal.ITINERAIRE_POUBELLE:
+                this.setItinerairePoubelle(idPoubelle)
+                this.itineraire();
                 break;
             default:
                 null;
+                break;
         }
     }
 
@@ -240,6 +244,10 @@ export default class MapPage extends React.Component {
             this.getPoubelleAsync();
             this._loadAllType();
         });
+        setInterval(() => {
+            this.getLocationAsync();
+            this.itineraire();
+        }, 5000);
     }
 
     modalType() {
@@ -271,21 +279,36 @@ export default class MapPage extends React.Component {
         )
     }
 
+    async itineraire() {
+        if (this.state.itinerairePoubelle != null) {
+            let r = await GetItinerary(this.state.itinerairePoubelle, this.state.ownPosition)
+            this.setPositions(r)
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 {this.modalType()}
-                {<ModalInfoPoubelle
+                <ModalInfoPoubelle
                     idPoubelle={this.state.idPoubelle}
                     visible={this.state.modal}
                     affichemodal={this.setModal}
                     messageModal={this.messageModal}
-                />}
+                />
 
                 {
                     <WebViewLeaflet
                         onMessageReceived={this.onMessageReceived}
                         eventReceiver={this}
+                        mapShapes={[
+                            {
+                                shapeType: MapShapeType.POLYLINE,
+                                color: "#000000",
+                                id: "1",
+                                positions: this.state.positions
+                            }
+                        ]}
                         mapLayers={[{
                             attribution:
                                 '&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
@@ -332,7 +355,7 @@ export default class MapPage extends React.Component {
 
                             }
                         }
-                        zoom={50}
+                        zoom={90}
                     />
                 }
 
