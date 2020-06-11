@@ -65,6 +65,9 @@ router.get('/url/:id', async (req,res) => {
     .json(rows.poubelle._undefined.url_photo);
 });
 
+/*
+* Récupération des poubelles avant date passée en paramètre
+*/
 router.get('/'+property.url_base_admin+'/recente/:date',async (req,res) => {
   const { date } = req.params;
   let rows = await domain.poubellesAjoutAvantDate(date);
@@ -73,6 +76,9 @@ router.get('/'+property.url_base_admin+'/recente/:date',async (req,res) => {
     .json(rows);
 });
 
+/*
+* Récupération des poubelles ajoutées entre deux dates
+*/
 router.get('/'+property.url_base_admin+'/poubellesDates/:date1/:date2',async (req,res) => {
 
   const { date1, date2} = req.params;

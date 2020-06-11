@@ -36,9 +36,11 @@ export default class Statistiques extends Component {
     componentDidMount() {
         this.getStats();
         this.getPercentsTrash();
-        console.log("eeeeeeeeeeeeeeeee");
     }
 
+    /*
+    * Calcul de la date à 7 jours
+    */
     calculDate() {
         let currentDate = new Date();
         let annee = currentDate.getFullYear();
@@ -79,6 +81,9 @@ export default class Statistiques extends Component {
         return day;
     }
 
+    /*
+    * Récupération des statistiques des poubelles ajoutées avant une date
+    */
     async getStats() {
         let dateSeptJours = this.calculDate();
         const url = GLOBAL.BASE_URL + '/api/trash/' + Globals.url_base_admin + '/recente/' + dateSeptJours;
@@ -103,6 +108,9 @@ export default class Statistiques extends Component {
         }
     }
 
+    /*
+    * Récupération des statistiques des poubelles ajoutées entre deux dates
+    */
     async getPercentsTrash() {
 
         let date1 = this.calculDate();
@@ -130,10 +138,14 @@ export default class Statistiques extends Component {
             alert('Problème de récupération des données');
         }
         else {
+            //stockage des données des poubelles
             await this.storeDataTrash(res);
         }
     }
 
+    /*
+    * Stockage des statistiques sur les poubelles
+    */
     async storeDataTrash(res) {
         if (res.percentRecyclable != 0 || res.percentVerre != 0 || res.percentToutDechet != 0) {
             this.setState({ percentRecyclable: res.percentRecyclable });
@@ -148,10 +160,6 @@ export default class Statistiques extends Component {
             this.setState({ labelVerre: labelVerre });
             let labelToutDechet = 'Tout déchet (' + res.nbToutDechet + ')';
             this.setState({ labelToutDechet: labelToutDechet });
-
-            console.log('percentRe : ' + this.state.percentRecyclable);
-            console.log('percentVer : ' + this.state.percentVerre);
-            console.log('percentTout : ' + this.state.percentToutDechet);
 
             let stats = [];
 
@@ -174,21 +182,16 @@ export default class Statistiques extends Component {
             }
 
             if (res.nbRecyclage > 0) {
-                console.log("Oui recy");
                 stats.push(objRecyclable);
             }
 
             if (res.nbVerre > 0) {
-                console.log("Oui verre");
                 stats.push(objVerre);
             }
 
             if (res.nbToutDechet > 0) {
-                console.log("Oui tout");
                 stats.push(objToutDechet);
             }
-
-            console.log(stats);
 
             this.setState({ statsData: stats });
         }

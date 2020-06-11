@@ -109,10 +109,10 @@ export default class MapPage extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
-            //this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            this.setOwnPosition(50.636665, 3.069481);
-            this.setMapCenterPosition(50.636665, 3.069481);
+            this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            //this.setOwnPosition(50.636665, 3.069481);
+            //this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 

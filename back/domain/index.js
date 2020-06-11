@@ -145,6 +145,9 @@ module.exports.userByMail = async (mail) => {
   return res;
 }
 
+/*
+* Récupération des poubelles ajoutées avant une date
+*/
 module.exports.poubellesAjoutAvantDate = async (date) => {
   let res = await con.select(
     qry.GET_POUBELLES_DATE,
@@ -154,6 +157,10 @@ module.exports.poubellesAjoutAvantDate = async (date) => {
   return res;
 }
 
+/*
+* Récupération des poubelles ajoutées entre deux dates
+* Calcul des statistiques
+*/
 module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
   let res = await con.select(
     qry.GET_POUBELLE_AND_TYPE_BETWEEN_DATE,
@@ -195,10 +202,6 @@ module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
       percentToutDechet = nbToutDechet/nbTotal*100;
     }
 
-    console.log('percentRecyclable : ' + percentRecyclable);
-    console.log('percentVerre : ' + percentVerre);
-    console.log('percentToutDechet : ' + percentToutDechet);
-
       return {
         nbRecyclage: nbRecyclable,
         nbVerre: nbVerre,
@@ -215,6 +218,9 @@ module.exports.poubellesAjoutEntreDates = async (date1, date2) => {
   return res;
 }
 
+/*
+* Modification de l'utilisateur
+*/
 module.exports.updateUtilisateur = async (data) => {
   let res = await transaction(qry.UPDATE_USER, data)
     .then((resp) => {
@@ -224,6 +230,9 @@ module.exports.updateUtilisateur = async (data) => {
   return { user: res };
 }
 
+/*
+* Suppression de l'utilisateur en fonction de l'email
+*/
 module.exports.deleteUserByMail = async (mail) => {
   let res = await transaction(qry.DELETE_USER_BY_MAIL, mail)
     .then((resp) => {
@@ -233,6 +242,10 @@ module.exports.deleteUserByMail = async (mail) => {
   return { user: res };
 }
 
+/*
+* Modification du mot de passe
+* Vérification de l'ancien mot de passe pour valider la modification
+*/
 module.exports.updatePassword = async (data) => {
 
   const mail = data[0];

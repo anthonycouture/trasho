@@ -97,6 +97,9 @@ router.post('/newToken/:token', async (req, res) => {
   });
 });
 
+/*
+*Récupération de l'utilisateur en fonction de son adresse mail
+*/
 router.get('/email/:mail', async (req, res) => {
   const {mail} = req.params;
   await domain.userByMail(mail).then((rows) => {
@@ -107,6 +110,10 @@ router.get('/email/:mail', async (req, res) => {
 });
 
 
+/*
+*Requête de connexion de l'utilisateur
+*Vérification de l'email et du mot de passe
+*/
 router.post('/connexion', async (req, res) => {
   const { mail, password } = req.body;
   let row = await domain.userByMail(mail);

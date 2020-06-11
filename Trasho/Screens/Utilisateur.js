@@ -36,6 +36,9 @@ export default class Utilisateur extends Component {
         }
     }
 
+    /*
+    * Requête vers le back pour sauvegarder les informations d'un utilisateur
+    */
     saveModifications() {
         const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/update';
         const body = 'mail=' + this.state.email + '&admin=' + this.state.switchValue;
@@ -57,6 +60,9 @@ export default class Utilisateur extends Component {
             });
     }
 
+    /*
+    * Suppression d'un utilisateur en fonction de son adresse mail
+    */
     deleteUser(mail) {
         const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/delete';
         const body = 'mail=' + this.state.email;

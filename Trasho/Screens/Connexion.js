@@ -24,7 +24,7 @@ class Connexion extends Component {
   regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   async componentDidMount() {
-    
+
   }
 
   handleEmail = (text) => {
@@ -35,6 +35,10 @@ class Connexion extends Component {
     this.setState({ password: text })
   }
 
+  /*
+  * Tentative de connexion
+  * Vérification que les champs sont valides
+  */
   login = (email, pass) => {
     //alert('email: ' + email + ' password: ' + pass);
     let emailOk = false;
@@ -50,7 +54,7 @@ class Connexion extends Component {
     else {
       Toast.show({
         text: "Veuillez remplir les champs",
-        duration : 3000,
+        duration: 3000,
         buttonText: "Okay !",
         type: "danger"
       });
@@ -90,6 +94,9 @@ class Connexion extends Component {
     }));
   }
 
+  /*
+  * Stockage des données de l'utilisateur après la connexion
+  */
   _storeData = async (res) => {
     try {
       let adm = 'false';
@@ -108,21 +115,23 @@ class Connexion extends Component {
     }
   };
 
+  /*
+  * Requête de connexion de l'utilisateur
+  * Si erreur combinaison email/mot de passe => message d'erreur
+  * Si utilisateur non actif => message d'erreur
+  */
   async connexion() {
     const url = GLOBAL.BASE_URL + '/api/user/connexion';
     const body = 'mail=' + this.state.email + '&password=' + this.state.password;
-    /*const response = await fetch(url).catch(function (error) {
-      console.log('There has been a problem with your fetch operation: ' + error.message);
-    });
-    */
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: new Headers({
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: new Headers({
         "token_api": GLOBAL.token_api,
         'Content-Type': 'application/x-www-form-urlencoded',
-    }),
-    body: body
-});
+      }),
+      body: body
+    });
     if (response.status == 400) {
       alert('Combinaison email et mot de passe invalide');
     }
@@ -157,7 +166,7 @@ class Connexion extends Component {
             <Item style={{ borderColor: 'transparent' }}>
               <Icon name="mail" />
               <Item error={!this.state.isEmail} success={this.state.isEmail} style={{ marginRight: 50 }}>
-                <Input placeholder="Email" onChangeText={this.handleEmail} autoCapitalize="none"/>
+                <Input placeholder="Email" onChangeText={this.handleEmail} autoCapitalize="none" />
                 <Icon name='checkmark-circle' />
               </Item>
             </Item>
