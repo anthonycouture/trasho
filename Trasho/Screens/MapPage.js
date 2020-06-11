@@ -30,12 +30,17 @@ export default class MapPage extends React.Component {
             listTypes: [],
             idPoubelle: null,
             modal: false,
-            positions: []
+            positions: [],
+            itinerairePoubelle: null
         }
     }
 
     setModal = (visible) => {
         this.setState({ modal: visible })
+    }
+
+    setItinerairePoubelle(idPoubelle) {
+        this.setState({ itinerairePoubelle: idPoubelle })
     }
 
     setPositions(itineraire) {
@@ -91,7 +96,8 @@ export default class MapPage extends React.Component {
                 this.getPoubelleAsync();
                 break;
             case MessageModal.ITINERAIRE_POUBELLE:
-                this.itineraire(idPoubelle);
+                this.setItinerairePoubelle(idPoubelle)
+                this.itineraire();
                 break;
             default:
                 null;
@@ -107,10 +113,10 @@ export default class MapPage extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition) {
-            //this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            this.setOwnPosition(50.636665, 3.069481);
-            this.setMapCenterPosition(50.636665, 3.069481);
+            this.setOwnPosition(location.coords.latitude, location.coords.longitude);
+            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            //this.setOwnPosition(50.636665, 3.069481);
+            //this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
 
@@ -240,6 +246,7 @@ export default class MapPage extends React.Component {
         });
         setInterval(() => {
             this.getLocationAsync();
+            this.itineraire();
         }, 5000);
     }
 
@@ -272,9 +279,11 @@ export default class MapPage extends React.Component {
         )
     }
 
-    async itineraire(idPoubelle) {
-        let r = await GetItinerary(idPoubelle, this.state.ownPosition)
-        this.setPositions(r)
+    async itineraire() {
+        if (this.state.itinerairePoubelle != null) {
+            let r = await GetItinerary(this.state.itinerairePoubelle, this.state.ownPosition)
+            this.setPositions(r)
+        }
     }
 
     render() {

@@ -10,6 +10,8 @@ const router = new Router();
 
 const https = require('https');
 
+const http = require('http');
+
 
 module.exports = router;
 
@@ -110,7 +112,7 @@ router.post('/add-type/:id/:type', async (req, res) => {
   })
 });
 
-router.post('/itineraire/:id', async (req, res) => {
+/*router.post('/itineraire/:id', async (req, res) => {
   const { id } = req.params;
   const { lat, lng } = req.body;
   let rows = await domain.sendPoubellesById(id);
@@ -129,6 +131,49 @@ router.post('/itineraire/:id', async (req, res) => {
     });
   }).on("error", console.error)
   
+})*/
+
+/*router.post('/itineraire/:id', async (req, res) => {
+  const { id } = req.params;
+  const { lat, lng } = req.body;
+  let rows = await domain.sendPoubellesById(id);
+  let latitude = Object.values(rows.poubelle)[0].latitude;
+  let longitude = Object.values(rows.poubelle)[0].longitude;
+  let url = 'http://router.project-osrm.org/trip/v1/walking/'+lng+','+lat+';'+longitude+','+latitude+'?geometries=geojson&overview=full&source=first&destination=last';
+  console.log(url);
+  http.get(url, (retour) => {
+    retour.setEncoding("utf8");
+    let body = "";
+    retour.on("data", data => {
+      body += data;
+    });
+    retour.on("end", () => {
+      body = JSON.parse(body);
+      res.status(200).json(body.trips[0].geometry.coordinates)
+    });
+  }).on("error", console.error)
+
+})*/
+
+router.post('/itineraire/:id', async (req, res) => {
+  const { id } = req.params;
+  const { lat, lng } = req.body;
+  let rows = await domain.sendPoubellesById(id);
+  let latitude = Object.values(rows.poubelle)[0].latitude;
+  let longitude = Object.values(rows.poubelle)[0].longitude;
+  let url = 'https://routing.openstreetmap.de/routed-foot/route/v1/walking/'+lng+','+lat+';'+longitude+','+latitude+'?overview=full&geometries=geojson&steps=false';
+  https.get(url, (retour) => {
+    retour.setEncoding("utf8");
+    let body = "";
+    retour.on("data", data => {
+      body += data;
+    });
+    retour.on("end", () => {
+      body = JSON.parse(body);
+      res.status(200).json(body.routes[0].geometry.coordinates)
+    });
+  }).on("error", console.error)
+
 })
 
 router.post('/' + property.url_base_admin + '/delete-poubelle', async (req, res) => {
