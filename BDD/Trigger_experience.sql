@@ -15,11 +15,7 @@ $maj_niveau$ LANGUAGE plpgsql;
 CREATE TRIGGER maj_niveau
 BEFORE UPDATE of experience ON utilisateur
 FOR EACH ROW
-<<<<<<< HEAD
 EXECUTE FUNCTION func_maj_niveau();
-=======
-EXECUTE FUNCTION func_maj_niveau();
-
 --tests
 
 UPDATE public.utilisateur
@@ -28,4 +24,4 @@ UPDATE public.utilisateur
 	
 UPDATE public.utilisateur
 	SET niveau = 0;
->>>>>>> integration-lucas
+
