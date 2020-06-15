@@ -142,12 +142,7 @@ export default class AjouterPoubelleMap extends React.Component {
                 if (message.payload.mapMarkerID !== 'OWN_POSTION_MARKER_ID') {
                     this.idPoubelle = message.payload.mapMarkerID
                     this.setModalVisible(true);
-                } else {
-
                 }
-                break;
-            case WebViewLeafletEvents.ON_MOVE_END:
-                this.setMapCenterPosition(message.payload.mapCenterPosition.lat,message.payload.mapCenterPosition.lng);
                 break;
             case WebViewLeafletEvents.ON_MAP_TOUCHED:
                 this.setNewPoubelle(message.payload.touchLatLng)

@@ -144,39 +144,37 @@ export default class PhotoPoubelle extends React.Component{
             if(response.status == 201){
                 await response.json().then(async (json) => {
                     for(const type of this.state.types){
-                        const url2 = Globals.BASE_URL + '/api/trash/' + json.id_poubelle + '/' + type;
+                        const url2 = Globals.BASE_URL + '/api/trash/add-type/' + json.id_poubelle + '/' + type;
                         await fetch(url2,{
                             method: 'POST',
                             headers: {
                                 "token_api": Globals.token_api
                             }
-                        }).then(async () => {
-                            const urlToReport = Globals.BASE_URL + '/api/report/newTrash';
-                            await fetch(urlToReport,{
-                                method: 'POST',
-                                headers: {
-                                    "token_api": Globals.token_api,
-                                    Accept: 'application/json',
-                                    'Content-Type': 'application/json',
-                                  },
-                                  body: JSON.stringify({
-                                    mail: Globals.email,
-                                    id_poubelle: json.id_poubelle
-                                  }),
-                            }).then((responseReport) => {
-                                if(responseReport.status == 201){
-                                    this.setState({ dialog: false });
-                                    Toast.show({
-                                        text: "Poubelle ajoutée !",
-                                        duration : 3000,
-                                        type: "success"
-                                    });
-                                    this.props.navigation.navigate('MapPage');
-                                }
-                            });
                         });
-
                     }
+                    const urlToReport = Globals.BASE_URL + '/api/report/newTrash';
+                    await fetch(urlToReport,{
+                        method: 'POST',
+                        headers: {
+                            "token_api": Globals.token_api,
+                            Accept: 'application/json',
+                            'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                            mail: Globals.email,
+                            id_poubelle: json.id_poubelle
+                            }),
+                    }).then((responseReport) => {
+                        if(responseReport.status == 201){
+                            this.setState({ dialog: false });
+                            Toast.show({
+                                text: "Poubelle ajoutée !",
+                                duration : 3000,
+                                type: "success"
+                            });
+                            this.props.navigation.navigate('MapPage');
+                        }
+                    });
                 });
                 
             }
