@@ -8,6 +8,9 @@ const router = new Router();
 
 module.exports = router;
 
+/**
+ * Get all types
+ */
 router.get('/', async (req, res) => {
     await domain.getAllTypes().then((rows) => {
         res.status(200).json(rows);

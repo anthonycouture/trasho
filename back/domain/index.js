@@ -12,6 +12,11 @@ const arrondi = imp.arrondi();
 DOMAIN :  terme metiers : comprehensible
 
 */
+
+
+/**
+ * Get all trash informations
+ */
 module.exports.sendAllPoubellesInfo = async () => {
   let res = await con.select(
     qry.GET_ALL_POUBELLES_INFO,
@@ -20,6 +25,9 @@ module.exports.sendAllPoubellesInfo = async () => {
   return res;
 }
 
+/**
+ * Get all trash
+ */
 module.exports.sendAllPoubelles = async () => {
   let res = await con.select(
     qry.GET_ALL_POUBELLES,
@@ -28,6 +36,9 @@ module.exports.sendAllPoubelles = async () => {
   return res;
 }
 
+/**
+ * Get trash informations by id
+ */
 module.exports.sendPoubellesInfoById = async (id_poubelle) => {
   let res = await con.select(
     qry.GET_ALL_POUBELLES_INFO_BY_ID,
@@ -37,6 +48,9 @@ module.exports.sendPoubellesInfoById = async (id_poubelle) => {
   return res;
 }
 
+/**
+ * Get trash by id
+ */
 module.exports.sendPoubellesById = async (id_poubelle) => {
   let res = await con.select(
     qry.GET_ALL_POUBELLES_BY_ID,
@@ -46,6 +60,9 @@ module.exports.sendPoubellesById = async (id_poubelle) => {
   return res;
 }
 
+/**
+ * Get trash type by id
+ */
 module.exports.getTypePoubellesByIdPoubelle = async (id_poubelle) => {
   let res = await con.select(
     qry.GET_TYPE_POUBELLES_BY_ID_POUBELLE,
@@ -55,6 +72,9 @@ module.exports.getTypePoubellesByIdPoubelle = async (id_poubelle) => {
   return res;
 }
 
+/**
+ * Get trash picture by id
+ */
 module.exports.getUrlPoubelleByIdPoubelle = async (id_poubelle) => {
   let res = await con.select(
     qry.GET_URL_POUBELLE,
@@ -64,6 +84,9 @@ module.exports.getUrlPoubelleByIdPoubelle = async (id_poubelle) => {
   return res;
 }
 
+/**
+ * Insert a new trash 
+ */
 module.exports.insererPoubelle = async (dataPoubelle) => {
   let res = await transaction(qry.INSERT_POUBELLE, dataPoubelle)
     .then((resp) => {
@@ -73,6 +96,9 @@ module.exports.insererPoubelle = async (dataPoubelle) => {
   return { id_poubelle: res };
 }
 
+/**
+ * Get all users
+ */
 module.exports.sendAllUsers = async () => {
   let res = await con.select(
     qry.GET_ALL_USERS,

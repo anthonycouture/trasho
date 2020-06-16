@@ -13,6 +13,12 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+/**
+ * Send mail to confirm new user
+ *
+ * @param {*} mail the user mail
+ * @param {*} token the user token
+ */
 async function sendMail(mail, token){
 
     const url_to_confirm = cst.URL + property.url_utilisateur + "/confirmMail/" + token;
@@ -31,6 +37,12 @@ async function sendMail(mail, token){
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
+/**
+ * Send user data by mail
+ *
+ * @param {*} mail the user mail
+ * @param {*} content the user data
+ */
 async function sendMailDataUser(mail, content){
     
     let info = await transporter.sendMail({

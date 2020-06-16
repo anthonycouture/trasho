@@ -15,6 +15,9 @@ const http = require('http');
 
 module.exports = router;
 
+/**
+ * Get all trash
+ */
 router.get('/', async (req, res) => {
   let rows = await domain.sendAllPoubelles();
   res
@@ -23,6 +26,9 @@ router.get('/', async (req, res) => {
 
 });
 
+/**
+ * Get all trash informations
+ */
 router.get('/' + property.url_base_admin + '/infos', async (req, res) => {
   let rows = await domain.sendAllPoubellesInfo();
   res
@@ -31,7 +37,9 @@ router.get('/' + property.url_base_admin + '/infos', async (req, res) => {
   return true;
 });
 
-
+/**
+ * Get trash by id
+ */
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   let rows = await domain.sendPoubellesById(id);
@@ -40,6 +48,9 @@ router.get('/:id', async (req, res) => {
     .json(rows);
 });
 
+/**
+ * Get trash informations by id
+ */
 router.get('/infos/:id', async (req, res) => {
   const { id } = req.params;
   let rows = await domain.sendPoubellesInfoById(id);
@@ -48,6 +59,9 @@ router.get('/infos/:id', async (req, res) => {
     .json(rows);
 });
 
+/**
+ * Get trash type by id
+ */
 router.get('/type/:id', async (req, res) => {
   const { id } = req.params;
   let rows = await domain.getTypePoubellesByIdPoubelle(id);
@@ -61,6 +75,9 @@ router.get('/type/:id', async (req, res) => {
     .json(types);
 });
 
+/**
+ * Get trash picture by id
+ */
 router.get('/url/:id', async (req, res) => {
   const { id } = req.params;
   let rows = await domain.getUrlPoubelleByIdPoubelle(id);
@@ -125,6 +142,9 @@ router.post('/byType/name', async (req, res) => {
   });
 });
 
+/**
+ * Add type to trash
+ */
 router.post('/add-type/:id/:type', async (req, res) => {
   const { id, type } = req.params;
   await domain.addTypeForTrash([id, type]).then((response) => {
@@ -178,6 +198,9 @@ router.post('/add-type/:id/:type', async (req, res) => {
 
 })*/
 
+/**
+ * Get route to trash
+ */
 router.post('/itineraire/:id', async (req, res) => {
   const { id } = req.params;
   const { lat, lng } = req.body;
@@ -199,6 +222,9 @@ router.post('/itineraire/:id', async (req, res) => {
 
 })
 
+/**
+ * Delete trash
+ */
 router.post('/' + property.url_base_admin + '/delete-poubelle', async (req, res) => {
   const { id } = req.body;
   let result = await domain.deletePoubelle([id]);

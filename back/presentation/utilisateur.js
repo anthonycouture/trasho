@@ -13,6 +13,10 @@ const router = new Router();
 
 module.exports = router;
 
+
+/**
+ * Get all users
+ */
 router.get('/', async (req, res) => {
   let rows = await domain.users();
   res
@@ -20,6 +24,10 @@ router.get('/', async (req, res) => {
     .json(rows);
 });
 
+
+/**
+ * Register a new user with email sending
+ */
 router.post('/', async (req, res) => {
   const {mail, password} = req.body;
   const token = uuid.v4();
@@ -36,6 +44,10 @@ router.post('/', async (req, res) => {
   });
 });
 
+
+/**
+ * Confirm new user by token
+ */
 router.get('/confirmMail/:token', async (req, res) => {
   const {token} = req.params;
   res.render('confirmMail', {
@@ -44,6 +56,10 @@ router.get('/confirmMail/:token', async (req, res) => {
   });
 });
 
+
+/**
+ * Get user by token
+ */
 router.get('/token/:token', async (req, res) => {
   const {token} = req.params;
   await domain.findUserByToken(token).then((user) => {
@@ -54,6 +70,10 @@ router.get('/token/:token', async (req, res) => {
   });
 });
 
+
+/**
+ * Get user by no expired token
+ */
 router.get('/noExpiredToken/:token', async (req, res) => {
   const {token} = req.params;
   await domain.checkExpiredToken(token).then((user) => {
@@ -65,6 +85,9 @@ router.get('/noExpiredToken/:token', async (req, res) => {
 });
 
 
+/**
+ * Update new active user
+ */
 router.post('/validMail/:token', async (req, res) => {
   const {token} = req.params;
   await domain.becomeActif(token).then((user) => {
@@ -75,6 +98,10 @@ router.post('/validMail/:token', async (req, res) => {
   });
 });
 
+
+/**
+ * Generate new token for unactive user and send mail
+ */
 router.post('/newToken/:token', async (req, res) => {
   const {token} = req.params;
   await domain.findUserByToken(token).then((user) => {
