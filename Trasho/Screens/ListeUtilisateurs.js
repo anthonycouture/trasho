@@ -20,12 +20,22 @@ export default class ListeUtilisateurs extends Component {
         this.getAllUsers();
     }
 
+    /**
+     * Hide or show dialog
+     *
+     * @memberof ListeUtilisateurs
+     */
     changeDialogState() {
         this.setState(prevState => ({
             dialogVisible: !prevState.dialogVisible
         }));
     }
 
+    /**
+     * Get all users
+     *
+     * @memberof ListeUtilisateurs
+     */
     async getAllUsers() {
         const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/users';
         const response = await fetch(url, {
@@ -54,10 +64,22 @@ export default class ListeUtilisateurs extends Component {
         }
     }
 
+    /**
+     * Navigate to user page
+     *
+     * @param {*} email
+     * @param {*} admin
+     * @memberof ListeUtilisateurs
+     */
     navigatePageUser(email, admin) {
         this.props.navigation.navigate('Utilisateur', { mail: email, admin: admin });
     }
 
+    /**
+     * Handle the search bar
+     *
+     * @memberof ListeUtilisateurs
+     */
     handleSearch = (text) => {
         this.setState({ search: text });
     }

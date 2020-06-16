@@ -30,6 +30,8 @@ export default class MonCompte extends Component {
 
     /**
      * When the page will appear for first time, this function was called
+     *
+     * @memberof MonCompte
      */
     componentDidMount() {        
         this.getUserInfo();
@@ -40,6 +42,8 @@ export default class MonCompte extends Component {
 
     /**
      * Get user information
+     *
+     * @memberof MonCompte
      */
     async getUserInfo(){
         const url = GLOBAL.BASE_URL + '/api/user/email/' + GLOBAL.email;      
@@ -67,6 +71,11 @@ export default class MonCompte extends Component {
         })
     }
 
+    /**
+     * Disconnect the user
+     *
+     * @memberof MonCompte
+     */
     async _deconnexion() {
         await AsyncStorage.clear();
         Globals.admin = false
@@ -74,18 +83,33 @@ export default class MonCompte extends Component {
         this.props.navigation.navigate('Connexion');
     };
 
+    /**
+     * Hide or show the dialog
+     *
+     * @memberof MonCompte
+     */
     changeDialogState() {
         this.setState(prevState => ({
             dialogVisible: !prevState.dialogVisible
         }));
     }
 
+    /**
+     * Hide or show the dialog to delete user
+     *
+     * @memberof MonCompte
+     */
     changeDialogSuppressionState() {
         this.setState(prevState => ({
             dialogSuppressionVisible: !prevState.dialogSuppressionVisible
         }));
     }
 
+    /**
+     * Hide or show the old password
+     *
+     * @memberof MonCompte
+     */
     _changeIconOldPassword() {
         this.setState(prevState => ({
             iconOldPassword: prevState.iconOldPassword === 'eye' ? 'eye-off' : 'eye',
@@ -93,6 +117,11 @@ export default class MonCompte extends Component {
         }));
     }
 
+    /**
+     * Hide or show the new password
+     *
+     * @memberof MonCompte
+     */
     _changeIconPassword() {
         this.setState(prevState => ({
             iconPassword: prevState.iconPassword === 'eye' ? 'eye-off' : 'eye',
@@ -100,6 +129,11 @@ export default class MonCompte extends Component {
         }));
     }
 
+    /**
+     * Hide or show the confirm password
+     *
+     * @memberof MonCompte
+     */
     _changeIconConfirmPassword() {
         this.setState(prevState => ({
             iconConfirmPassword: prevState.iconConfirmPassword === 'eye' ? 'eye-off' : 'eye',
@@ -107,18 +141,39 @@ export default class MonCompte extends Component {
         }));
     }
 
+    /**
+     * Handle the old password input
+     *
+     * @memberof MonCompte
+     */
     handleOldPassword = (text) => {
         this.setState({ oldPassword: text })
     }
 
+    /**
+     * Handle the new password input
+     *
+     * @memberof MonCompte
+     */
     handlePassword = (text) => {
         this.setState({ password: text })
     }
 
+    /**
+     * Handle the confirm password input
+     *
+     * @memberof MonCompte
+     */
     handleConfirmPassword = (text) => {
         this.setState({ confirmPassword: text })
     }
 
+    /**
+     * Check the new password is valid and change the input color
+     *
+     * @returns
+     * @memberof MonCompte
+     */
     _checkPassword() {
         var regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,50}$/;
         if (this.state.password.length < 6) {
@@ -132,6 +187,11 @@ export default class MonCompte extends Component {
         return true;
     }
 
+    /**
+     * Check if the new password is valid and display toast
+     *
+     * @memberof MonCompte
+     */
     checkChangePassword() {
         if (this.state.oldPassword && this.state.password && this.state.confirmPassword) {
             if (this.state.password == this.state.oldPassword) {
@@ -172,6 +232,11 @@ export default class MonCompte extends Component {
         }
     }
 
+    /**
+     * Update the user with his new password
+     *
+     * @memberof MonCompte
+     */
     changePassword() {
         const url = GLOBAL.BASE_URL + '/api/user/updatePassword';
         const body = 'mail=' + Globals.email + '&oldPassword=' + this.state.oldPassword + '&newPassword=' + this.state.password;
@@ -199,6 +264,12 @@ export default class MonCompte extends Component {
             });
     }
 
+    /**
+     * Delete user
+     *
+     * @param {*} mail
+     * @memberof MonCompte
+     */
     deleteUser(mail) {
         const url = GLOBAL.BASE_URL + '/api/user/delete';
         const body = 'mail=' + mail;
@@ -220,6 +291,11 @@ export default class MonCompte extends Component {
             });
     }
 
+    /**
+     * Retrieve user data by mail
+     *
+     * @memberof MonCompte
+     */
     async retrieveUserData(){
         Toast.show({
             text: "Veuillez patienter s'il vous plaît",

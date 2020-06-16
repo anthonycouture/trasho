@@ -27,10 +27,20 @@ class Connexion extends Component {
 
   }
 
+  /**
+   * Handle the emaail input
+   *
+   * @memberof Connexion
+   */
   handleEmail = (text) => {
     this.setState({ email: text, isEmail: this.regex.test(text) })
   }
 
+  /**
+   * Handle the password input
+   *
+   * @memberof Connexion
+   */
   handlePassword = (text) => {
     this.setState({ password: text })
   }
@@ -61,14 +71,30 @@ class Connexion extends Component {
     }
   }
 
+  /**
+   * Navigate to inscription page
+   *
+   * @memberof Connexion
+   */
   navigatePageInscription() {
     this.props.navigation.navigate('Inscription');
   }
 
+  /**
+   * Navigate to user page
+   *
+   * @memberof Connexion
+   */
   navigatPageMonCompte() {
     this.props.navigation.navigate('MonCompte');
   }
 
+  /**
+   * Check if email is valid
+   *
+   * @returns
+   * @memberof Connexion
+   */
   checkEmailButtonTyped() {
     if (!this.regex.test(this.state.email)) {
       Toast.show('Email invalide', Toast.LONG);
@@ -78,6 +104,12 @@ class Connexion extends Component {
     }
   }
 
+  /**
+   * Check if the password are not empty
+   *
+   * @returns
+   * @memberof Connexion
+   */
   checkPasswordButtonTyped() {
     if (this.state.password.length < 1) {
       Toast.show('Mot de passe indéfini', Toast.LONG);
@@ -87,6 +119,11 @@ class Connexion extends Component {
     }
   }
 
+  /**
+   * Change the icon for password input
+   *
+   * @memberof Connexion
+   */
   _changeIcon() {
     this.setState(prevState => ({
       icon: prevState.icon === 'eye' ? 'eye-off' : 'eye',

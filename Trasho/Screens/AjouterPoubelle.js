@@ -72,7 +72,7 @@ export default class AjouterPoubelle extends Component {
     }
 
     /**
-     * 
+     * Check all types checked and navigate to AjouterPoubelleMap
      *
      * @memberof AjouterPoubelle
      */

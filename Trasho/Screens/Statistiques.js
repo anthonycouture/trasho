@@ -67,6 +67,13 @@ export default class Statistiques extends Component {
         return date;
     }
 
+    /**
+     * Add 0 before month if the month number is too short
+     *
+     * @param {*} month
+     * @returns
+     * @memberof Statistiques
+     */
     refactorMonth(month) {
         if (month < 10) {
             month = '0' + month;
@@ -74,6 +81,13 @@ export default class Statistiques extends Component {
         return month;
     }
 
+    /**
+     * Add 0 before day if the day number is too short
+     *
+     * @param {*} day
+     * @returns
+     * @memberof Statistiques
+     */
     refactorDay(day) {
         if (day < 10) {
             day = '0' + day;

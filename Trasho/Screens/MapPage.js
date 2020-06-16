@@ -35,26 +35,62 @@ export default class MapPage extends React.Component {
         }
     }
 
+    /**
+     * hide or show modal
+     *
+     * @memberof MapPage
+     */
     setModal = (visible) => {
         this.setState({ modal: visible })
     }
 
+    /**
+     * Set route
+     *
+     * @param {*} idPoubelle
+     * @memberof MapPage
+     */
     setItinerairePoubelle(idPoubelle) {
         this.setState({ itinerairePoubelle: idPoubelle })
     }
 
+    /**
+     * Set position
+     *
+     * @param {*} itineraire
+     * @memberof MapPage
+     */
     setPositions(itineraire) {
         this.setState({ positions: itineraire })
     }
 
+    /**
+     * Set trash id
+     *
+     * @param {*} idPoubelle
+     * @memberof MapPage
+     */
     setIdPoubelle(idPoubelle) {
         this.setState({ idPoubelle: idPoubelle })
     }
 
+    /**
+     * Set all trash markers
+     *
+     * @param {*} listPoubelle all trash
+     * @memberof MapPage
+     */
     setMarkerPoubelle(listPoubelle) {
         this.setState({ markerPoubelle: listPoubelle })
     }
 
+    /**
+     * Set the center map
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof MapPage
+     */
     setMapCenterPosition(lat, lng) {
         this.setState({
             mapCenterPosition: {
@@ -64,6 +100,13 @@ export default class MapPage extends React.Component {
         })
     }
 
+    /**
+     * Set the user position
+     *
+     * @param {*} lat latitude
+     * @param {*} lng longitude
+     * @memberof MapPage
+     */
     setOwnPosition(lat, lng) {
         this.setState({
             ownPosition: {
@@ -73,10 +116,21 @@ export default class MapPage extends React.Component {
         })
     }
 
+    /**
+     * Set the map ref
+     *
+     * @param {*} webViewLeafletRef map ref
+     * @memberof MapPage
+     */
     setWebViewLeafletRef(webViewLeafletRef) {
         this.setState({ webViewLeafletRef: webViewLeafletRef })
     }
 
+    /**
+     * Handle the map events
+     *
+     * @memberof MapPage
+     */
     onMessageReceived = (message) => {
         switch (message.event) {
             case WebViewLeafletEvents.ON_MAP_MARKER_CLICKED:
@@ -86,10 +140,15 @@ export default class MapPage extends React.Component {
                 }
                 break;
             default:
-                null;//console.log("App received", message);
+                null;
         }
     }
 
+    /**
+     * Handle modal event
+     *
+     * @memberof MapPage
+     */
     messageModal = (message, idPoubelle) => {
         switch (message) {
             case MessageModal.SUPPRESSION_POUBELLE:
@@ -105,6 +164,11 @@ export default class MapPage extends React.Component {
         }
     }
 
+    /**
+     * Get the user location
+     *
+     * @memberof MapPage
+     */
     async getLocationAsync() {
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
         if (status !== "granted") {
@@ -120,6 +184,12 @@ export default class MapPage extends React.Component {
         }
     }
 
+    /**
+     * Add marker for one trash
+     *
+     * @param {*} poubelle
+     * @memberof MapPage
+     */
     addMarkerPoubelle(poubelle) {
         const poubelles = []
         for (let key in poubelle) {
@@ -141,6 +211,11 @@ export default class MapPage extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
+     /**
+     * Get trash location
+     *
+     * @memberof MapPage
+     */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash';
         const response = await fetch(url, {
@@ -156,7 +231,7 @@ export default class MapPage extends React.Component {
     /**
      * Load all types of database
      *
-     * @memberof Map
+     * @memberof MapPage
      */
     async _loadAllType() {
         const url = GLOBAL.BASE_URL + '/api/type';
@@ -194,7 +269,7 @@ export default class MapPage extends React.Component {
      * Handle the click on item checkbox to change the checkbox value
      *
      * @param {*} type
-     * @memberof Map
+     * @memberof MapPage
      */
     _handleCheckbox(type) {
         var newMap = this.state.mapSelected;
@@ -250,6 +325,12 @@ export default class MapPage extends React.Component {
         }, 5000);
     }
 
+    /**
+     * Modal to select type
+     *
+     * @returns
+     * @memberof MapPage
+     */
     modalType() {
         return (
             <Modal
@@ -279,6 +360,11 @@ export default class MapPage extends React.Component {
         )
     }
 
+    /**
+     * Refresh route to trash
+     *
+     * @memberof MapPage
+     */
     async itineraire() {
         if (this.state.itinerairePoubelle != null) {
             let r = await GetItinerary(this.state.itinerairePoubelle, this.state.ownPosition)

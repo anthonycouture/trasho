@@ -21,18 +21,39 @@ export default class Inscription extends Component {
 
   regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+  /**
+   * Handle the email input
+   *
+   * @memberof Inscription
+   */
   _handleEmail = (text) => {
     this.setState({ email: text, isEmail: this.regexEmail.test(text) });
   }
-
+ 
+  /**
+   * Handle the password input
+   *
+   * @memberof Inscription
+   */
   _handlePassword = (text) => {
     this.setState({ password: text })
   }
 
+  /**
+   * Handle the confirm password input
+   *
+   * @memberof Inscription
+   */
   _handleConfirmPassword = (text) => {
     this.setState({ confirmPassword: text })
   }
 
+  /**
+   * Check if the email is valid
+   *
+   * @returns
+   * @memberof Inscription
+   */
   _checkEmail() {
     if(!this.regexEmail.test(this.state.email)) {
       Toast.show({
@@ -46,6 +67,12 @@ export default class Inscription extends Component {
     return true;
   }
 
+  /**
+   * Check if password is valid
+   *
+   * @returns
+   * @memberof Inscription
+   */
   _checkPassword() {
     if(this.state.password.length < 1) {
       Toast.show({
@@ -86,6 +113,12 @@ export default class Inscription extends Component {
     return true;
   }
 
+  /**
+   * Check if the confirm password is valid
+   *
+   * @returns
+   * @memberof Inscription
+   */
   _checkConfirmPassword(){
     if(this.state.confirmPassword.length < 1) {
       Toast.show({
@@ -108,6 +141,11 @@ export default class Inscription extends Component {
     return true;
   }
 
+  /**
+   * Hide or show the password
+   *
+   * @memberof Inscription
+   */
   _changeViewPassword(){
     if(this.state.hidePassword){
       this.setState({ iconPassword: 'eye', hidePassword: false});
@@ -116,16 +154,17 @@ export default class Inscription extends Component {
     }
   }
 
+  /**
+   * Hide or show the confirm password
+   *
+   * @memberof Inscription
+   */
   _changeViewConfirmPassword(){
     if(this.state.hideConfirmPassword){
       this.setState({ iconConfirmPassword: 'eye', hideConfirmPassword: false});
     } else {
       this.setState({ iconConfirmPassword: 'eye-off', hideConfirmPassword: true});
     }
-  }
-
-  _goBackPage(){
-    console.log("Go Back");    
   }
 
   async _checkRegistration(){

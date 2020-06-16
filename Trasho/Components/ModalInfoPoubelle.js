@@ -17,10 +17,22 @@ export default class ModalInfoPoubelle extends React.Component {
         }
     }
 
+    /**
+     * Set trash type(s)
+     *
+     * @param {*} type
+     * @memberof ModalInfoPoubelle
+     */
     setTypePoubelle(type) {
         this.setState({ typePoubelle: type });
     }
 
+    /**
+     * Set trash pciture
+     *
+     * @param {*} photoUrl
+     * @memberof ModalInfoPoubelle
+     */
     setPhoto(photoUrl) {
         this.setState({ photo: photoUrl });
     }
@@ -32,7 +44,11 @@ export default class ModalInfoPoubelle extends React.Component {
         }
     }
 
-
+    /**
+     * Get trash type
+     *
+     * @memberof ModalInfoPoubelle
+     */
     async getTypePoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash/type/' + this.props.idPoubelle
         const response = await fetch(url, {
@@ -49,6 +65,11 @@ export default class ModalInfoPoubelle extends React.Component {
         );
     }
 
+    /**
+     * Get trash picture
+     *
+     * @memberof ModalInfoPoubelle
+     */
     async getPhotoPoubelle() {
         const url = GLOBAL.BASE_URL + '/api/trash/url/' + this.props.idPoubelle
         const response = await fetch(url, {
@@ -64,6 +85,11 @@ export default class ModalInfoPoubelle extends React.Component {
         );
     }
 
+    /**
+     * Report the trash
+     *
+     * @memberof ModalInfoPoubelle
+     */
     signalePoubelle() {
         const url = GLOBAL.BASE_URL + '/api/report/addSignalementDelete'
         const body = 'idPoubelle=' + this.props.idPoubelle + '&mail=' + GLOBAL.email;
@@ -88,6 +114,11 @@ export default class ModalInfoPoubelle extends React.Component {
         });
     }
 
+    /**
+     * Delete the trash
+     *
+     * @memberof ModalInfoPoubelle
+     */
     supprimePoubelle() {
         const url = GLOBAL.BASE_URL + '/api/trash/' + GLOBAL.url_base_admin + '/delete-poubelle'
         const body = 'id=' + this.props.idPoubelle;
@@ -115,6 +146,11 @@ export default class ModalInfoPoubelle extends React.Component {
         });
     }
 
+    /**
+     * Trace route to trash
+     *
+     * @memberof ModalInfoPoubelle
+     */
     itineraire(){
         this.props.messageModal(MessageModal.ITINERAIRE_POUBELLE, this.props.idPoubelle);
         this.props.affichemodal(false);

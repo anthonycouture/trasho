@@ -17,9 +17,20 @@ export default class Utilisateur extends Component {
         });
     }
 
+    /**
+     * Handle the admin switch
+     *
+     * @memberof Utilisateur
+     */
     toggleSwitch = (value) => {
         this.setState({ switchValue: value });
     }
+
+    /**
+     * Hide or show the dialog
+     *
+     * @memberof Utilisateur
+     */
     changeDialogState() {
         this.setState(prevState => ({
             dialogVisible: !prevState.dialogVisible
