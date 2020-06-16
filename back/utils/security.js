@@ -8,7 +8,11 @@ const CustomServerError = imp.serverError();
 module.exports.tokenApplication = (req) => {
   let { token_api } = req.headers;
   let auth = false;
-  console.log(token_api)
+  console.log(token_api);
+  if(req.baseUrl.startsWith("/api/user/confirmMail")){
+    return true;
+  }
+  
   if(token_api !== undefined  || token_api !== null)
     if(token_api === props.token_api)
       auth = true;

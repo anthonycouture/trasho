@@ -46,7 +46,7 @@ export default class ListeUtilisateurs extends Component {
             }
         }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
-        });
+        });        
         const res = await response.json();
         if (response.status == 400) {
             alert('Problème de récupération des données');
@@ -54,6 +54,7 @@ export default class ListeUtilisateurs extends Component {
         else if (response.status == 200) {
             const utilisateurs = []
             let utilisateur = res.utilisateur;
+            
 
             for (let key in utilisateur) {
                 utilisateurs.push(utilisateur[key]

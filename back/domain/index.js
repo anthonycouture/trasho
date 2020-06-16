@@ -260,12 +260,14 @@ module.exports.updateUtilisateur = async (data) => {
 * Suppression de l'utilisateur en fonction de l'email
 */
 module.exports.deleteUserByMail = async (mail) => {
-  let res = await transaction(qry.DELETE_USER_BY_MAIL, mail)
+  await transaction(qry.DELETE_REPORT_BY_USER_ID, mail).then(async () => {
+    let res = await transaction(qry.DELETE_USER_BY_MAIL, mail)
     .then((resp) => {
       let ret = resp.rows[0];
       return ret;
     }).catch((err) => { console.error(err); res = "failed" })
-  return { user: res };
+  })
+  return { user: "failed" };
 }
 
 /*

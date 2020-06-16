@@ -30,12 +30,17 @@ export default class Statistiques extends Component {
                 label: '',
                 color: 'gray',
             }
-        ]
+        ],
+        loading : false,
     }
 
     componentDidMount() {
         this.getStats();
         this.getPercentsTrash();
+        this.props.navigation.addListener('willFocus', payload => {
+            this.getStats();
+            this.getPercentsTrash();
+        });
     }
 
     /*
@@ -110,7 +115,7 @@ export default class Statistiques extends Component {
         }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
-        const res = await response.json();
+        const res = await response.json();        
         if (response.status == 400) {
             alert('Problème de récupération des données');
         }
@@ -134,9 +139,7 @@ export default class Statistiques extends Component {
         let jour = currentDate.getDate();
         let date2 = annee + '-' + this.refactorMonth(mois) + '-' + this.refactorDay(jour);
 
-        const url = GLOBAL.BASE_URL + '/api/trash/' + Globals.url_base_admin + '/poubellesDates/' + date1 + '/' + date2;
-
-        console.log(url);
+        const url = GLOBAL.BASE_URL + '/api/trash/' + Globals.url_base_admin + '/poubellesDates/' + date1 + '/' + date2;     
 
         const response = await fetch(url, {
             method: 'GET',
@@ -207,7 +210,7 @@ export default class Statistiques extends Component {
                 stats.push(objToutDechet);
             }
 
-            this.setState({ statsData: stats });
+            this.setState({ statsData: stats, loading: true });
         }
         else {
             alert("Aucune poubelle ajoutée récemment !");
@@ -215,12 +218,11 @@ export default class Statistiques extends Component {
     }
 
     render() {
-        
-        
+        if(!this.state.loading){
+            return(<View><Text>Please wait...</Text></View>)
+        }
         console.log(this.state.statsData);
         let statsData = this.state.statsData;
-
-
         return (
             <Container>
                 <Content padder style={{ flex: 1 }}>

@@ -215,6 +215,19 @@ router.post('/'+property.url_base_admin+'/delete', async (req, res) => {
 });
 
 /**
+ * Suppression du compte utilisateur correspondant au mail (non admin)
+ */
+router.post('/delete', async (req, res) => {
+  const { mail } = req.body;
+  let rows = await domain.deleteUserByMail(
+    [mail]
+  );
+  res
+    .status(201)
+    .json(rows);
+});
+
+/**
  * Mise à jour du mot de passe de l'utilisateur correspondant au mail
  */
 router.post('/updatePassword', async (req, res) => {
