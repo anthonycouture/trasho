@@ -31,7 +31,8 @@ export default class MapPage extends React.Component {
             idPoubelle: null,
             modal: false,
             positions: [],
-            itinerairePoubelle: null
+            itinerairePoubelle: null,
+            ownPositionMarker: null
         }
     }
 
@@ -113,6 +114,34 @@ export default class MapPage extends React.Component {
                 lat: lat,
                 lng: lng
             }
+        });
+        this.setState({
+            ownPositionMarker: {
+                id: "OWN_POSTION_MARKER_ID",
+                position: this.state.ownPosition,
+                icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
+                size: [24, 32],
+                /*animation: {
+                    duration: "0.5",
+                    delay: 0,
+                    iterationCount: INFINITE_ANIMATION_ITERATIONS,
+                    type: AnimationType.PULSE
+                } *///si tu veux le voir bondir 
+
+                /*
+                
+                AnimationType possible : 
+                  "BOUNCE",
+                  "FADE",
+                  "JUMP",
+                  "PULSE",
+                  "SPIN", 
+                  "WAGGLE",
+                
+                */
+
+
+            }
         })
     }
 
@@ -176,10 +205,12 @@ export default class MapPage extends React.Component {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        if (!this.state.ownPosition) {
+        if (!this.state.ownPosition || (this.state.ownPosition.lat !== location.coords.latitude || this.state.ownPosition.lng !== location.coords.longitude)) {
+            if(!this.state.ownPosition){
+                this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            }
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
+            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
             //this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
@@ -211,11 +242,11 @@ export default class MapPage extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
-     /**
-     * Get trash location
-     *
-     * @memberof MapPage
-     */
+    /**
+    * Get trash location
+    *
+    * @memberof MapPage
+    */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash';
         const response = await fetch(url, {
@@ -369,6 +400,7 @@ export default class MapPage extends React.Component {
         if (this.state.itinerairePoubelle != null) {
             let r = await GetItinerary(this.state.itinerairePoubelle, this.state.ownPosition)
             this.setPositions(r)
+            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
         }
     }
 
@@ -414,33 +446,7 @@ export default class MapPage extends React.Component {
                         ]}
                         mapMarkers={this.state.markerPoubelle}
                         mapCenterPosition={this.state.mapCenterPosition}
-                        ownPositionMarker={
-                            this.state.ownPosition && {
-                                position: this.state.ownPosition,
-                                icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
-                                size: [24, 32],
-                                /*animation: {
-                                    duration: "0.5",
-                                    delay: 0,
-                                    iterationCount: INFINITE_ANIMATION_ITERATIONS,
-                                    type: AnimationType.PULSE
-                                } *///si tu veux le voir bondir 
-
-                                /*
-                                
-                                AnimationType possible : 
-                                  "BOUNCE",
-                                  "FADE",
-                                  "JUMP",
-                                  "PULSE",
-                                  "SPIN", 
-                                  "WAGGLE",
-                                
-                                */
-
-
-                            }
-                        }
+                        ownPositionMarker={this.state.ownPositionMarker}
                         zoom={90}
                     />
                 }
@@ -450,6 +456,7 @@ export default class MapPage extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
+                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
                         success
