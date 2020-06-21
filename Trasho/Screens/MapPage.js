@@ -24,8 +24,8 @@ export default class MapPage extends React.Component {
                 lng: 3.069481
             },
             ownPosition: null,
-            webViewLeafletRef: null,
-            markerPoubelle: null,
+            markerPoubelle: [],
+            markers: [],
             modalTypeVisible: false,
             listTypes: [],
             idPoubelle: null,
@@ -33,7 +33,8 @@ export default class MapPage extends React.Component {
             positions: [],
             itinerairePoubelle: null,
             ownPositionMarker: null
-        }
+        },
+            webViewLeafletRef = null
     }
 
     /**
@@ -82,7 +83,26 @@ export default class MapPage extends React.Component {
      * @memberof MapPage
      */
     setMarkerPoubelle(listPoubelle) {
-        this.setState({ markerPoubelle: listPoubelle })
+        this.setState({ markerPoubelle: listPoubelle });
+        this.setMarkers();
+    }
+
+    /**
+     * Set all trash markers
+     *
+     * @param {*} listPoubelle all trash
+     * @memberof MapPage
+     */
+    setMarkers() {
+        let markers = this.state.markerPoubelle;
+        //console.log(1)
+        //console.log(markers)
+        if (this.state.ownPositionMarker!==null) {
+            //console.log('la')
+            markers.push(this.state.ownPositionMarker);
+        }
+        //console.log(markers)
+        this.setState({ markers: markers });
     }
 
     /**
@@ -142,17 +162,8 @@ export default class MapPage extends React.Component {
 
 
             }
-        })
-    }
-
-    /**
-     * Set the map ref
-     *
-     * @param {*} webViewLeafletRef map ref
-     * @memberof MapPage
-     */
-    setWebViewLeafletRef(webViewLeafletRef) {
-        this.setState({ webViewLeafletRef: webViewLeafletRef })
+        });
+        this.setMarkers();
     }
 
     /**
@@ -206,7 +217,7 @@ export default class MapPage extends React.Component {
 
         let location = await Location.getCurrentPositionAsync({});
         if (!this.state.ownPosition || (this.state.ownPosition.lat !== location.coords.latitude || this.state.ownPosition.lng !== location.coords.longitude)) {
-            if(!this.state.ownPosition){
+            if (!this.state.ownPosition) {
                 this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
             }
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
@@ -417,6 +428,7 @@ export default class MapPage extends React.Component {
 
                 {
                     <WebViewLeaflet
+                        ref={component => (this.webViewLeafletRef = component)}
                         onMessageReceived={this.onMessageReceived}
                         eventReceiver={this}
                         mapShapes={[
@@ -444,9 +456,9 @@ export default class MapPage extends React.Component {
                         }
 
                         ]}
-                        mapMarkers={this.state.markerPoubelle}
+                        mapMarkers={this.state.markers}
                         mapCenterPosition={this.state.mapCenterPosition}
-                        ownPositionMarker={this.state.ownPositionMarker}
+                        //ownPositionMarker={this.state.ownPositionMarker}
                         zoom={90}
                     />
                 }
@@ -456,6 +468,7 @@ export default class MapPage extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
+                            //console.log(this.state.ownPosition);
                             this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
