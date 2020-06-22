@@ -9,7 +9,6 @@ import { StackNavigator } from 'react-navigation';
 
 import MapPage from '../Screens/MapPage';
 import Connexion from '../Screens/Connexion';
-import Itineraire from '../Screens/Itineraire';
 import Admin from '../Screens/Admin';
 import MonCompte from '../Screens/MonCompte';
 import Globals from '../Globals';
@@ -99,14 +98,6 @@ export default class CustomSideMenu extends Component {
 
                     </View>
                     }
-
-                    <View style={[styles.onglet, this.getBackground('Itineraire')]}>
-
-                        <Icon name='md-locate' style={[styles.sideMenuIcon, this.getStylePage('Itineraire')]} />
-
-                        <Text style={[styles.menuText, this.getStylePage('Itineraire')]} onPress={() => { this.props.navigation.navigate('Itineraire'), this.setState({ currentPage: 'Itineraire' }) }} > Itineraire </Text>
-
-                    </View>
 
                     {Globals.connected && <View style={[styles.onglet, this.getBackground('MonCompte')]}>
 

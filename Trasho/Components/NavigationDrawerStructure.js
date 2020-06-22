@@ -4,7 +4,6 @@ import { createAppContainer } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 import Connexion from '../Screens/Connexion';
-import Itineraire from '../Screens/Itineraire';
 import MonCompte from '../Screens/MonCompte';
 import AjouterPoubelle from '../Screens/AjouterPoubelle';
 import Admin from '../Screens/Admin';
@@ -106,12 +105,6 @@ const DrawerNavigator = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Inscription'
         },
-    },
-    Itineraire: {
-        screen: Itineraire,
-        navigationOptions: {
-            drawerLabel: 'Itineraire'
-        }
     },
     MonCompte: {
         screen: MonCompte,
