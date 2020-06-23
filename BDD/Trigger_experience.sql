@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 --Il faut ajouter un champs niveau (default 1) dans la base de données !
 
 CREATE OR REPLACE FUNCTION func_maj_niveau() RETURNS TRIGGER AS $maj_niveau$

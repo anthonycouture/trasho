@@ -63,6 +63,9 @@ export default class MonCompte extends Component {
                 return;
             }
             await response.json().then((json) => {
+                if(Object.values(json.utilisateur)[0] == undefined){
+                    return this._deconnexion();
+                }
                 this.setState({ 
                     user: Object.values(json.utilisateur)[0],
                     loading: true

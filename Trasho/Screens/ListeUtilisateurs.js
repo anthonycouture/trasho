@@ -37,7 +37,7 @@ export default class ListeUtilisateurs extends Component {
      * @memberof ListeUtilisateurs
      */
     async getAllUsers() {
-        const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/users';
+        const url = GLOBAL.BASE_URL + '/api/user/'+GLOBAL.url_base_admin+'/users';        
         const response = await fetch(url, {
             method: 'GET',
             headers: {
@@ -46,7 +46,7 @@ export default class ListeUtilisateurs extends Component {
             }
         }).catch(function (error) {
             console.log('There has been a problem with your fetch operation: ' + error.message);
-        });        
+        }); 
         const res = await response.json();
         if (response.status == 400) {
             alert('Problème de récupération des données');

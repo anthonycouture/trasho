@@ -7,14 +7,54 @@ import GLOBAL from '../Globals';
 
 export default class Utilisateur extends Component {
 
-    state = { switchValue: false, dialogVisible: false, email: '', admin: false }
+    state = { 
+        switchValue: false, 
+        dialogVisible: false, 
+        email: '', 
+        admin: false,
+        user: undefined,
+        loading: false,
+    }
 
     async componentDidMount() {
+        this.getUserInformations();
+        this.props.navigation.addListener('willFocus', payload => {
+            this.getUserInformations();
+        });
+    }
+
+    async getUserInformations(){
+        if (this.props.navigation.getParam("mail") == this.state.email){
+            return;
+        }
         this.setState({
             email: this.props.navigation.getParam("mail"),
             admin: this.props.navigation.getParam("admin"),
             switchValue: this.props.navigation.getParam("admin")
         });
+        const url = GLOBAL.BASE_URL + '/api/user/email/' + GLOBAL.email;      
+        await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api
+            }
+        }).then(async (response) => {            
+            if(response.status != 200){
+                Toast.show({
+                    text: "Problème de communication avec l'API",
+                    duration : 3000,
+                    buttonText: "Okay !",
+                    type: "danger"
+                });
+                return;
+            }
+            await response.json().then((json) => {
+                this.setState({ 
+                    user: Object.values(json.utilisateur)[0],
+                    loading: true
+                });
+            })
+        })
     }
 
     /**
@@ -37,7 +77,7 @@ export default class Utilisateur extends Component {
         }));
     }
 
-    componentDidUpdate(prevProps) {
+    /*componentDidUpdate(prevProps) {
         if (this.props.navigation.getParam("mail") != this.state.email) {
             this.setState({
                 email: this.props.navigation.getParam("mail"),
@@ -45,7 +85,7 @@ export default class Utilisateur extends Component {
                 switchValue: this.props.navigation.getParam("admin")
             });
         }
-    }
+    }*/
 
     /*
     * Requête vers le back pour sauvegarder les informations d'un utilisateur
@@ -98,6 +138,11 @@ export default class Utilisateur extends Component {
     }
 
     render() {
+        if(!this.state.loading){
+            return(
+                <View><Text>Please wait..</Text></View>
+            )
+        }
         return (
             <Container>
                 <Content style={{ flex: 1 }}>
@@ -116,9 +161,9 @@ export default class Utilisateur extends Component {
 
                     <Text style={styles.niveau}> Niveau </Text>
                     <Item style={{ borderColor: 'transparent', justifyContent: 'center', marginTop: 15 }}>
-                        <Text style={{ marginRight: 5 }}>1</Text>
-                        <Progress.Bar progress={0.5} width={300} borderColor={'#74992e'} color={'#74992e'} />
-                        <Text style={{ marginLeft: 5 }}>2</Text>
+                        <Text style={{ marginRight: 5 }}>{this.state.user.niveau}</Text>
+                        <Progress.Bar progress={this.state.user.experience/100} width={300} borderColor={'#74992e'} color={'#74992e'} />
+                        <Text style={{ marginLeft: 5 }}>{this.state.user.niveau+1}</Text>
                     </Item>
 
                     <Button rounded block style={[styles.submitButton, styles.buttonWidth]}
