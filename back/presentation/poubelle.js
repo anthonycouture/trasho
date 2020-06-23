@@ -89,7 +89,7 @@ router.get('/url/:id', async (req, res) => {
 /*
 * Récupération des poubelles avant date passée en paramètre
 */
-router.get('/'+property.url_base_admin+'/recente/:date',async (req,res) => {
+router.get('/' + property.url_base_admin + '/recente/:date', async (req, res) => {
   const { date } = req.params;
   let rows = await domain.poubellesAjoutAvantDate(date);
   res
@@ -100,9 +100,9 @@ router.get('/'+property.url_base_admin+'/recente/:date',async (req,res) => {
 /*
 * Récupération des poubelles ajoutées entre deux dates
 */
-router.get('/'+property.url_base_admin+'/poubellesDates/:date1/:date2',async (req,res) => {
+router.get('/' + property.url_base_admin + '/poubellesDates/:date1/:date2', async (req, res) => {
 
-  const { date1, date2} = req.params;
+  const { date1, date2 } = req.params;
   let rows = await domain.poubellesAjoutEntreDates(date1, date2);
   res
     .status(200)
@@ -207,7 +207,7 @@ router.post('/itineraire/:id', async (req, res) => {
   let rows = await domain.sendPoubellesById(id);
   let latitude = Object.values(rows.poubelle)[0].latitude;
   let longitude = Object.values(rows.poubelle)[0].longitude;
-  let url = 'https://routing.openstreetmap.de/routed-foot/route/v1/walking/'+lng+','+lat+';'+longitude+','+latitude+'?overview=full&geometries=geojson&steps=false';
+  let url = 'https://routing.openstreetmap.de/routed-foot/route/v1/walking/' + lng + ',' + lat + ';' + longitude + ',' + latitude + '?overview=full&geometries=geojson&steps=false';
   https.get(url, (retour) => {
     retour.setEncoding("utf8");
     let body = "";
@@ -215,8 +215,12 @@ router.post('/itineraire/:id', async (req, res) => {
       body += data;
     });
     retour.on("end", () => {
-      body = JSON.parse(body);
-      res.status(200).json(body.routes[0].geometry.coordinates)
+      try {
+        body = JSON.parse(body);
+        res.status(200).json(body.routes[0].geometry.coordinates)
+      } catch (error) {
+        null;
+      }
     });
   }).on("error", console.error)
 

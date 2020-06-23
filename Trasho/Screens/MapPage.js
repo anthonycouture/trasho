@@ -5,7 +5,7 @@ import {
     WebViewLeafletEvents
 } from "react-native-webview-leaflet";
 import { Button, Icon, ListItem, CheckBox } from "native-base";
-import { StyleSheet, View, TouchableHighlight, Modal, Text } from 'react-native';
+import { StyleSheet, View, Modal, Text } from 'react-native';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
@@ -24,15 +24,17 @@ export default class MapPage extends React.Component {
                 lng: 3.069481
             },
             ownPosition: null,
-            webViewLeafletRef: null,
-            markerPoubelle: null,
+            markerPoubelle: [],
+            markers: [],
             modalTypeVisible: false,
             listTypes: [],
             idPoubelle: null,
             modal: false,
             positions: [],
-            itinerairePoubelle: null
-        }
+            itinerairePoubelle: null,
+            ownPositionMarker: null
+        },
+            webViewLeafletRef = null
     }
 
     /**
@@ -81,7 +83,25 @@ export default class MapPage extends React.Component {
      * @memberof MapPage
      */
     setMarkerPoubelle(listPoubelle) {
-        this.setState({ markerPoubelle: listPoubelle })
+        this.setState({ markerPoubelle: listPoubelle });
+        this.setMarkers();
+    }
+
+    /**
+     * Set all trash markers and position marker
+     *
+     * @param {*} listPoubelle all trash
+     * @memberof MapPage
+     */
+    setMarkers() {
+        let markers = [];
+        this.state.markerPoubelle.forEach(element=> {
+            markers.push(element);
+        })
+        if (this.state.ownPositionMarker !== null) {
+            markers.push(this.state.ownPositionMarker);
+        }
+        this.setState({ markers: markers });
     }
 
     /**
@@ -113,17 +133,36 @@ export default class MapPage extends React.Component {
                 lat: lat,
                 lng: lng
             }
-        })
-    }
+        });
+        this.setState({
+            ownPositionMarker: {
+                id: "OWN_POSTION_MARKER_ID",
+                position: this.state.ownPosition,
+                icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
+                size: [24, 32],
+                /*animation: {
+                    duration: "0.5",
+                    delay: 0,
+                    iterationCount: INFINITE_ANIMATION_ITERATIONS,
+                    type: AnimationType.PULSE
+                } *///si tu veux le voir bondir 
 
-    /**
-     * Set the map ref
-     *
-     * @param {*} webViewLeafletRef map ref
-     * @memberof MapPage
-     */
-    setWebViewLeafletRef(webViewLeafletRef) {
-        this.setState({ webViewLeafletRef: webViewLeafletRef })
+                /*
+                
+                AnimationType possible : 
+                  "BOUNCE",
+                  "FADE",
+                  "JUMP",
+                  "PULSE",
+                  "SPIN", 
+                  "WAGGLE",
+                
+                */
+
+
+            }
+        });
+        this.setMarkers();
     }
 
     /**
@@ -176,10 +215,12 @@ export default class MapPage extends React.Component {
         }
 
         let location = await Location.getCurrentPositionAsync({});
-        if (!this.state.ownPosition) {
+        if (!this.state.ownPosition || (this.state.ownPosition.lat !== location.coords.latitude || this.state.ownPosition.lng !== location.coords.longitude)) {
+            if (!this.state.ownPosition) {
+                this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
+            }
             this.setOwnPosition(location.coords.latitude, location.coords.longitude);
-            this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
-            //this.setOwnPosition(50.636665, 3.069481);
+            //this.setMapCenterPosition(location.coords.latitude, location.coords.longitude);
             //this.setMapCenterPosition(50.636665, 3.069481);
         }
     }
@@ -211,11 +252,11 @@ export default class MapPage extends React.Component {
         this.setMarkerPoubelle(poubelles)
     }
 
-     /**
-     * Get trash location
-     *
-     * @memberof MapPage
-     */
+    /**
+    * Get trash location
+    *
+    * @memberof MapPage
+    */
     async getPoubelleAsync() {
         const url = GLOBAL.BASE_URL + '/api/trash';
         const response = await fetch(url, {
@@ -322,7 +363,7 @@ export default class MapPage extends React.Component {
         setInterval(() => {
             this.getLocationAsync();
             this.itineraire();
-        }, 5000);
+        }, 1000);
     }
 
     /**
@@ -369,6 +410,7 @@ export default class MapPage extends React.Component {
         if (this.state.itinerairePoubelle != null) {
             let r = await GetItinerary(this.state.itinerairePoubelle, this.state.ownPosition)
             this.setPositions(r)
+            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
         }
     }
 
@@ -385,6 +427,7 @@ export default class MapPage extends React.Component {
 
                 {
                     <WebViewLeaflet
+                        ref={component => (this.webViewLeafletRef = component)}
                         onMessageReceived={this.onMessageReceived}
                         eventReceiver={this}
                         mapShapes={[
@@ -412,35 +455,9 @@ export default class MapPage extends React.Component {
                         }
 
                         ]}
-                        mapMarkers={this.state.markerPoubelle}
+                        mapMarkers={this.state.markers}
                         mapCenterPosition={this.state.mapCenterPosition}
-                        ownPositionMarker={
-                            this.state.ownPosition && {
-                                position: this.state.ownPosition,
-                                icon: "https://www.stickpng.com/assets/images/58889219bc2fc2ef3a1860aa.png",
-                                size: [24, 32],
-                                /*animation: {
-                                    duration: "0.5",
-                                    delay: 0,
-                                    iterationCount: INFINITE_ANIMATION_ITERATIONS,
-                                    type: AnimationType.PULSE
-                                } *///si tu veux le voir bondir 
-
-                                /*
-                                
-                                AnimationType possible : 
-                                  "BOUNCE",
-                                  "FADE",
-                                  "JUMP",
-                                  "PULSE",
-                                  "SPIN", 
-                                  "WAGGLE",
-                                
-                                */
-
-
-                            }
-                        }
+                        //ownPositionMarker={this.state.ownPositionMarker}
                         zoom={90}
                     />
                 }
@@ -450,6 +467,7 @@ export default class MapPage extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
+                            this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
                         success
