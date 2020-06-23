@@ -5,7 +5,7 @@ import {
     WebViewLeafletEvents
 } from "react-native-webview-leaflet";
 import { Button, Icon, ListItem, CheckBox } from "native-base";
-import { StyleSheet, View, TouchableHighlight, Modal, Text } from 'react-native';
+import { StyleSheet, View, Modal, Text } from 'react-native';
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import ModalInfoPoubelle, { MessageModal } from './../Components/ModalInfoPoubelle';
@@ -88,20 +88,19 @@ export default class MapPage extends React.Component {
     }
 
     /**
-     * Set all trash markers
+     * Set all trash markers and position marker
      *
      * @param {*} listPoubelle all trash
      * @memberof MapPage
      */
     setMarkers() {
-        let markers = this.state.markerPoubelle;
-        //console.log(1)
-        //console.log(markers)
-        if (this.state.ownPositionMarker!==null) {
-            //console.log('la')
+        let markers = [];
+        this.state.markerPoubelle.forEach(element=> {
+            markers.push(element);
+        })
+        if (this.state.ownPositionMarker !== null) {
             markers.push(this.state.ownPositionMarker);
         }
-        //console.log(markers)
         this.setState({ markers: markers });
     }
 
@@ -364,7 +363,7 @@ export default class MapPage extends React.Component {
         setInterval(() => {
             this.getLocationAsync();
             this.itineraire();
-        }, 5000);
+        }, 1000);
     }
 
     /**
@@ -468,7 +467,6 @@ export default class MapPage extends React.Component {
                     <Button
                         onPress={() => {
                             this.getLocationAsync();
-                            //console.log(this.state.ownPosition);
                             this.setMapCenterPosition(this.state.ownPosition.lat, this.state.ownPosition.lng);
                         }}
                         style={styles.mapButton}
