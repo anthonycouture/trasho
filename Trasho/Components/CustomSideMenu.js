@@ -86,7 +86,7 @@ export default class CustomSideMenu extends Component {
 
                         <Icon name='map' style={[styles.sideMenuIcon, this.getStylePage('MapPage')]} />
 
-                        <Text style={[styles.menuText, this.getStylePage('MapPage')]} onPress={() => { this.props.navigation.navigate('MapPage'), this.setState({ currentPage: 'MapPage' }) }} > Map </Text>
+                        <Text style={[styles.menuText, this.getStylePage('MapPage')]} onPress={() => { this.props.navigation.navigate('MapPage'), this.setState({ currentPage: 'MapPage' }) }} > Carte </Text>
 
                     </View>
 

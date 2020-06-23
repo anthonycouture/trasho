@@ -206,7 +206,7 @@ export default class ModalInfoPoubelle extends React.Component {
                             onPress={
                                 () => this.itineraire()
                             }
-                            title="GO !"
+                            title="J'y vais !"
                         />
                         <TouchableHighlight
                             style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
@@ -214,7 +214,7 @@ export default class ModalInfoPoubelle extends React.Component {
                                 this.props.affichemodal(false);
                             }}
                         >
-                            <Text style={styles.textStyle}>Close</Text>
+                            <Text style={styles.textStyle}>Fermer</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
