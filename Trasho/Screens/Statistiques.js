@@ -35,10 +35,8 @@ export default class Statistiques extends Component {
     }
 
     componentDidMount() {
-        this.getStats();
         this.getPercentsTrash();
         this.props.navigation.addListener('willFocus', payload => {
-            this.getStats();
             this.getPercentsTrash();
         });
     }
@@ -101,33 +99,6 @@ export default class Statistiques extends Component {
     }
 
     /*
-    * Récupération des statistiques des poubelles ajoutées avant une date
-    */
-    async getStats() {
-        let dateSeptJours = this.calculDate();
-        const url = GLOBAL.BASE_URL + '/api/trash/' + Globals.url_base_admin + '/recente/' + dateSeptJours;
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                "token_api": GLOBAL.token_api,
-                "token_user": GLOBAL.token_user
-            }
-        }).catch(function (error) {
-            console.log('There has been a problem with your fetch operation: ' + error.message);
-        });
-        const res = await response.json();        
-        if (response.status == 400) {
-            alert('Problème de récupération des données');
-        }
-        else if (response.status == 200) {
-
-            let poubelles = res.poubelle;
-
-            this.setState({ nbPoubelles: Object.keys(poubelles).length });
-        }
-    }
-
-    /*
     * Récupération des statistiques des poubelles ajoutées entre deux dates
     */
     async getPercentsTrash() {
@@ -164,11 +135,12 @@ export default class Statistiques extends Component {
     * Stockage des statistiques sur les poubelles
     */
     async storeDataTrash(res) {
+        console.log(res);
         if (res.percentRecyclable != 0 || res.percentVerre != 0 || res.percentToutDechet != 0) {
             this.setState({ percentRecyclable: res.percentRecyclable });
             this.setState({ percentVerre: res.percentVerre });
             this.setState({ percentToutDechet: res.percentToutDechet });
-            this.setState({ nbRecyclable: res.nbRecyclable });
+            this.setState({ nbRecyclable: res.nbRecyclage });
             this.setState({ nbVerre: res.nbVerre });
             this.setState({ nbToutDechet: res.nbToutDechet });
             let labelRecyclable = 'Recyclable (' + res.nbRecyclage + ')';
@@ -179,6 +151,14 @@ export default class Statistiques extends Component {
             this.setState({ labelToutDechet: labelToutDechet });
 
             let stats = [];
+
+            let nbPoubelles = 0;
+
+            nbPoubelles = parseInt(res.nbRecyclage) + parseInt(res.nbVerre) + parseInt(res.nbToutDechet);
+
+            nbPoubelles = parseInt(nbPoubelles);
+
+            this.setState({ nbPoubelles: nbPoubelles });
 
             let objRecyclable = {
                 value: this.state.percentRecyclable,
@@ -228,7 +208,7 @@ export default class Statistiques extends Component {
                 <Content padder style={{ flex: 1 }}>
                     <Item style={{ borderColor: 'white', marginLeft: 15, marginRight: 15, marginTop: 20 }}>
                         <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
-                        <Icon style={{ marginLeft: 120, marginBottom: 15, fontSize: 30 }} name="refresh" onPress={() => { console.log("clic"), this.getStats(); this.getPercentsTrash(); }} />
+                        <Icon style={{ marginLeft: 120, marginBottom: 15, fontSize: 30 }} name="refresh" onPress={() => { this.getPercentsTrash(); }} />
                     </Item>
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbPoubelles} nouvelles poubelles</Text>
@@ -236,7 +216,7 @@ export default class Statistiques extends Component {
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbSignalements} poubelles signalées</Text>
                     </Item>
-                    <Item style={{ justifyContent: 'center', borderBottomColor: 'white' }}>
+                    <Item style={{ justifyContent: 'center', borderBottomColor: 'white', marginTop: 20 }}>
                         < PureChart data={statsData} type='pie' />
                     </Item>
                     <Text style={{ marginLeft: 'auto', marginRight: 'auto', marginTop: 50 }}> Types des nouvelles poubelles </Text>
