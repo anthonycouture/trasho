@@ -36,3 +36,13 @@ router.post('/addSignalementDelete',async(req, res) => {
     })
   })
 });
+
+/* COunt nb signalement suppression poubelle*/
+router.get('/countSignalements',async (req,res) => {
+  await domain.getCountSignalement().then((rows) => {
+    res.status(200).json(rows);
+  }).catch((err) => {
+    res.status(500);
+  })
+});
+

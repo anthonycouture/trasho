@@ -33,6 +33,7 @@ const GET_POUBELLES_DATE = 'select * from poubelle where date_ajout >= $1';
 
 const GET_POUBELLE_AND_TYPE_BETWEEN_DATE = 'SELECT * FROM poubelle_type_poubelle pt JOIN poubelle p ON pt.id_poubelle = p.id_poubelle WHERE date_ajout BETWEEN $1 AND $2';
 
+const GET_COUNT_NB_SIGNALEMENT = 'SELECT COUNT(*) FROM signalement where id_type_signalement = 1';
 
 module.exports = {
   GET_ALL_POUBELLES,
@@ -47,6 +48,7 @@ module.exports = {
   UPDATE_USER,
   DELETE_USER_BY_MAIL,
   UPDATE_PASSWORD,
+  GET_COUNT_NB_SIGNALEMENT,
   GET_ALL_POUBELLES_BY_TYPE: 'select distinct p.* from poubelle p NATURAL JOIN poubelle_type_poubelle pt NATURAL JOIN type_poubelle t where t.type in ',
 
   GET_URL_POUBELLE,

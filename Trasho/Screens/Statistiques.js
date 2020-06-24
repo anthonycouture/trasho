@@ -36,8 +36,10 @@ export default class Statistiques extends Component {
 
     componentDidMount() {
         this.getPercentsTrash();
+        this.getCountSignalement();
         this.props.navigation.addListener('willFocus', payload => {
             this.getPercentsTrash();
+            this.getCountSignalement();
         });
     }
 
@@ -131,11 +133,31 @@ export default class Statistiques extends Component {
         }
     }
 
+    async getCountSignalement() {
+        const url = GLOBAL.BASE_URL + '/api/report/countSignalements/';
+
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                "token_api": GLOBAL.token_api,
+                "token_user": GLOBAL.token_user
+            }
+        }).catch(function (error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+        });
+        const res = await response.json();
+        if (response.status != 200) {
+            alert('Problème de récupération des données');
+        }
+        else {
+            this.setState({ nbSignalements: res[0]['count'] });
+        }
+    }
+
     /*
     * Stockage des statistiques sur les poubelles
     */
     async storeDataTrash(res) {
-        console.log(res);
         if (res.percentRecyclable != 0 || res.percentVerre != 0 || res.percentToutDechet != 0) {
             this.setState({ percentRecyclable: res.percentRecyclable });
             this.setState({ percentVerre: res.percentVerre });
@@ -201,14 +223,13 @@ export default class Statistiques extends Component {
         if(!this.state.loading){
             return(<View><Text>Please wait...</Text></View>)
         }
-        console.log(this.state.statsData);
         let statsData = this.state.statsData;
         return (
             <Container>
                 <Content padder style={{ flex: 1 }}>
                     <Item style={{ borderColor: 'white', marginLeft: 15, marginRight: 15, marginTop: 20 }}>
                         <Text style={{ marginRight: 5, marginBottom: 25, fontSize: 30 }}>Depuis 7 jours :</Text>
-                        <Icon style={{ marginLeft: 120, marginBottom: 15, fontSize: 30 }} name="refresh" onPress={() => { this.getPercentsTrash(); }} />
+                        <Icon style={{ marginLeft: 120, marginBottom: 15, fontSize: 30 }} name="refresh" onPress={() => { this.getCountSignalement(); this.getPercentsTrash(); }} />
                     </Item>
                     <Item style={{ justifyContent: 'center', marginTop: 15 }}>
                         <Text style={{ marginRight: 5, paddingBottom: 15, fontSize: 20 }}>{this.state.nbPoubelles} nouvelles poubelles</Text>

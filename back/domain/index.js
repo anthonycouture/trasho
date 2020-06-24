@@ -37,6 +37,17 @@ module.exports.sendAllPoubelles = async () => {
 }
 
 /**
+ * Get count signalement
+ */
+module.exports.getCountSignalement = async () => {
+  let res = await con.select(
+    qry.GET_COUNT_NB_SIGNALEMENT,
+    (rows) => (rows)
+  );
+  return res;
+}
+
+/**
  * Get trash informations by id
  */
 module.exports.sendPoubellesInfoById = async (id_poubelle) => {
