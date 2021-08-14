@@ -2,6 +2,8 @@
 
 Ce projet a été créé dans le cadre du cour de PAI en Master MIAGE à l'Université de Lille.
 
+Présentation [Presentation_Trasho.pdf](https://raw.githubusercontent.com/anthonycouture/trasho/main/source-readme/Presentation_Trasho.pdf)  
+
 ## Contributeurs 
 
 | <a href="https://github.com/anthonycouture"><img src="https://avatars.githubusercontent.com/u/30239710?v=4" title="anthony" width="80" height="80"></a> | <a href="https://github.com/FlorianBarbet"><img src="https://avatars.githubusercontent.com/u/28789447?v=4" title="florian" width="80" height="80"></a> | <a href="https://github.com/RaphMLK"><img src="https://avatars.githubusercontent.com/u/50629372?v=4" title="Raphael" width="80" height="80"></a> | <a href="https://github.com/Naoyoshi2"><img src="https://avatars.githubusercontent.com/u/40067108?v=4" title="Lucas" width="80" height="80"></a> |
