@@ -29,7 +29,7 @@ Dans le dossier back :
 "database_password": "TECH",
 "database_port": 5432,
 ```
-* Démarrer le back : `node home.js`
+* Démarrer le back : `npm start`
 
 ### Démarrer le front
 * Installer expo qui est un formidable outil pour le développement en REACT NATIVE : `npm install -g expo-cli`  
