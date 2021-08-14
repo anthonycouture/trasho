@@ -2,7 +2,8 @@
 
 Ce projet a été créé dans le cadre du cour de PAI en Master MIAGE à l'Université de Lille.
 
-Présentation [Presentation_Trasho.pdf](https://raw.githubusercontent.com/anthonycouture/trasho/main/source-readme/Presentation_Trasho.pdf)  
+Présentation : [Presentation_Trasho.pdf](https://raw.githubusercontent.com/anthonycouture/trasho/main/source-readme/Presentation_Trasho.pdf)  
+Démo : [Démo trasho](https://www.youtube.com/watch?v=Q5bKnUNe-Sc&ab_channel=Antobox)
 
 ## Contributeurs 
 
