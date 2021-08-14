@@ -21,15 +21,13 @@ Le fichier **script_creation.sql** permet la création de l'ensemble des tables 
 ### Back
 Dans le dossier back :
 * Installer les dépendances : `npm install`
-* Dans le fichier home.js modifier le morceaux de code ci-dessous par vos information de connection
-```
-const pool = new Pool({
-  user: 'root',
-  host: 'localhost',
-  database: 'trasho',
-  password: 'anthony',
-  port: 5432,
-})
+* Dans le fichier ressources/conf.json modifier le morceaux de code ci-dessous par vos information de connection
+```JSON
+"database_user": "system_trasho",
+"database_host": "localhost",
+"database_db": "trasho",
+"database_password": "TECH",
+"database_port": 5432,
 ```
 * Démarrer le back : `node home.js`
 
